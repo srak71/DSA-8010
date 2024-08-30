@@ -1,0 +1,4 @@
+# 1. Loading and displaying the data
+
+df <- read.csv('pierce_co_house_sales.csv')
+head(df)
