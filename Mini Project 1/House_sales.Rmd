@@ -16,6 +16,8 @@ head(over_mil)
 ```
 
 ```{R}
+nrow(over_mil)
+nrow(under_mil)
 
 ```
 

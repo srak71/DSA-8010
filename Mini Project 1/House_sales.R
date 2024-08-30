@@ -10,3 +10,6 @@ over_mil <- df[df$sale_price >= 1000000,]
 
 head(under_mil)
 head(over_mil)
+
+nrow(over_mil)
+nrow(under_mil)
