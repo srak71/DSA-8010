@@ -26,7 +26,7 @@ nrow(over_mil)
 
 ```{R}
 # 3. Basic Correlation testing, not final vars to use
-# A. sale_price and hourse_sqaure_feet
+# A. sale_price and house_square_feet
 
 corA1 <- cor(under_mil$sale_price, under_mil$house_square_feet)
 print(corA1)
