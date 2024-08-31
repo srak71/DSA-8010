@@ -58,3 +58,14 @@ print(corC2)
 
 ```
 
+```{R}
+# D. sales_price and stories
+
+corD1 <- cor(under_mil$sale_price, under_mil$stories)
+print(corD1)
+
+corD2 <- cor(over_mil$sale_price, over_mil$stories)
+print(corD2)
+
+```
+
