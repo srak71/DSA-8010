@@ -69,3 +69,14 @@ print(corD2)
 
 ```
 
+```{R}
+# E. sales_price and bedrooms
+
+corE1 <- cor(under_mil$sale_price, under_mil$bedrooms)
+print(corE1)
+
+corE2 <- cor(over_mil$sale_price, over_mil$bedrooms)
+print(corE2)
+
+```
+
