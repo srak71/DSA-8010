@@ -4,6 +4,7 @@
 
 df <- read.csv('pierce_co_house_sales.csv')
 head(df)
+
 ```
 ```{R}
 # 2. Separating houses with sale_price under/over 1,000,000
@@ -13,11 +14,35 @@ over_mil <- df[df$sale_price >= 1000000,]
 
 head(under_mil)
 head(over_mil)
+
 ```
 
 ```{R}
-nrow(over_mil)
 nrow(under_mil)
+nrow(over_mil)
+
+```
+
+```{R}
+# 3. Basic Correlations
+# A. sale_price and hourse_sqaure_feet
+
+corA1 <- cor(under_mil$sale_price, under_mil$house_square_feet)
+print(corA1)
+
+corA2 <- cor(over_mil$sale_price, over_mil$house_square_feet)
+print(corA2)
+
+```
+
+```{R}
+# B. sale_price and bathrooms
+
+corB1 <- cor(under_mil$sale_price, under_mil$bathrooms)
+print(corB1)
+
+corB2 <- cor(over_mil$sale_price, over_mil$bathrooms)
+print(corB2)
 
 ```
 
