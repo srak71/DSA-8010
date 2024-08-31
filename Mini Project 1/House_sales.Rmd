@@ -18,13 +18,14 @@ head(over_mil)
 ```
 
 ```{R}
+
 nrow(under_mil)
 nrow(over_mil)
 
 ```
 
 ```{R}
-# 3. Basic Correlations
+# 3. Basic Correlation testing, not final vars to use
 # A. sale_price and hourse_sqaure_feet
 
 corA1 <- cor(under_mil$sale_price, under_mil$house_square_feet)
@@ -43,6 +44,17 @@ print(corB1)
 
 corB2 <- cor(over_mil$sale_price, over_mil$bathrooms)
 print(corB2)
+
+```
+
+```{R}
+# C. sales_price and fireplaces
+
+corC1 <- cor(under_mil$sale_price, under_mil$fireplaces)
+print(corC1)
+
+corC2 <- cor(over_mil$sale_price, over_mil$fireplaces)
+print(corC2)
 
 ```
 
