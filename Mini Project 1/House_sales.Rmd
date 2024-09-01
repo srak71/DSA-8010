@@ -81,7 +81,12 @@ print(corE2)
 ```
 
 ```{R}
+# waterfront_counts
 
-waterfront_counts <- table(under_mil$waterfront_type)
-print(waterfront_counts)
+waterfront_counts_A <- table(under_mil$waterfront_type)
+print(waterfront_counts_A)
+
+waterfront_counts_B <- table(over_mil$waterfront_type)
+print(waterfront_counts_B)
+
 ```
