@@ -80,3 +80,8 @@ print(corE2)
 
 ```
 
+```{R}
+
+waterfront_counts <- table(under_mil$waterfront_type)
+print(waterfront_counts)
+```
