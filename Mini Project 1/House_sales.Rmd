@@ -5,6 +5,7 @@
 df <- read.csv('pierce_co_house_sales.csv')
 head(df)
 
+
 ```
 ```{R}
 # 2. Separating houses with sale_price under/over 1,000,000
@@ -14,6 +15,7 @@ over_mil <- df[df$sale_price >= 1000000,]
 
 head(under_mil)
 head(over_mil)
+
 
 ```
 
@@ -70,7 +72,7 @@ print(corD2)
 ```
 
 ```{R}
-# E. sales_price and bedrooms
+# E. 
 
 corE1 <- cor(under_mil$sale_price, under_mil$bedrooms)
 print(corE1)
@@ -78,15 +80,31 @@ print(corE1)
 corE2 <- cor(over_mil$sale_price, over_mil$bedrooms)
 print(corE2)
 
+table(df$waterfront_type)
+
 ```
 
 ```{R}
-# waterfront_counts
+# F. value counts 
 
-waterfront_counts_A <- table(under_mil$waterfront_type)
-print(waterfront_counts_A)
+F1 <- table(df$exterior)
+F2 <- table(df$utility_sewer)
 
-waterfront_counts_B <- table(over_mil$waterfront_type)
-print(waterfront_counts_B)
+print('Exterior')
+print(F1)
+
+print('Utility')
+print(F2)
+
+```
+
+
+```{R}
+
+age <- c(23, 35, 42, 22, 26, 35, 47, 18, 29, 30)
+
+# Creating bins (e.g., age groups)
+age_bins <- cut(age, breaks = c(15, 25, 35, 45, 55))
+table(age_bins)
 
 ```
