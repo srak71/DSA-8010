@@ -1,17 +1,37 @@
+```{R}
+
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(summarytools)
+library(readr)
+library(gridExtra)
+
+
+```
+
 
 ```{R}
 # 1. Loading and displaying the data
 
 df <- read.csv('pierce_co_house_sales.csv')
+
+
 head(df)
 
+df$sale_date <- as.Date(df$sale_date, format="%m/%d/%Y")
+head(df)
 
 ```
+
 ```{R}
 # 2. Separating houses with sale_price under/over 1,000,000
 
 under_mil <- df[df$sale_price < 1000000,]
 over_mil <- df[df$sale_price >= 1000000,]
+
+# Convert sale_date to Date type for better handling
+#data$sale_date <- as.Date(data$sale_date, format="%m/%d/%Y")
 
 head(under_mil)
 head(over_mil)
@@ -108,3 +128,37 @@ age_bins <- cut(age, breaks = c(15, 25, 35, 45, 55))
 table(age_bins)
 
 ```
+
+
+```{R}
+
+# 4. Distributions
+
+
+# Distribution of house square feet for houses under $1M
+    house_square_feet <- ggplot(under_mil, aes(x = house_square_feet)) +
+      geom_histogram(binwidth = 100, fill = "green", color = "black") +
+      labs(title = "Distribution of House Square Feet (Under $1M)", x = "Square Feet", y = "Frequency")
+  
+    # Summary statistics for house square feet
+    summary(under_mil$house_square_feet)
+  
+    # Show the plot
+    house_square_feet
+```
+
+
+```{R}
+# Distribution of house square feet for houses over $1M
+    house_square_feet <- ggplot(over_mil, aes(x = house_square_feet)) +
+      geom_histogram(binwidth = 100, fill = "blue", color = "black") +
+      labs(title = "Distribution of House Square Feet (Over $1M)", x = "Square Feet", y = "Frequency")
+  
+    # Summary statistics for house square feet
+    summary(over_mil$house_square_feet)
+  
+    # Show the plot
+    house_square_feet
+```
+
+
