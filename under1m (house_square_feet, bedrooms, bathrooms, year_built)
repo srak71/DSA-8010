@@ -1,0 +1,91 @@
+---
+title: "Analysis of Pierce County House Sales"
+author: "Henry Shaw"
+date: "September 2, 2024"
+output: html_document
+---
+```{r setup, include=FALSE}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(summarytools)
+library(readr)
+library(gridExtra)
+
+
+# Load the data from the local CSV file
+data <- read_csv("./Dataset/pierce_county_house_sales.csv")
+
+
+# Convert sale_date to Date type for better handling
+data$sale_date <- as.Date(data$sale_date, format="%m/%d/%Y")
+
+# Subset data for houses under $1,000,000
+under_1m <- data %>% filter(sale_price < 1000000)
+
+# Subset data for houses over $1,000,000
+over_1m <- data %>% filter(sale_price >= 1000000)
+```
+
+#Distribution of House Square Feet (Under $1M)
+
+```{R}
+
+  # Plot distribution of house square feet for houses under $1M
+    house_square_feet <- ggplot(under_1m, aes(x = house_square_feet)) +
+      geom_histogram(binwidth = 100, fill = "green", color = "black") +
+      labs(title = "Distribution of House Square Feet (Under $1M)", x = "Square Feet", y = "Frequency")
+  
+    # Summary statistics for house square feet
+    summary(under_1m$house_square_feet)
+  
+    # Show the plot
+    house_square_feet
+```
+
+#Distribution of Bedrooms (Under $1M)
+```{R} 
+  # Plot distribution of bedrooms for houses under $1M
+    bedrooms <- ggplot(under_1m, aes(x = factor(bedrooms))) +
+      geom_bar(fill = "orange", color = "black") +
+      labs(title = "Distribution of Bedrooms (Under $1M)", x = "Number of Bedrooms", y = "Count")
+  
+    # Summary statistics for bedrooms
+    summary(under_1m$bedrooms)
+    
+    # Show the plot
+    bedrooms
+```
+
+#Distribution of Bathrooms (Under $1M)
+```{R}  
+  # Plot distribution of bathrooms for houses under $1M
+    bathrooms <- ggplot(under_1m, aes(x = factor(bathrooms))) +
+      geom_bar(fill = "blue", color = "black") +
+      labs(title = "Distribution of Bathrooms (Under $1M)", x = "Number of Bathrooms", y = "Count")
+  
+    # Summary statistics for bathrooms
+    summary(under_1m$bathrooms)
+    
+    # Show the plot
+    bathrooms
+```
+ 
+#Distribution of Year Built (Under $1M)
+```{R}    
+  # Plot distribution of year built for houses under $1M
+    year_built <- ggplot(under_1m, aes(x = year_built)) +
+      geom_histogram(binwidth = 10, fill = "purple", color = "black") +
+      labs(title = "Distribution of Year Built (Under $1M)", x = "Year Built", y = "Frequency")
+
+    # Summary statistics for year built
+    summary(under_1m$year_built)
+    
+    # Show the plot
+    year_built
+    
+    
+    # Arrange plots in a grid
+    grid.arrange(house_square_feet, bedrooms, bathrooms, year_built, ncol = 2)
+```
