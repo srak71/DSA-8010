@@ -7,7 +7,6 @@ library(summarytools)
 library(readr)
 library(gridExtra)
 
-
 ```
 
 
@@ -35,7 +34,6 @@ over_mil <- df[df$sale_price >= 1000000,]
 
 head(under_mil)
 head(over_mil)
-
 
 ```
 
@@ -145,6 +143,7 @@ table(age_bins)
   
     # Show the plot
     house_square_feet
+    
 ```
 
 
@@ -159,6 +158,7 @@ table(age_bins)
   
     # Show the plot
     house_square_feet
+    
 ```
 
 
