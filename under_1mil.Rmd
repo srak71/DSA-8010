@@ -4,6 +4,7 @@ author: "Henry Shaw & Saransh Rakshak"
 date: "Due: September 3rd, 2024"
 output: html_document
 ---
+
 ```{r setup, include=FALSE}
 # Load necessary libraries
 library(dplyr)
@@ -29,11 +30,9 @@ under_1m <- data %>% filter(sale_price < 1000000)
 over_1m <- data %>% filter(sale_price >= 1000000)
 ```
 
+Below is a breakdown of four variables within the Pierce County House Sales data set provided. We decided to choose House Square Feet, Bedrooms, Bathrooms, and Year Built for our four fields to review.
 
-Below is a breakdown of four variables within the Pierce County House Sales dataset provided.
-We decided to choose House Square Feet, Bedrooms, Bathrooms, and Year Built for our four fields to review.
-
-Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the four fields selected have postive correlation to sales price. House Square Feet has a strong correlation, Bathrooms is moderate, while Bedrooms and Year Built is somewhat weaker. These can be seen below:
+Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the four fields selected have positive correlation to sales price. House Square Feet has a strong correlation, Bathrooms is moderate, while Bedrooms and Year Built is somewhat weaker. These can be seen below:
 
 ```{R, echo=FALSE}
   # Select columns for correlation analysis
@@ -59,9 +58,7 @@ Initially, we ran a correlation analysis to see which variables have stronger re
         format = "markdown")
 ```
 
-
-For our variable that shows the highest corelation to sales price, we decieded to plot a histogram for House Square Feet.
-
+-   For our variable that shows the highest correlation to sales price, we decided to plot a histogram for House Square Feet.
 
 ```{R, echo=FALSE}
 
@@ -108,6 +105,8 @@ For our variable that shows the highest corelation to sales price, we decieded t
       align = "c")
 ```
 
+-   Similar to houses sold under \$1M, there is a Right Skewed trend for . However, the spead of data is not nearly as uniform as with the houses under \$1M.
+
 ```{R, echo=FALSE}
 
   # Plot distribution of house square feet for houses under $1M
@@ -153,9 +152,7 @@ For our variable that shows the highest corelation to sales price, we decieded t
       align = "c")
 ```
 
-
-
-```{R, echo=FALSE} 
+```{R, echo=FALSE}
   # Plot distribution of Bedrooms for houses under $1M
     bedrooms <- ggplot(under_1m, aes(x = factor(bedrooms), y = sale_price)) +
       geom_boxplot(fill = "orange", color = "black") +
@@ -187,7 +184,7 @@ For our variable that shows the highest corelation to sales price, we decieded t
       align = "c")
 ```
 
-```{R, echo=FALSE} 
+```{R, echo=FALSE}
   # Plot distribution of Bedrooms for houses over $1M
     bedrooms_A <- ggplot(over_1m, aes(x = factor(bedrooms), y = sale_price)) +
       geom_boxplot(fill = "orange", color = "black") +
@@ -219,9 +216,9 @@ For our variable that shows the highest corelation to sales price, we decieded t
       align = "c")
 ```
 
-For Bathrooms, we decieded to create a Box Plot.
+-   For Bathrooms, we decieded to create a Box Plot.
 
-```{R, echo=FALSE}  
+```{R, echo=FALSE}
   # Plot distribution of bathrooms for houses under $1M
     bathrooms <- ggplot(under_1m, aes(x = factor(bathrooms), y = sale_price)) +
       geom_boxplot(fill = "blue", color = "black") +
@@ -254,8 +251,7 @@ For Bathrooms, we decieded to create a Box Plot.
       align = "c")
 ```
 
-
-```{R, echo=FALSE}  
+```{R, echo=FALSE}
   # Plot distribution of bathrooms for houses over $1M
     bathrooms_A <- ggplot(over_1m, aes(x = factor(bathrooms), y = sale_price)) +
       geom_boxplot(fill = "blue", color = "black") +
@@ -287,10 +283,10 @@ For Bathrooms, we decieded to create a Box Plot.
       caption = "Summary Statistics for Sale Price by Number of Bathrooms",
       align = "c")
 ```
- 
-For our variable that shows the lowest corelation to sales price, we decieded to plot a histogram for Year Built.
 
-```{R, echo=FALSE}    
+-   For our variable that shows the lowest corelation to sales price, we decieded to plot a histogram for Year Built.
+
+```{R, echo=FALSE}
   # Plot distribution of year built for houses under $1M
     year_built <- ggplot(under_1m, aes(x = year_built)) +
       geom_histogram(binwidth = 10, fill = "purple", color = "black") +
@@ -331,9 +327,9 @@ For our variable that shows the lowest corelation to sales price, we decieded to
                         "Skewness", "Kurtosis"),
           caption = "Additional Summary Statistics of Year Built",
           align = "c")
-```    
+```
 
-```{R, echo=FALSE}    
+```{R, echo=FALSE}
   # Plot distribution of year built for houses under $1M
     year_built_A <- ggplot(over_1m, aes(x = year_built)) +
       geom_histogram(binwidth = 10, fill = "purple", color = "black") +
@@ -374,18 +370,18 @@ For our variable that shows the lowest corelation to sales price, we decieded to
                         "Skewness", "Kurtosis"),
           caption = "Additional Summary Statistics of Year Built",
           align = "c")
-```    
+```
 
+-   Grid of all Plots (Under \$1M)
 
-Grid of all Plots (Under $1M)  
-```{R, echo=FALSE}     
+```{R, echo=FALSE}
     # Arrange plots in a grid
     grid.arrange(house_square_feet, bedrooms, bathrooms, year_built, ncol = 2)
 ```
 
+-   Grid of all Plots (Over \$1M)
 
-```{R, echo=FALSE}     
+```{R, echo=FALSE}
     # Arrange plots in a grid
     grid.arrange(house_square_feet_A, bedrooms_A, bathrooms_A, year_built_A, ncol = 2)
 ```
-
