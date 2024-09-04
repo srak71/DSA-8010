@@ -58,7 +58,7 @@ Initially, we ran a correlation analysis to see which variables have stronger re
         format = "markdown")
 ```
 
--   For our variable that shows the highest correlation to sales price, we decided to plot a histogram for House Square Feet.
+For our variable that shows the highest correlation to sales price, we decided to plot a histogram for House Square Feet.
 
 ```{R, echo=FALSE}
 
@@ -105,8 +105,6 @@ Initially, we ran a correlation analysis to see which variables have stronger re
       align = "c")
 ```
 
--   Similar to houses sold under \$1M, there is a Right Skewed trend for . However, the spead of data is not nearly as uniform as with the houses under \$1M.
-
 ```{R, echo=FALSE}
 
   # Plot distribution of house square feet for houses under $1M
@@ -152,6 +150,10 @@ Initially, we ran a correlation analysis to see which variables have stronger re
       align = "c")
 ```
 
+-   Similar to houses sold under \$1M, there is a Right Skewed trend and a higher distribution sold for houses under 5000 square feet. However, the spread of data is not nearly as uniform as with the houses under \$1M. Additionally, the skewness is slightly greater (0.64) vs (0.59) than that for houses under 1M.
+
+
+For our variable that shows the second highest correlation to sales price, we decided to create a box plot for Bedrooms.
 ```{R, echo=FALSE}
   # Plot distribution of Bedrooms for houses under $1M
     bedrooms <- ggplot(under_1m, aes(x = factor(bedrooms), y = sale_price)) +
@@ -182,6 +184,8 @@ Initially, we ran a correlation analysis to see which variables have stronger re
                     "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
       caption = "Summary Statistics for Sale Price by Number of Bedrooms",
       align = "c")
+      
+  
 ```
 
 ```{R, echo=FALSE}
@@ -216,7 +220,9 @@ Initially, we ran a correlation analysis to see which variables have stronger re
       align = "c")
 ```
 
--   For Bathrooms, we decieded to create a Box Plot.
+-   Unlike with house_sales under \$1M, houses that sold for over \$1M showed the opposite trend, with sales price decreasing as the number of rooms increases. There is also an outlier for when number of bedrooms is equal to 0. This may be caused by the purchasing of land or an unbuilt houses which does not have any offically listed 'rooms', rather just a property of land.
+
+For Bathrooms, we decided to create a Box Plot.
 
 ```{R, echo=FALSE}
   # Plot distribution of bathrooms for houses under $1M
@@ -284,7 +290,10 @@ Initially, we ran a correlation analysis to see which variables have stronger re
       align = "c")
 ```
 
--   For our variable that shows the lowest corelation to sales price, we decieded to plot a histogram for Year Built.
+- Unlike houses that are sold for under $1M, for sales over $1M, there are an extremely small amount of purchases for properties with no bathrooms. This again can be explained by the client purchasing an undeveloped area of land which may have no bedooms or bathrooms. Also, sales price stays relatively constant even with the addition of bathrooms, showing that the amount of bathrooms in a house may not be a big factors for home-seekers willing to pay over $1M.
+
+
+For our variable that shows the lowest corelation to sales price, we decieded to plot a histogram for Year Built.
 
 ```{R, echo=FALSE}
   # Plot distribution of year built for houses under $1M
@@ -371,15 +380,17 @@ Initially, we ran a correlation analysis to see which variables have stronger re
           caption = "Additional Summary Statistics of Year Built",
           align = "c")
 ```
+- Similar to houses under $1M, our distribution is left-skewed, showing that reguardless of purchacing budgets, home-seekers prefer to purchace newly developed housing. 
 
--   Grid of all Plots (Under \$1M)
+
+Grid of all Plots (Under \$1M)
 
 ```{R, echo=FALSE}
     # Arrange plots in a grid
     grid.arrange(house_square_feet, bedrooms, bathrooms, year_built, ncol = 2)
 ```
 
--   Grid of all Plots (Over \$1M)
+Grid of all Plots (Over \$1M)
 
 ```{R, echo=FALSE}
     # Arrange plots in a grid
