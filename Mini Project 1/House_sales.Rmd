@@ -1,5 +1,7 @@
 ```{R}
 
+# Importing necessary libraries
+
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -14,12 +16,10 @@ library(gridExtra)
 # 1. Loading and displaying the data
 
 df <- read.csv('pierce_co_house_sales.csv')
-
-
 head(df)
 
-df$sale_date <- as.Date(df$sale_date, format="%m/%d/%Y")
-head(df)
+#df$sale_date <- as.Date(df$sale_date, format="%m/%d/%Y")
+#head(df)
 
 ```
 
@@ -34,13 +34,6 @@ over_mil <- df[df$sale_price >= 1000000,]
 
 head(under_mil)
 head(over_mil)
-
-```
-
-```{R}
-
-nrow(under_mil)
-nrow(over_mil)
 
 ```
 
@@ -133,7 +126,7 @@ table(age_bins)
 # 4. Distributions
 
 
-# Distribution of house square feet for houses under $1M
+# A1. Distribution of house square feet for houses under $1M
     house_square_feet <- ggplot(under_mil, aes(x = house_square_feet)) +
       geom_histogram(binwidth = 100, fill = "green", color = "black") +
       labs(title = "Distribution of House Square Feet (Under $1M)", x = "Square Feet", y = "Frequency")
@@ -145,12 +138,11 @@ table(age_bins)
     house_square_feet
     
 ```
-
-
 ```{R}
-# Distribution of house square feet for houses over $1M
+
+# A2. Distribution of house_square_feet for houses over $1M
     house_square_feet <- ggplot(over_mil, aes(x = house_square_feet)) +
-      geom_histogram(binwidth = 100, fill = "blue", color = "black") +
+      geom_histogram(binwidth = 100, fill = "purple", color = "black") +
       labs(title = "Distribution of House Square Feet (Over $1M)", x = "Square Feet", y = "Frequency")
   
     # Summary statistics for house square feet
@@ -161,4 +153,64 @@ table(age_bins)
     
 ```
 
+```{R}
 
+  # B1. Distribution of bedrooms for houses under $1M
+    bedrooms <- ggplot(under_mil, aes(x = factor(bedrooms))) +
+      geom_bar(fill = "orange", color = "black") +
+      labs(title = "Distribution of Bedrooms (Under $1M)", x = "Number of Bedrooms", y = "Count")
+  
+    # Summary statistics for bedrooms
+    summary(under_mil$bedrooms)
+    print(table(under_mil$bedrooms))
+    
+    # Show the plot
+    bedrooms
+
+```
+
+
+```{R}
+
+  # B2. Distribution of bedrooms for houses over $1M
+    bedrooms <- ggplot(over_mil, aes(x = factor(bedrooms))) +
+      geom_bar(fill = "blue", color = "black") +
+      labs(title = "Distribution of Bedrooms (Over $1M)", x = "Number of Bedrooms", y = "Count")
+  
+    # Summary statistics for bedrooms
+    summary(over_mil$bedrooms)
+    print(table(over_mil$bedrooms))
+    
+    # Show the plot
+    bedrooms
+
+```
+
+
+```{R}  
+
+  # C1.Plot distribution of bathrooms for houses under $1M
+    bathrooms <- ggplot(under_mil, aes(x = factor(bathrooms))) +
+      geom_bar(fill = "brown", color = "black") +
+      labs(title = "Distribution of Bathrooms (Under $1M)", x = "Number of Bathrooms", y = "Count")
+  
+    # Summary statistics for bathrooms
+    summary(under_mil$bathrooms)
+    
+    # Show the plot
+    bathrooms
+```
+
+```{R}  
+
+  # C2.Plot distribution of bathrooms for houses over $1M
+    bathrooms <- ggplot(over_mil, aes(x = factor(bathrooms))) +
+      geom_bar(fill = "pink", color = "black") +
+      labs(title = "Distribution of Bathrooms (Under $1M)", x = "Number of Bathrooms", y = "Count")
+  
+    # Summary statistics for bathrooms
+    summary(over_mil$bathrooms)
+    
+    # Show the plot
+    bathrooms
+```
