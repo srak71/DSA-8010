@@ -1,0 +1,301 @@
+---
+title: "Lab 2"
+author: "Saransh Rakshak"
+date: "9/6/2024"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages and libraries
+
+When you open an R session, a few libraries (base, stats, graphics) are already loaded.  There are many other libraries available that contain functions for statistical analysis and datasets.  CRAN is a repository from which these packages can be installed easily.  
+
+To load a library that is already installed, use the `library()` function.  You need to do this each time you begin an R session (or at the start of an RMarkdown document that requires the library.). 
+
+Here's an example: the dataset called `galaxies` is contained in the MASS package.  It will not load without loading the library.  Run the code below to see the error message.
+
+```{r}
+data(galaxies)
+```
+
+After you load the MASS library, it will work.
+
+```{r}
+library(MASS)
+data(galaxies)  # this ''attaches'' the data set to your workspace.
+head(galaxies)
+hist(galaxies)  # remember the word for the shape of this distribution?
+```
+
+MASS is one of a small number of packages that are installed when R is installed.  For most other packages, first install them using the function `install.packages()`.  When R asks you to select a CRAN mirror, choose one that is geographically close to you.  After you install the package once, you can then use the package by loading the library with the `library()` function at the beginning of each session. 
+
+Anyone can publish an R package on CRAN.  If you are using a package to perform a statistical analysis, look at the documentation and make sure the package seems to come from a reliable source. 
+
+The code below would install and load the package "abind", which I use often to store data or simulation results in multidimensional arrays. (Optional:) Try installing and loading a package of your choosing here.  Some popular packages include "scales," which lets you control scale and color transparency in a plot, or "reshape2," which can turn wide data sets into tall ones.
+```{r}
+# Optional: replace "abind" in the code below with any package of your choosing and uncomment.  
+
+#install.packages("abind")
+#library(abind)
+```
+
+You can also install a package with a point-and-click GUI by choosing "Tools" in the RStudio window and clicking "Install packages".
+
+## Displaying multiple panels in one plot
+The `par` function lets you control the graphics created in R.  It has many options that control the margins, scale, and titles of plots.  The `mfrow` option allows you to arrange panels of plots in a grid.  Set `mfrow=c(a,b)` to use a grid with $a$ rows and $b$ columns.
+
+```{r}
+par(mfrow=c(1,2))
+hist(rnorm(100))
+boxplot(rnorm(100))
+```
+
+The following code switches the arrangement to have two rows.
+```{r}
+par(mfrow=c(2,1))
+hist(rnorm(100))
+boxplot(rnorm(100))
+```
+
+Note: The methods for displaying multiple plots are quite different if you use ggplot2.
+
+## Displaying multiple panels in one plot: R markdown
+You can also put figures side by side in an R markdown document by specifying certain options when you define the code chunk. For example, the options `fig.show="hold"` and `out.width="50%"` puts two figures side by side.
+
+```{r, fig.show="hold", out.width="50%"}
+hist(rnorm(100))
+boxplot(rnorm(100))
+```
+
+## R with missing values
+Some functions in R will not work in the presence of missing values.  Most plotting functions will just ignore missings, but many calculations will return the value NA. 
+
+```{r}
+# create a vector with missing values
+x <- c(4,18,9,NA,0)
+```
+
+The vector `x` has an element whose value is NA, which is a special value in R representing a missing value.  If we try to use the mean function on `x`, the answer is NA.  The option `na.rm=T` can be used to ignore the missing values.
+
+```{r}
+mean(x)
+mean(x, na.rm=T)  # use na.rm=T to ignore NAs
+```
+
+You might get data in which the missing values are not coded as NA values. Here, `y` has a missing value but it is not treated as NA.  Further, R thinks that `y` is a vector of character data because of the "no response" value.
+```{r}
+y <- c('no response',3,4,1,12)
+is.na(y[1])  # returns TRUE if y[1] is NA
+class(y)
+```
+
+The mean of y cannot be calculated, even with `na.rm=T`, because `y` is a character vector.
+
+```{r}
+mean(y, na.rm=T) 
+```
+The best way to prevent this is to ensure that R recognizes NAs when you first read in the data using the `na.strings` option in `read.csv`.  Below is one quick and dirty way to fix it.  The `as.numeric` function will turn `y` into a numeric vector.  Any elements than cannot be turned into numeric values will become NAs.  *Be careful with this approach:* it will not work as you expect on a variable whose class is `factor`, for example.
+
+```{r}
+y <- as.numeric(y)
+y
+class(y)
+```
+Missing values are addressed differently in functions of two variables, such as the `cor()` function.
+The argument `use = 'complete.obs'`  will omit missing values.  See the R documentation for different options for the "use" argument.
+
+```{r}
+cor(x, y, use='complete.obs')
+```
+
+# Exercises
+
+
+## Exercise 1: Explore associations in Airbnb data
+
+Use the Airbnb data from last week, found in the file `airbnb_asheville.csv`. **Make sure to put all of your code in code chunks.**
+
+The following R functions will help in answering the questions below: mean, median, quantile, boxplot, subset, table, prop.table. 
+
+a. Calculate the mean, median, and standard deviation of the variable `price` among only listings for which `room_Type` is `Entire home/apt`.  Then calculate the mean, median, and standard deviation of the variable `price` among only listings for which `room_type` is `private room`.    (You did this already last week. Try using `tapply` this time!)
+
+**Answer:**
+Old Approach (R native):
+```{R}
+data <- read.csv("airbnb_asheville.csv")
+
+# 'Entire home/apt'
+full_house <- subset(data, room_type == "Entire home/apt")
+
+mean(full_house$price)
+median(full_house$price)
+sd(full_house$price)
+
+# 'Private room'
+private_house <- subset(data, room_type == "Private room")
+
+mean(private_house$price)
+median(private_house$price)
+sd(private_house$price)
+
+```
+
+New Approach (tapply):
+```{R}
+
+data$room_type <- as.factor(data$room_type)
+
+tapply(data$price, data$room_type, mean)
+tapply(data$price, data$room_type, median)
+tapply(data$price, data$room_type, sd)
+
+```
+
+
+
+b. Use boxplots or histograms to display the distribution of `price` grouped by `room_Type`.  Based on the results in parts a and b, is price associated with room type?
+There is a code chunk below that gives an example of syntax to make grouped boxplots.
+
+**Answer:**
+```{R}
+
+boxplot(price ~ room_type, data = data, main = 'price by room type')
+boxplot(log(price)~room_type, data=data, main ='log price by room type')
+
+```
+
+
+```{r}
+# create a data frame of random numbers
+randoms <- data.frame(size=rnorm(100,20,3), species=as.factor(sample(1:4,100,replace=TRUE)))
+
+# the syntax a ~ b will make boxplots of variable "a"
+# grouped by variable "b".
+# in the "data=" put the name of the data frame
+boxplot(size ~ species, data=randoms)
+```
+
+b. Calculate Pearson's correlation between `price` and `number_of_reviews`.  Use the `cor()` function. What does this suggest about the relationship between the variables? Make a scatterplot of `number_of_reviews` and `price`. Does their relationship look linear?
+
+**Answer:**
+```{R}
+
+cor(data$price, data$number_of_reviews)
+plot(data$price, data$number_of_reviews, xlab = 'price', ylab = 'number of reviews')
+
+```
+
+c. Now apply a log transformation to `price` using the `log()` function. The log transformation is often used for highly skewed variables such as price. Again make a scatterplot of  log(`number_of_reviews`+1) and log(`price`). Calculate Pearson's correlation between the two log-transformed variables. What do these two calculations suggest about the association between price and the number of reviews?
+
+
+**Answer:**
+```{R}
+
+cor(log(data$price), log(data$number_of_reviews+1))
+plot(log(data$price), log(data$number_of_reviews+1))
+
+```
+
+
+
+d. Divide the data into two subsets:  those listings with 50 or more reviews and those with less than 50 reviews.  Use boxplots or histograms to compare the distribution of `price` among the two subsets.  What do these plots suggest about the association between price and the number of reviews?
+
+**Answer:**
+```{R}
+
+under_50 <- subset(data, number_of_reviews < 50)
+over_50 <- subset(data, number_of_reviews >= 50)
+
+par(mfrow=c(1,2))
+
+boxplot(under_50$price, over_50$price, main = "Price by reviews")
+axis(1,at=1:2,labels=c("under 50","over 50"))
+
+boxplot(log(under_50$price), log(over_50$price), main = "Log Price by reviews")
+axis(1,at=1:2,labels=c("under 50","over 50"))
+
+```
+
+
+
+
+e. Create a new categorical variable in your data set that takes one value if the listing has 50+ reviews and a different value if the listing has less than 50 reviews. Call the new variable `high_listings`. Convert the `high_listings` variable to a factor using the `as.factor` function.  (The example code below may help.)   
+
+Then create a frequency table that shows the counts for your new variable and the `room_type`. Use row or column proportions to investigate whether `room_type` is associated with `high_listings`. Give your answer about whether the variables are associated and support it with the relevant proportions that you calculated.
+
+**Answer: Since proportions are similar, there is no clear association that can be seen.**
+```{R}
+
+# Creating frequency table
+data$high_listings <- as.factor(data$number_of_reviews >= 50)
+room_type_high <- table(data$room_type, data$high_listings)
+room_type_high
+
+# Using row proportions to see association
+prop.table(room_type_high)
+
+```
+
+
+
+```{r}
+# Some example code
+# First I generate some artificial data
+some_data <- data.frame(x=rnorm(10),y=as.factor(sample(1:3,10,replace=T,prob=c(.1,.4,.5))))
+
+# append to the data frame a vector called "x_positive" 
+# "x_positive" indicates whether x is >0 for that observation.
+some_data$x_positive <- as.factor(some_data$x > 0)
+
+# use the table function to create a two way table
+some_data_table <- table(some_data$y,some_data$x_positive)
+some_data_table
+
+# prop.table can be used to find row and column proportions
+# the margin option controls whether you get row or column proportions
+prop.table(some_data_table,margin=1) # row proportions
+prop.table(some_data_table,margin=2)  # column proportions
+
+
+```
+
+
+
+## Exercise 3
+There is a data set called `iris` in the MASS R package. Load the MASS library and the iris data. Use `?iris` to view the documentation for the data set.
+
+
+a. Create four boxplots showing `Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width `grouped by `Species`. Use `par(mfrow)` to display them with a single plot with four panels.
+
+**Answer:**
+```{R}
+# Loading dataset 
+library(MASS)
+data(iris)
+head(iris)
+```
+
+```{R}
+# Creating boxplots
+
+par(mfrow=c(2,2))
+boxplot(iris$Sepal.Length ~ iris$Species, xlab = 'Sepal Length', ylab = "Species")
+boxplot(iris$Sepal.Width ~ iris$Species, xlab = 'Sepal Width', ylab = "Species")
+boxplot(iris$Petal.Length ~ iris$Species, xlab = 'Petal Length', ylab = "Species")
+boxplot(iris$Petal.Width ~ iris$Species, xlab = 'Petal Width', ylab = "Species")
+
+```
+
+b. Suppose you were given these measurements of an iris at random: `Sepal.Length`=6, `Sepal.Width`=2.7, `Petal.Length`=6, `Petal.Width `=1.6. Which species do you think it would belong to? Are any of its measurements surprising?
+
+**Answer: Likely versicolor species due to Sepal Length and Sepal Width.**
+
+
+c. Use some plots and summary statistics to continue exploring the data. Propose a simple rule for classifying iris species based on their petal and sepal measurements. (Your rule might look something like this: if petal.width > 5 and 2< sepal.width < 4, classify as "virginica")
+
+**Answer: IF petal.length < 2 AND petal.width < 1: Setosa. ELIF 2 < petal.length < 4.7 AND 1 < petal.width < 1.7: Versicolor. ELSE Virginica.**
+
