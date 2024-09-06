@@ -1,0 +1,245 @@
+---
+title: "Lab 1"
+author: "Saransh Rakshak"
+date: "9/5/2024"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Writing functions in R
+
+R has built-in functions for most standard statistical methods; however, you may at times find it useful to write your own functions.
+
+Functions are defined using `function`. When you define a function, you decide what its arguments (inputs) should be. The code to be implemented by the function is written inside curly braces.  The code inside braces should depend only on the function's arguments.
+
+**Example:** A function called `my.product.min` is defined below. It has one argument, `x`, which is a numeric vector. The function multiplies all elements of a vector `x` by the smallest element of `x`.  
+
+```{r}
+my.product.min <- function(x)
+{
+  min <- min(x)
+  return(x * min)
+}
+```
+
+Once the function is defined, it can be called in your workspace just like any other function.
+
+```{r}
+x1 <- rnorm(10)  # generate 10 random numbers stored in a vector "x1"
+my.product.min(x1) # apply my.product.min function to x1
+
+x2 <- rnorm(14)  # generate 14 random numbers and apply function
+my.product.min(x2)
+```
+
+**Example 2:** Now, define a function with two arguments. The function `sum.squares.scalar1` will require a vector, `y.vec`, and a single number (scalar), called `a`. It will compute the sum of squared deviations of the elements of `y.vec` from `a`. Using notation, the function will return the following quantity:
+$$\sum_{i=1}^n(y_i-a)^2 $$
+Here is the code to define the function.
+```{r}
+sum.squares.scalar1 <- function(y.vec,a)
+{
+  return( sum((y.vec-a)^2) )
+}
+
+```
+
+This code chunk tests the function on random numbers.
+```{r}
+y1 <- rnorm(100) # generate 100 random numbers
+a1 <- 1.5
+
+sum.squares.scalar1(y1,a1)
+```
+
+
+**Example 3:** If you write functions often, you might want to insert a few quality checks into the function. For example, you might want to make sure the user provides appropriate inputs so that the function behaves as expected. The `stop` function allows you to produce an error message when something goes wrong.
+
+Here is an example using the `sum.squares.scalar2` function. It stop the function and produces an error message if "a" has more than one element; that is, if it is not a scalar.
+```{r}
+sum.squares.scalar2 <- function(y.vec,a)
+{
+  #
+  if( length(a)>1){stop("Error: a should be a scalar.")}
+  return( sum((y.vec-a)^2) )
+}
+
+```
+
+The code chunk below tests it out. Uncomment line 79 (remove the # sign) temporarily to see the error message. Recomment (add the # sign) afterwards to ensure the .Rmd file runs without errors.
+
+```{r}
+y1 <- rnorm(10) # vector of 10 random numbers
+a2 <- c(10,11,-2) # vector of 3 numbers
+a3 <- 5 # scalar
+
+#sum.squares.scalar2(y1,a2)
+```
+
+```{r}
+sum.squares.scalar2(y1,a3)
+```
+
+# Exercises 
+
+
+The file
+`airbnb_asheville.csv` contains data from a random sample of 400 Airbnb listings in Asheville, NC. These listings were scraped from the Airbnb website in January-March of 2022.  The data set contains several variables, including the `number_of_reviews` at the time of data collection and `price`, the average price per night. 
+
+## Exercise 1: explore marginal distributions
+
+A *marginal distribution* refers to the behavior of one variable at a time.  Univariate exploratory analyses give insight into the marginal distributions of variables. 
+
+Answer the following questions.  Include code chunks in your response where appropriate, but make sure to include text answering the questions.
+
+### Part 1. 
+Calculate the mean, median, standard deviation, and range of the variable `price`.
+
+**Answer:**
+
+```{R}
+
+data <- read.csv("airbnb_asheville.csv")
+
+# Mean of 'price'
+mean(data$price)
+
+# Median of 'price'
+median(data$price)
+
+# Standard Deviation of 'price'
+sd(data$price)
+
+# Range of 'price'
+range(data$price)
+
+```
+
+
+### Part 2. 
+List the possible values of the variable `Room_Type` and give the proportion of observations that take each value. 
+
+**Answer:**
+
+```{R}
+
+room_type <- table(data$room_type)
+room_type
+
+```
+
+
+	
+### Part 3. 
+Calculate the mean, median, and standard deviation of the variable `price` among only listings for which `room_type` is 'Entire home/apt'.  Then calculate the mean, median, and standard deviation of the variable `Price` among only listings for which `room_type` is 'Private room'. The subsetting tips from Lab 0 might help.
+	
+Based on these statistics, does there appear to be an association between the `room_type` and the `price`? 
+
+**Answer:**
+
+```{R}
+
+# 'Entire home/apt'
+full_house <- subset(data, room_type == "Entire home/apt")
+
+mean(full_house$price)
+median(full_house$price)
+sd(full_house$price)
+
+# 'Private room'
+private_house <- subset(data, room_type == "Private room")
+
+mean(private_house$price)
+median(private_house$price)
+sd(private_house$price)
+
+```
+
+	
+### Part 4. 
+What proportion of listings have more than 50 reviews?
+
+**Answer: 51.19%**
+
+```{R}
+
+over_50 <- subset(data, number_of_reviews > 50)
+
+proportion <- 100 * nrow(over_50) / nrow(data) 
+
+proportion
+```
+	
+### Part 5. 
+Create a histogram and boxplot of the variable `number_of_reviews`.  Give the plots informative titles and axis labels.  Write one sentence describing the shape of the distribution.
+
+**Answer:**
+
+```{R}
+# Histogram of 'number_of_reviews'
+
+hist(data$number_of_reviews, main = "Histogram of number of reviews", xlab = "Count")
+
+```
+```{R}
+# Boxplot of 'number_of_reviews'
+
+boxplot(data$number_of_reviews, main = "Boxplot of number of reviews", xlab = "Count")
+
+```
+### Part 6. 
+What population does this data set represent?   Do you think the statistics you just calculated would be representative of Airbnb prices in another city?  What about in Asheville during a different time of year?
+
+**Answer: Population represented is all rental properties in Ashville listed on AirBnB. The prices would not be representative of AirBnB prices in other cities, nor would it be representative of Ashville during a different time of the year.**
+
+## Exercise 2 : write functions
+Write a function to calculate the standard deviation of a numeric vector.  Reference the formula provided in lecture. The code below gives a shell to get you started.
+
+**Answer:**
+```{r}
+my.sd <- function(x)
+{
+  n <- length(x)
+  return (sqrt(sum((x - mean(x))^2) / (n - 1)))
+}
+```
+
+Use the code chunk below to compare your function's results to those of R's built-in `sd` function. (They should give the same answer!)
+
+```{r}
+x <- rnorm(20)
+sd(x)
+my.sd(x)
+
+```
+
+## Exercise 3: write functions
+Repeat exercise 3, but this time require the input vector to have a length of at least 2. Return an error message if it has only one element. (The standard deviation is not defined for a single number!) See example 3 as a reference and use the `stop` function.
+
+**Answer.**
+```{r}
+my.sd2 <- function(x)
+{
+  n <- length(x)
+  
+  if (n<2){stop("Error, only one element.")}
+  
+  return (sqrt(sum((x - mean(x))^2) / (n - 1)))
+}
+
+```
+
+Use this chunk to test your function.
+```{r}
+y1 <- 3 # vector with one element -- it shouldn't work
+y2 <- rnorm(3) # vector with three elements - should work!
+
+# apply your function to y1 and y2 in this space.
+
+# my.sd2(y1) # Should give error
+my.sd2(y2)
+```
