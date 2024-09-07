@@ -1,29 +1,59 @@
 ---
-title: "mini_proj2"
+title: "Analysis of Pierce County House Sales"
 output: html_document
-date: "2024-09-06"
+date: "Due 9/24/2024"
+author: "Saransh Rakshak"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{R setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+
+# Reading in data
+housing <- read.csv("pierce_co_house_sales.csv")
+
+# Convert sale_date to Date type
+housing$sale_date <- as.Date(housing$sale_date)
+
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{R}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+head(housing)
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{R}
+# Number of rooms and sales price
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+rooms_price <- subset(housing, select = c("bedrooms", "sale_price"))
+
+boxplot((sale_price/1000000) ~ bedrooms, data = rooms_price, xlab = "Number of bedrooms", ylab = "Sale Price (in millions)")
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{R}
+# Square Feet and Sales Price
+
+square_ft_price <- subset(housing, select = c("house_square_feet", "sale_price"))
+
+#par(mfrow=c(1,3))
+
+plot(housing$house_square_feet, (housing$sale_price / 1000000), xlab = "Square Feet", ylab = "Sales Price (in millions)")
+
+#plot(housing$house_square_feet, log(housing$sale_price), xlab = "Square Feet", ylab = "Log Sales Price")
+
+boxplot(house_square_feet ~ sale_price, data = housing)
+
+```
+
+```{R}
+
+
+
+```
