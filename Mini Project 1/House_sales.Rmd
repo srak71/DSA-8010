@@ -138,6 +138,8 @@ table(age_bins)
     house_square_feet
     
 ```
+
+
 ```{R}
 
 # A2. Distribution of house_square_feet for houses over $1M

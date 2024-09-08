@@ -1,20 +1,29 @@
 ---
 title: "Analysis of Pierce County House Sales"
+author: "Henry Shaw & Saransh Rakshak"
+date: "Due: September 24rd, 2024"
 output: html_document
-date: "Due 9/24/2024"
-author: "Saransh Rakshak"
 ---
 
 ```{R setup, include=FALSE}
 library(dplyr)
 library(ggplot2)
-library(reshape2)
+library(ggpubr)
+library(knitr)
+library(summarytools)
+library(readr)
+library(gridExtra)
+library(scales)
+library(e1071) 
 
 # Reading in data
 housing <- read.csv("pierce_co_house_sales.csv")
 
 # Convert sale_date to Date type
 housing$sale_date <- as.Date(housing$sale_date)
+
+# Binning year_built by decade
+housing$decade_built <- housing$year_built - (housing$year_built %% 10)
 
 ```
 
@@ -25,35 +34,169 @@ head(housing)
 
 ```
 
+Write a short report that describes associations between sale price and other variables.
+You should use methods learned in Weeks 0-2 of the course.
+
+Part 1: 
+Can sales price be predicted? Choose any three variables other than sale price.
+For each variable, explore its association with sale price using plots, tables, and summary statistics. 
+Include at least one plot or table for each variable. Report appropriate statistics for each variable. 
+Summarize your findings in 2-3 sentences for each variable.
+
+
+```{R, echo=FALSE}
+# Select columns for correlation analysis
+vars <- housing %>% select(sale_price, house_square_feet, year_built, bedrooms)
+
+# Calculate correlation matrix
+cor_matrix <- cor(vars, use = "complete.obs")
+
+# Print correlation with sale_price
+cor_price <- cor_matrix["sale_price", ]
+cor_price <- cor_price[order(abs(cor_price), decreasing = TRUE)]
+
+# Convert to data frame for kable
+cor_price_df <- as.data.frame(t(cor_price))
+colnames(cor_price_df) <- colnames(cor_matrix)  # Set column names
+rownames(cor_price_df) <- "Correlation"
+
+# Display with kable
+kable(cor_price_df, 
+      caption = "Correlation of Variables with Sale Price",
+      col.names = colnames(cor_price_df),
+      align = "c", 
+      format = "markdown")
+```
+
+
+First, we will analyze 'house_square_feet', the variable with the highest correlation (=0.54) to 'sale_price'.
+
+
+
+
+Next, we will view the association between Year Built and Sale Price.
 
 ```{R}
-# Number of rooms and sales price
+# Summary statistics for Year Built
+year_built_summary <- housing %>%
+group_by(decade_built) %>%
+summarize(
+  count = n(),
+  mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+  median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+  sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+  min_sale_price = min(sale_price, na.rm = TRUE),
+  max_sale_price = max(sale_price, na.rm = TRUE)
+)
 
-rooms_price <- subset(housing, select = c("bedrooms", "sale_price"))
+# Display the summary statistics in a table format for Bedrooms
+kable(year_built_summary, 
+  col.names = c("Decade Built", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "Summary Statistics for Sale Price by Year Built",
+  align = "c")
 
-boxplot((sale_price/1000000) ~ bedrooms, data = rooms_price, xlab = "Number of bedrooms", ylab = "Sale Price (in millions)")
+
+```
+
+```{R, echo=FALSE, message=FALSE}
+
+# Bar chart for mean sale price for decade built
+ggplot(data = year_built_summary, aes(x=decade_built, y=mean_sale_price)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  ggtitle("Mean Sales Price by Decade Built") +
+  xlab("Decade Built") +
+  ylab("Mean Sale Price ($USD)") +
+  geom_text(aes(label=mean_sale_price), vjust=1, size=3.5, check_overlap = TRUE, angle = 90) +
+  scale_y_continuous(labels = scales::comma)
+
+# Plot distribution of decade built
+ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
+  geom_boxplot(fill = "green", color = "black") +
+  ggtitle("Sale Price Distribution by Decade Built") +
+  xlab("Decade Built") +
+  ylab("Sale Price ($USD)") +
+  scale_y_continuous(labels = scales::comma)
+
+# Scatter plot with regression line for year built
+ggscatter(housing, x = "year_built", y = "sale_price",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson") +
+  ggtitle("Sale Price Correlation with Year Built") +
+  xlab("Year Built") +
+  ylab("Sale Price ($USD)") +
+  geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
+  scale_y_continuous(labels = scales::comma)
 
 ```
 
 
 
-```{R}
-# Square Feet and Sales Price
 
-square_ft_price <- subset(housing, select = c("house_square_feet", "sale_price"))
+Lastly, we will view the association between Number of Bedrooms and Sale Price.
 
-#par(mfrow=c(1,3))
 
-plot(housing$house_square_feet, (housing$sale_price / 1000000), xlab = "Square Feet", ylab = "Sales Price (in millions)")
 
-#plot(housing$house_square_feet, log(housing$sale_price), xlab = "Square Feet", ylab = "Log Sales Price")
 
-boxplot(house_square_feet ~ sale_price, data = housing)
+
+```{R, echo = FALSE}
+# Summary statistics for Bedrooms
+bedroom_summary <- housing %>%
+group_by(bedrooms) %>%
+summarize(
+  count = n(),
+  mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+  median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+  sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+  min_sale_price = min(sale_price, na.rm = TRUE),
+  max_sale_price = max(sale_price, na.rm = TRUE)
+)
+
+# Display the summary statistics in a table format for Bedrooms
+kable(bedroom_summary, 
+  col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "Summary Statistics for Sale Price by Number of Bedrooms",
+  align = "c")
+
+```
+
+
+
+
+
+```{R, echo=FALSE, message=FALSE}
+
+# Bar chart for mean sale price for bedrooms
+ggplot(data = bedroom_summary, aes(x=bedrooms, y=mean_sale_price)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  ggtitle("Mean Sale Price by Number of Rooms") +
+  xlab("Number of Bedrooms") +
+  ylab("Mean Sale Price ($USD)") +
+  geom_text(aes(label=mean_sale_price), vjust=1, size=3.5, check_overlap = TRUE) +
+  scale_y_continuous(labels = scales::comma)
+
+# Plot distribution of bedrooms
+ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
+  geom_boxplot(fill = "green", color = "black") +
+  ggtitle("Sale Price Distribution by Number of Rooms") +
+  xlab("Number of Bedrooms") +
+  ylab("Sale Price ($USD)") +
+  scale_y_continuous(labels = scales::comma)
+
+
+ggscatter(housing, x = "bedrooms", y = "sale_price",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson") +
+  ggtitle("Sale Price Correlation with Number of Bedrooms") +
+  xlab("Number of Bedrooms") +
+  ylab("Sale Price ($USD)") +
+  geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
+  scale_y_continuous(labels = scales::comma)
 
 ```
 
 ```{R}
-
 
 
 ```
