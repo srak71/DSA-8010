@@ -344,7 +344,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 
 
-Analyzing association between House square footage and presence of view quality description
+Analyzing association between House square footage and presence of view quality description.
 ```{R, echo=FALSE}
 # Summary statistics for house_square_feet
 sqft_view_summary <- housing %>%
