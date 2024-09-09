@@ -5,10 +5,6 @@
 # the video.
 # ===========================================================
 
-
-#setwd("~/Dropbox/DSA 8010/Labs/Data")
-setwd("C:/Users/2administrator/Dropbox/DSA 8010/Labs/Data")
-
 scores <- read.csv("test_scores.csv",header=T)
 head(scores)
 names(scores)
