@@ -1,0 +1,65 @@
+---
+title: "Quiz Week 2 Checkpoint"
+author: "Saransh Rakshak"
+date: "9/9/2024"
+output:
+  html_document: default
+---
+
+```{R}
+library(dplyr)
+precip <- read.csv("chicago_precip.csv")
+precip[precip == -99.9] <- NA
+head(precip)
+```
+
+```{R}
+full_304 <- precip %>% filter(!is.na(station304))
+
+sd(full_304$station304)
+```
+
+```{R}
+# How many non-missing observations from station 304 in month april
+april_304 <- full_304 %>% filter(month == 4)
+nrow(april_304)
+
+```
+
+```{R}
+
+# Consider the station 304 measurements. Look only at the non-missing observations from April (month = 4). Among those, how many observations have a value of 0?
+zero_april_304 <- april_304 %>% filter(station304 == 0.00)
+nrow(zero_april_304)
+
+```
+
+
+
+```{R}
+
+precip_full <- na.omit(precip)
+april_precip_full <- precip_full %>% filter(month == 4)
+
+cor(precip_full$station304, precip_full$station314, method = "pearson")
+cor(precip_full$station304, precip_full$station314, method = "spearman")
+cor(april_precip_full$station304, april_precip_full$station314, method = "pearson")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

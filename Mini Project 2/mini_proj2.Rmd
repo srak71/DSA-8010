@@ -268,7 +268,7 @@ variable that you created. Follow the same instructions as in Part 1.
 
 ```{R, echo=FALSE}
 # Select columns for correlation analysis
-vars <- housing %>% select(has_view_quality, sale_price, sq_ft_thousand, house_square_feet, bedrooms)
+vars <- housing %>% select(has_view_quality, sale_price, house_square_feet, bedrooms)
 
 # Calculate correlation matrix
 cor_matrix <- cor(vars, use = "complete.obs")
