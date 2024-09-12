@@ -26,19 +26,20 @@ housing$sq_ft_thousand <- round(housing$house_square_feet / 1000, digits = 1)
 # Creating a new column 'has_view_quality' with 0 if sale does not have view quality, else 1
 housing$has_view_quality <- ifelse(housing$view_quality == "", 0, 1)
 
+housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
 ```
 
 
 ```{R, echo=FALSE}
-
-head(housing)
-
+glimpse(housing)
 ```
 
 Write a short report that describes associations between sale price and other variables.
 You should use methods learned in Weeks 0-2 of the course.
 
-Part 1: 
+<br>
+
+## Part 1: 
 
 Can sales price be predicted? Choose any three variables other than sale price.
 For each variable, explore its association with sale price using plots, tables, and summary statistics. 
@@ -75,7 +76,7 @@ kable(cor_price_df,
 
 
 
-
+<br>
 
 First, we will analyze House square footage, the variable with the highest correlation (=0.54) to 'sale_price'.
 ```{R, echo=FALSE}
@@ -134,7 +135,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 
 
-
+<br>
 
 Next, we will view the association between the time the house was built and Sale Price.
 
@@ -194,6 +195,7 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 
 
 
+<br>
 
 Lastly, we will view the association between Number of Bedrooms and Sale Price.
 
@@ -258,9 +260,11 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 
 
+<br>
 
+## Part 2: 
 
-Part 2: Is missingness informative? Create a binary variable that indicates whether
+Is missingness informative? Create a binary variable that indicates whether
 the view quality is missing. Missing values in this data file are represented as an empty
 character string; that is, `'. Choose three variables. (They may, but do not need to be, the
 same variables from part 1.) Explore the association between these variables and the binary
@@ -268,7 +272,7 @@ variable that you created. Follow the same instructions as in Part 1.
 
 ```{R, echo=FALSE}
 # Select columns for correlation analysis
-vars <- housing %>% select(has_view_quality, sale_price, house_square_feet, bedrooms)
+vars <- housing %>% select(has_view_quality, sale_price, house_square_feet, has_waterfront)
 
 # Calculate correlation matrix
 cor_matrix <- cor(vars, use = "complete.obs")
@@ -291,7 +295,7 @@ kable(cor_view_df,
 
 
 
-
+<br>
 
 First, we will analyze 'sale_price', the variable with the highest correlation (=0.25) to 'has_view_quality'.
 ```{R, echo=FALSE}
@@ -342,7 +346,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 
 
-
+<br>
 
 Analyzing association between House square footage and presence of view quality description.
 ```{R, echo=FALSE}
@@ -359,7 +363,7 @@ summarize(
 )
 
 # Display the summary statistics in a table format for house square footage
-kable(price_view_summary, 
+kable(sqft_view_summary, 
   col.names = c("Has View Quality", "Count", "Mean Square Feet", "Median Square Feet", 
                 "SD of Square Feet", "Min Square Feet", "Max Square Feet"),
   caption = "Summary Statistics for Has View Quality by Square Feet",
@@ -388,5 +392,23 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
   xlab("Has View Quality (0=no, 1=yes)") +
   ylab("House Square Feet (sqft)") +
   scale_y_continuous(labels = scales::comma)
+
+```
+
+
+
+<br>
+
+Analyzing association between presence of view quality description and presence of a waterfront.
+
+```{R, echo=FALSE}
+
+waterfront_view_freq <- housing |>
+  group_by(has_view_quality) |>
+  count(has_waterfront)
+
+kable(waterfront_view_freq,
+      caption = "Cross Table of Frequency for View Quality and existance of a Waterfront",
+      col.names = c("Has View Quality (0=no, 1=yes)", "Has Waterfront (0=no, 1=yes)", "Frequency"))
 
 ```
