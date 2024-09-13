@@ -10,6 +10,7 @@ library(dplyr)
 library(ggplot2)
 library(ggpubr)
 library(knitr)
+library(scales)
 
 # Reading in data
 housing <- read.csv("pierce_co_house_sales.csv")
@@ -96,7 +97,7 @@ summarize(
 kable(sq_ft_summary, 
   col.names = c("House Square Feet (in thousands)", "Count", "Mean Sale Price", "Median Sale Price", 
                 "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "Summary Statistics for Sale Price by House Square Feet",
+  caption = "{A1} Summary Statistics for Sale Price by House Square Feet",
   align = "c")
 
 
@@ -107,27 +108,32 @@ kable(sq_ft_summary,
 # Bar chart for mean sale price for square feet
 ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
-  ggtitle("Mean Sales Price by House Square Feet") +
-  xlab("Square Feet (in thousands)") +
-  ylab("Mean Sale Price ($USD)") +
+  labs(
+    title = "{A2} Mean Sales Price by House Square Feet",
+    x = "Square Feet (in thousands)",
+    y = "Mean Sale Price ($USD)") +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=1.5, angle = 90) +
   scale_y_continuous(labels = scales::comma)
 
 # Plot distribution of house square feet
 ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
-  ggtitle("Sale Price Distribution by Square Footage") +
-  xlab("Square Feet (in thousands)") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{A3} Sale Price Distribution by Square Footage",
+    x = "Square Feet (in thousands)",
+    y = "Sale Price ($USD)"
+  ) +
   scale_y_continuous(labels = scales::comma)
 
 # Scatter plot with regression line for house square feet
 ggscatter(housing, x = "house_square_feet", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
-  ggtitle("Sale Price Correlation with House Square Feet") +
-  xlab("Square Feet") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{A4} Sale Price Correlation with House Square Feet",
+    x = "Square Feet",
+    y = "Sale Price ($USD)"
+  ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
   scale_y_continuous(labels = scales::comma)
 
@@ -156,7 +162,7 @@ summarize(
 kable(year_built_summary, 
   col.names = c("Decade Built", "Count", "Mean Sale Price", "Median Sale Price", 
                 "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "Summary Statistics for Sale Price by Decade Built",
+  caption = "{B1} Summary Statistics for Sale Price by Decade Built",
   align = "c")
 
 
@@ -167,27 +173,33 @@ kable(year_built_summary,
 # Bar chart for mean sale price for decade built
 ggplot(data = year_built_summary, aes(x=factor(decade_built), y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
-  ggtitle("Mean Sales Price by Decade Built") +
-  xlab("Decade Built") +
-  ylab("Mean Sale Price ($USD)") +
+  labs(
+    title = "{B2} Mean Sales Price by Decade Built",
+    x = "Decade Built",
+    y = "Mean Sale Price ($USD)"
+  ) +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=2.5, angle = 90) +
   scale_y_continuous(labels = scales::comma)
 
 # Plot distribution of decade built
 ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
-  ggtitle("Sale Price Distribution by Decade Built") +
-  xlab("Decade Built") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{B3} Sale Price Distribution by Decade Built", 
+    x = "Decade Built",
+    y = "Sale Price ($USD)"
+  ) +
   scale_y_continuous(labels = scales::comma)
 
 # Scatter plot with regression line for year built
 ggscatter(housing, x = "year_built", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
-  ggtitle("Sale Price Correlation with Year Built") +
-  xlab("Year Built") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{B4} Sale Price Correlation with Year Built",
+    x = "Year Built",
+    y = "Sale Price ($USD)"
+  ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
   scale_y_continuous(labels = scales::comma)
 
@@ -217,7 +229,7 @@ summarize(
 kable(bedroom_summary, 
   col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
                 "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "Summary Statistics for Sale Price by Number of Bedrooms",
+  caption = "{C1} Summary Statistics for Sale Price by Number of Bedrooms",
   align = "c")
 
 ```
@@ -226,29 +238,35 @@ kable(bedroom_summary,
 ```{R, echo=FALSE, message=FALSE}
 
 # Bar chart for mean sale price for bedrooms
-ggplot(data = bedroom_summary, aes(x=factor(bedrooms), y=mean_sale_price)) +
+ggplot(data = bedroom_summary, aes(x = factor(bedrooms), y = mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
-  ggtitle("Mean Sale Price by Number of Rooms") +
-  xlab("Number of Bedrooms") +
-  ylab("Mean Sale Price ($USD)") +
+  labs(
+    title = "{C2} Mean Sale Price by Number of Rooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price ($USD)"
+  ) +
   geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
   scale_y_continuous(labels = scales::comma)
 
 # Plot distribution of bedrooms
 ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
-  ggtitle("Sale Price Distribution by Number of Rooms") +
-  xlab("Number of Bedrooms") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{C3} Sale Price Distribution by Number of Rooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price ($USD)"
+  ) +
   scale_y_continuous(labels = scales::comma)
 
 # scatter plot for number of bedrooms with regression line
 ggscatter(data = housing, x = "bedrooms", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
-  ggtitle("Sale Price Correlation with Number of Bedrooms") +
-  xlab("Number of Bedrooms") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{C4} Sale Price Correlation with Number of Bedrooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price ($USD)"
+  ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
   scale_y_continuous(labels = scales::comma)
 
@@ -315,7 +333,7 @@ summarize(
 kable(price_view_summary, 
   col.names = c("Has View Quality", "Count", "Mean Sale Price", "Median Sale Price", 
                 "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "Summary Statistics for Has View Quality by Sale Price",
+  caption = "{D1} Summary Statistics for Has View Quality by Sale Price",
   align = "c")
 
 
@@ -326,9 +344,11 @@ kable(price_view_summary,
 # Bar chart for mean sale price for has_view_quality
 ggplot(data = price_view_summary, aes(x=factor(has_view_quality), y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
-  ggtitle("Mean Sale Price by presence of View Quality description") +
-  xlab("Has View Quality (0=no, 1=yes)") +
-  ylab("Mean Sale Price ($USD)") +
+  labs(
+    title = "{D2} Mean Sale Price by presence of View Quality description",
+    x = "Has View Quality (0=no, 1=yes)",
+    y = "Mean Sale Price ($USD)"
+  ) +
   geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
   scale_y_continuous(labels = scales::comma)
 
@@ -336,9 +356,11 @@ ggplot(data = price_view_summary, aes(x=factor(has_view_quality), y=mean_sale_pr
 # Plot distribution of sale_price
 ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
-  ggtitle("Sale Price Distribution by presence of View Quality description") +
-  xlab("Has View Quality (0=no, 1=yes)") +
-  ylab("Sale Price ($USD)") +
+  labs(
+    title = "{D3} Sale Price Distribution by presence of View Quality description",
+    x = "Has View Quality (0=no, 1=yes)",
+    y = "Sale Price ($USD)"
+  ) +
   scale_y_continuous(labels = scales::comma)
 
 ```
@@ -366,7 +388,7 @@ summarize(
 kable(sqft_view_summary, 
   col.names = c("Has View Quality", "Count", "Mean Square Feet", "Median Square Feet", 
                 "SD of Square Feet", "Min Square Feet", "Max Square Feet"),
-  caption = "Summary Statistics for Has View Quality by Square Feet",
+  caption = "{E1} Summary Statistics for Has View Quality by Square Feet",
   align = "c")
 
 
@@ -378,9 +400,11 @@ kable(sqft_view_summary,
 # Bar chart for mean house_square_feet for has_view_quality
 ggplot(data = sqft_view_summary, aes(x=factor(has_view_quality), y=mean_sqft)) +
   geom_bar(stat = "identity", fill="steelblue") +
-  ggtitle("Mean Square Footage by presence of View Quality description") +
-  xlab("Has View Quality (0=no, 1=yes)") +
-  ylab("Mean House Square Feet (sqft)") +
+  labs(
+    title = "{E2} Mean Square Footage by presence of View Quality description",
+    x = "Has View Quality (0=no, 1=yes)",
+    y = "Mean House Square Feet (sqft)"
+  ) +
   geom_text(aes(label=mean_sqft), vjust=1, size=3.5) +
   scale_y_continuous(labels = scales::comma)
 
@@ -388,9 +412,11 @@ ggplot(data = sqft_view_summary, aes(x=factor(has_view_quality), y=mean_sqft)) +
 # Plot distribution of house_square_feet
 ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
   geom_boxplot(fill = "green", color = "black") +
-  ggtitle("Square Footage Distribution by presence of View Quality description") +
-  xlab("Has View Quality (0=no, 1=yes)") +
-  ylab("House Square Feet (sqft)") +
+  labs(
+    title = "{E3} Square Footage Distribution by presence of View Quality description",
+    x = "Has View Quality (0=no, 1=yes)",
+    y = "House Square Feet (sqft)"
+  ) +
   scale_y_continuous(labels = scales::comma)
 
 ```
@@ -408,7 +434,26 @@ waterfront_view_freq <- housing |>
   count(has_waterfront)
 
 kable(waterfront_view_freq,
-      caption = "Cross Table of Frequency for View Quality and existance of a Waterfront",
+      caption = "{F1} Cross Table of Frequency for View Quality and existance of a Waterfront",
       col.names = c("Has View Quality (0=no, 1=yes)", "Has Waterfront (0=no, 1=yes)", "Frequency"))
 
 ```
+
+
+
+
+```{R, echo=FALSE, message=FALSE}
+
+ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size = n, color=n)) +
+  geom_point() +
+  geom_text(aes(label=n, hjust = c(-0.5, -0.5, 1, 1), vjust = c(-1, 1, -1, 1)), size=3.5) +
+  labs(
+    title = "{F2} Has View Quality and Has Waterfront, by frequency",
+    x = "Has View Quality (0=no, 1=yes)",
+    y = "Has Waterfront (0=no, 1=yes)",
+    color = "Frequency",
+    size = "Frequency"
+  )
+
+```
+
