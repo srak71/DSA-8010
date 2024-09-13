@@ -446,7 +446,7 @@ kable(waterfront_view_freq,
 
 ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size = n, color=n)) +
   geom_point() +
-  geom_text(aes(label=n, hjust = c(-0.5, -0.5, 1, 1), vjust = c(-1, 1, -1, 1)), size=3.5) +
+  geom_text(aes(label=n, hjust = c(-0.5, -0.5, 1, 1), vjust = c(-1, 1, -1, 1.5)), size=3.5) +
   labs(
     title = "{F2} Has View Quality and Has Waterfront, by frequency",
     x = "Has View Quality (0=no, 1=yes)",
