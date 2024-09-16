@@ -103,7 +103,8 @@ ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
   labs(
     title = "{A2} Mean Sales Price by House Square Feet",
     x = "Square Feet (in thousands)",
-    y = "Sale Price ($USD)") +
+    y = "Sale Price ($USD)"
+  ) +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=1.5, angle = 90) +
   scale_y_continuous(labels = scales::comma)
 
@@ -430,8 +431,6 @@ kable(waterfront_view_freq,
       col.names = c("Has View Quality (0=no, 1=yes)", "Has Waterfront (0=no, 1=yes)", "Frequency"))
 
 ```
-
-
 
 
 ```{R, echo=FALSE, message=FALSE}
