@@ -96,8 +96,8 @@ kable(sq_ft_summary,
 
 ```
 
-```{R, echo=FALSE, message=FALSE}
 
+```{R, echo=FALSE, message=FALSE}
 # Bar chart for mean sale price for square feet
 ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
@@ -108,7 +108,10 @@ ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
   ) +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=1.5, angle = 90) +
   scale_y_continuous(labels = scales::comma)
+  
+```
 
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 # Plot distribution of house square feet
 ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
@@ -117,8 +120,11 @@ ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
     x = "Square Feet (in thousands)",
     y = "Sale Price ($USD)"
   ) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+```
 
+``` {R, echo=FALSE, message=FALSE}
 # Scatter plot with regression line for house square feet
 ggscatter(housing, x = "house_square_feet", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
@@ -135,7 +141,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 - From our graph {A4}, we can see that sale price is highly correlated to house square feet (R = 0.54). We can also observe from our graph in {A3} that sale price does not have a large range of distribution for 0.6 thousand square feet to 4.2 thousand square feet. This is because there are a greater count of instances (house sales) between that range. This is also where the majority of our data (count of house sales) lies. As a result, we can conclude that house square feet does have a  general association to sale price, with sale price growing as house square feet increases as reflected in {A4}. 
 
-- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6090000 is far greater than those with slightly greater or less house square feet. The exact reasoning for this outlier cannot be deducted from the information at hand, however, we can predict this sale was a special situation where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases its value far greater than expected. The presence of this outlier reduces our regression score (R = 0.54) and thus reduces association between house square feet and sale price, however since this is a single point it is reasonable to remove this data point from our set. We can also observe that there is an outlier for 0.5 thousand square feet. This is reflected in our table {A1} where our SD for house square feet at 0.5 thousand is 989258, much greater than other bins.However, unlike our outlier at 6.0 thousand square feet, the outlier at 0.5 thousand square feet has 37 other values in its bin, thus it does not as greatly affect our overall association between house square feet and sale price. 
+- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6,090,000 is far greater than those with slightly greater or less house square feet. The exact reasoning for this outlier cannot be deducted from the information at hand, however, we can predict this sale was a special situation where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases its value far greater than expected. The presence of this outlier reduces our Pearson correlation coefficient (R = 0.54) and thus reduces association between house square feet and sale price, however since this is a single point it is reasonable to remove this data point from our set. We can also observe that there is an outlier for 0.5 thousand square feet. This is reflected in our table {A1} where our SD for house square feet at 0.5 thousand is 989,258, much greater than other bins. However, unlike our outlier at 6.0 thousand square feet, the outlier at 0.5 thousand square feet has 37 other values in its bin, thus it does not as greatly affect our overall analysis between house square feet and sale price. 
 
 
 <br>
@@ -202,7 +208,7 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 
 ```
 
-- From our graph in {B4} we can conclude that year built has a slight association with sale price based on its regression (R = 0.23).
+- From our graph in {B4} we can conclude that year built has a slight association with sale price based on its Pearson Correlation (R = 0.23).
 
 - Outliers can also be deducted from our graphs. From graph {B2} we can see that sale price for houses built in the decade of 1880 have a higher sale price; however we can see from our table {B1} that this decade only has one data point. Thus, we can disregard this point as it is likely that the house built in 1880 is a special case, and could have factors such as location and historical value influencing its sale price to be higher than its expected value. From our distribution graph {B3}, we can see that the decades 1990 and 2010 both have a single house sale price of over 6 million that is much greater than the decade's sale price mean. Again, these individual house sales can be regarded as special cases, such as custom built houses or houses located in a higher value location. However, as our bins of 1990 and 2010 have a greater count of data values, these outliers do not as greatly impact our association between Decade built and sale price, unlike our data point for 1880s.
 
