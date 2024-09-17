@@ -476,7 +476,7 @@ ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size 
     y = "Has Waterfront (0=no, 1=yes)",
     color = "Frequency",
     size = "Frequency"
-  )
+  ) 
 
 ```
 
