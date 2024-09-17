@@ -32,7 +32,7 @@ You should use methods learned in Weeks 0-2 of the course.
 
 <br>
 
-## Part 1: 
+# Part 1: 
 
 Can sales price be predicted? Choose any three variables other than sale price.
 For each variable, explore its association with sale price using plots, tables, and summary statistics. 
@@ -70,6 +70,8 @@ kable(cor_price_df,
 
 
 <br>
+
+## Sale Price and House Square Footage
 
 - First, we will analyze House square footage, the variable with the highest correlation (=0.54) to 'sale_price'.
 
@@ -146,6 +148,8 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 <br>
 
+## Sale Price and Year Built
+
 - Next, we will view the association between the time the house was built and Sale Price.
 
 ```{R, echo=FALSE}
@@ -213,6 +217,7 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 - Outliers can also be deducted from our graphs. From graph {B2} we can see that sale price for houses built in the decade of 1880 have a higher sale price; however we can see from our table {B1} that this decade only has one data point. Thus, we can disregard this point as it is likely that the house built in 1880 is a special case, and could have factors such as location and historical value influencing its sale price to be higher than its expected value. From our distribution graph {B3}, we can see that the decades 1990 and 2010 both have a single house sale price of over 6 million that is much greater than the decade's sale price mean. Again, these individual house sales can be regarded as special cases, such as custom built houses or houses located in a higher value location. However, as our bins of 1990 and 2010 have a greater count of data values, these outliers do not as greatly impact our association between Decade built and sale price, unlike our data point for 1880s.
 
 
+## Sale Price and Number of Bedrooms
 
 <br>
 
@@ -286,7 +291,7 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 <br>
 
-## Part 2: 
+# Part 2: 
 
 Is missingness informative? Create a binary variable that indicates whether
 the view quality is missing. Missing values in this data file are represented as an empty
@@ -320,6 +325,8 @@ kable(cor_view_df,
 
 
 <br>
+
+## Presence of View Quality and Sale Price
 
 - First, we will analyze 'sale_price', the variable with the highest correlation (=0.25) to 'has_view_quality'.
 
@@ -377,6 +384,8 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 <br>
 
+## Presence of View Quality and House Square Footage
+
 - Analyzing association between House square footage and presence of view quality description.
 
 ```{R, echo=FALSE}
@@ -432,6 +441,8 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 
 <br>
+
+## Presence of View Quality and Presence of Waterfront
 
 - Analyzing association between presence of view quality description and presence of a waterfront.
 
