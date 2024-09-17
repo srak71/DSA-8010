@@ -109,7 +109,7 @@ ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
     y = "Sale Price ($USD)"
   ) +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=1.5, angle = 90) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
   
 ```
 
@@ -122,7 +122,7 @@ ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
     x = "Square Feet (in thousands)",
     y = "Sale Price ($USD)"
   ) +
-  scale_y_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::dollar_format()) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2))
 ```
 
@@ -137,7 +137,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
     y = "Sale Price ($USD)"
   ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 ```
 
@@ -186,7 +186,7 @@ ggplot(data = year_built_summary, aes(x=factor(decade_built), y=mean_sale_price)
     y = "Sale Price ($USD)"
   ) +
   geom_text(aes(label=mean_sale_price), vjust=0.1, size=2.5, angle = 90) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 # Plot distribution of decade built
 ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
@@ -196,7 +196,7 @@ ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
     x = "Decade Built",
     y = "Sale Price ($USD)"
   ) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 # Scatter plot with regression line for year built
 ggscatter(housing, x = "year_built", y = "sale_price",
@@ -208,7 +208,7 @@ ggscatter(housing, x = "year_built", y = "sale_price",
     y = "Sale Price ($USD)"
   ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 ```
 
@@ -257,7 +257,7 @@ ggplot(data = bedroom_summary, aes(x = factor(bedrooms), y = mean_sale_price)) +
     y = "Sale Price ($USD)"
   ) +
   geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 # Plot distribution of bedrooms
 ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
@@ -267,7 +267,7 @@ ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
     x = "Number of Bedrooms",
     y = "Sale Price ($USD)"
   ) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 # scatter plot for number of bedrooms with regression line
 ggscatter(data = housing, x = "bedrooms", y = "sale_price",
@@ -279,7 +279,7 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
     y = "Sale Price ($USD)"
   ) +
   geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 ```
 
@@ -364,7 +364,7 @@ ggplot(data = price_view_summary, aes(x=factor(has_view_quality), y=mean_sale_pr
     y = "Sale Price ($USD)"
   ) +
   geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 
 # Plot distribution of sale_price
@@ -375,11 +375,13 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
     x = "Has View Quality (0=no, 1=yes)",
     y = "Sale Price ($USD)"
   ) +
-  scale_y_continuous(labels = scales::comma)
+  scale_y_continuous(labels = scales::dollar_format())
 
 ```
 
+- From our graph {D2}, we can observe there is a slight correlation between presence of view quality and sale price, as on average, housing with view quality data sold for a value 1.59 times greater than homes with no view quality description. This is confirmed by our Pearson correlation coefficient, calculated to be 0.2564431. 
 
+- Outliers can be seen in graph {D3}, for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price for housing without view quality remains at the much lower value of 449,850. Thus, due to the size of the bin, the existence of these outliers does not impact out overall analysis.
 
 
 <br>
