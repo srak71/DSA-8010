@@ -29,15 +29,14 @@ housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
 glimpse(housing)
 ```
 
-Write a short report that describes associations between sale price and other variables.
-You should use methods learned in Weeks 0-2 of the course.
 
 # Part 1: 
 
 Can sales price be predicted? Choose any three variables other than sale price.
 For each variable, explore its association with sale price using plots, tables, and summary statistics. 
 Include at least one plot or table for each variable. Report appropriate statistics for each variable. 
-Summarize your findings in 2-3 sentences for each variable.
+Summarize your findings in 2-3 sentences for each variable. Write a short report that describes associations between sale price and other variables.
+You should use methods learned in Weeks 0-2 of the course.
 
 In your analysis, pay attention to outliers, missing
 values, and excessive zeros. In both questions, include in the text a short description of any
@@ -73,7 +72,7 @@ kable(cor_price_df,
 
 ## A. Sale Price and House Square Footage
 
-- First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
+- First, we will analyze 'house_square_feet', the variable with the highest Pearson Correlation (~0.53) to 'sale_price'.
 
 ```{R, echo=FALSE}
 # Summary statistics for square feet
@@ -143,9 +142,9 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 - From our graph {A4}, we can see that sale price has moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A3} that sale price does not have a large range of distribution for 0.6 thousand square feet to 4.1 thousand square feet. This is because there are a greater count of instances (house sales) between that range. As a result, we can conclude that house square feet does have a  general association to sale price, with sale price growing as house square feet increases as reflected in {A4}. 
 
-- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6,090,000 is far greater than those with slightly greater or less house square feet. The presence of this outlier reduces our Pearson correlation coefficient and thus reduces association between house square feet and sale price. 
+- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6,090,000 is far greater than those with slightly greater or less house square feet. The presence of this outlier reduces our Pearson correlation coefficient and thus reduces association between house square feet and sale price. Other high values sales over 6 million, such as those in 0.5, 1.4, and 4.2 thousand sqft can also be considered outliers, however unlike our outlier at 6.0 thousand sqft, these outliers have multiple other values in their bin, thus they does not as greatly affect our overall analysis between house square feet and sale price. 
 
-- Other high values sales over 6 million, such as those in 0.5, 1.4, and 4.2 thousand sqft can also be considered outliers, however unlike our outlier at 6.0 thousand sqft, these outliers have multiple other values in their bin, thus they does not as greatly affect our overall analysis between house square feet and sale price. The exact reasoning for any of these outliers cannot be deducted from the information at hand, however, we can predict these sales were special situations where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases their value far greater than expected.
+- The exact reasoning for any of these outliers cannot be deducted from the information at hand, however, we can predict these sales were special situations where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases their value far greater than expected.
 
 
 <br>
@@ -400,7 +399,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 ```
 
-- The summary statistics {D1} show that the mean sale price for homes with a view is 696,077 compared to 447,655 for those without. The difference in median sale price is even more substantial, with homes having a view getting a median of 665,000 compared to 410,000 for those without. From our graph {D2}, on average housing with existing view quality data sold for a value 1.55 times greater than homes with no view quality description.  This suggests that a view is a premium feature that can increase the value of a property, and is confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
+- The summary statistics {D1} show that the mean sale price for homes with a view_quality is 696,077, 1.55 greater than the mean sale price of 447,655 for those without. The difference in median sale price is even more substantial, with homes having a view_quality getting a median of 665,000 compared to 410,000 for those without. This suggests that a view_quality description is a premium feature that can increase the value of a property, and is confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
 
 - Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price remains at a much lower value and does not skew out overall analysis.
 
