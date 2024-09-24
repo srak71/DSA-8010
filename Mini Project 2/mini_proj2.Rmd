@@ -7,13 +7,15 @@ output: html_document
 
 ```{R setup, include=FALSE}
 library(dplyr)
+library(openintro)
 library(ggplot2)
 library(ggpubr)
 library(knitr)
 library(scales)
 
 # Reading in data
-housing <- read.csv("pierce_co_house_sales.csv")
+data(pierce_county_house_sales, package = "openintro")
+housing <- pierce_county_house_sales
 
 housing$sale_date <- as.Date(housing$sale_date)
 housing$decade_built <- housing$year_built - (housing$year_built %% 10)
@@ -73,7 +75,7 @@ kable(cor_price_df,
 
 ## Sale Price and House Square Footage
 
-- First, we will analyze House square footage, the variable with the highest correlation (=0.54) to 'sale_price'.
+- First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
 
 ```{R, echo=FALSE}
 # Summary statistics for square feet
@@ -141,9 +143,11 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 ```
 
-- From our graph {A4}, we can see that sale price has moderately high correlation to house square feet (Pearson Correlation = 0.54). We can also observe from our graph in {A3} that sale price does not have a large range of distribution for 0.6 thousand square feet to 4.2 thousand square feet. This is because there are a greater count of instances (house sales) between that range. This is also where the majority of our data (count of house sales) lies. As a result, we can conclude that house square feet does have a  general association to sale price, with sale price growing as house square feet increases as reflected in {A4}. 
+- From our graph {A4}, we can see that sale price has moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A3} that sale price does not have a large range of distribution for 0.6 thousand square feet to 4.1 thousand square feet. This is because there are a greater count of instances (house sales) between that range. As a result, we can conclude that house square feet does have a  general association to sale price, with sale price growing as house square feet increases as reflected in {A4}. 
 
-- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6,090,000 is far greater than those with slightly greater or less house square feet. The exact reasoning for this outlier cannot be deducted from the information at hand, however, we can predict this sale was a special situation where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases its value far greater than expected. The presence of this outlier reduces our Pearson correlation coefficient (R = 0.54) and thus reduces association between house square feet and sale price, however since this is a single point it is reasonable to remove this data point from our set. We can also observe that there is an outlier for 0.5 thousand square feet. This is reflected in our table {A1} where our SD for house square feet at 0.5 thousand is 989,258, much greater than other bins. However, unlike our outlier at 6.0 thousand square feet, the outlier at 0.5 thousand square feet has 37 other values in its bin, thus it does not as greatly affect our overall analysis between house square feet and sale price. 
+- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of 6,090,000 is far greater than those with slightly greater or less house square feet. The presence of this outlier reduces our Pearson correlation coefficient and thus reduces association between house square feet and sale price. 
+
+- Other high values sales over 6 million, such as those in 0.5, 1.4, and 4.2 thousand sqft can also be considered outliers, however unlike our outlier at 6.0 thousand sqft, these outliers have multiple other values in their bin, thus they does not as greatly affect our overall analysis between house square feet and sale price. The exact reasoning for any of these outliers cannot be deducted from the information at hand, however, we can predict these sales were special situations where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases their value far greater than expected.
 
 
 <br>
@@ -212,9 +216,12 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 
 ```
 
-- From our graph in {B4} we can conclude that year built has a slight association with sale price based on its Pearson Correlation (R = 0.23).
+- From our graph in {B4} we can conclude that year built has a slight association with sale price based on its Pearson Correlation (R = 0.23). We can also observe that houses built in the 1880s and 1930s have a comparably higher mean sale price than other houses built in between 1880 and 1980. Thus we can conclude that there was something special about houses built in the 1880s and 1930s which made them retain a higher value in today's market.
 
-- Outliers can also be deducted from our graphs. From graph {B2} we can see that sale price for houses built in the decade of 1880 have a higher sale price; however we can see from our table {B1} that this decade only has one data point. Thus, we can disregard this point as it is likely that the house built in 1880 is a special case, and could have factors such as location and historical value influencing its sale price to be higher than its expected value. From our distribution graph {B3}, we can see that the decades 1990 and 2010 both have a single house sale price of over 6 million that is much greater than the decade's sale price mean. Again, these individual house sales can be regarded as special cases, such as custom built houses or houses located in a higher value location. However, as our bins of decades 1990 and 2010 have a greater count of data values, these outliers do not as greatly impact our analysis, unlike our data point for 1880s.
+- Outliers can also be deducted from our graphs. From our distribution graph {B3}, we can see that the decades 1990, 2000, and 2010 all have a single house sale price of over 6 million - much greater than the decade's sale price mean. These individual house sales can be regarded as special cases, such as custom built houses or houses located in a higher value location. Since our bins of decades 1990s, 2000s, and 2010s have a significant count of data values, these outliers do not as greatly impact our analysis.
+
+
+
 
 
 ## Sale Price and Number of Bedrooms
@@ -328,7 +335,7 @@ kable(cor_view_df,
 
 ## Presence of View Quality and Sale Price
 
-- First, we will analyze 'sale_price', the variable with the highest correlation (=0.25) to 'has_view_quality'.
+- First, we will analyze 'sale_price', the variable with the highest correlation (~0.24) to 'has_view_quality'.
 
 ```{R, echo=FALSE}
 # Summary statistics for sale_price
@@ -381,9 +388,9 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 ```
 
-- From our graph {D2}, we can observe there is a slight correlation between presence of view quality and sale price, as on average, housing with view quality data sold for a value 1.59 times greater than homes with no view quality description. This is confirmed by our Pearson correlation coefficient, calculated to be 0.2564431. 
+- From our graph {D2}, we can observe there is a slight correlation between presence of view quality and sale price, as on average, housing with view quality data sold for a value 1.55 times greater than homes with no view quality description. This is confirmed by our Pearson correlation coefficient, calculated to be 0.2391971.
 
-- Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price for housing without view quality remains at a much lower value of 449,850. Thus, due to the size of the bin, the existence of these outliers does not impact out overall analysis.
+- Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price for housing without view quality remains at a much lower value of 447,655. Thus, due to the size of the bin, the existence of these outliers does not skew out overall analysis.
 
 
 <br>
