@@ -292,7 +292,7 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 - The summary statistics {C1} indicate that as the number of bedrooms increases, the mean and median sale prices generally increase as well. The correlation between number of bedrooms and sale price, though significant (Pearson Correlation Coefficient = 0.21), is weak, implying that while the number of bedrooms has some effect on sale price, other factors (like location, property type) likely play a stronger role. Properties with 0 bedrooms have a relatively high mean sale price, 652,402, which could mean these are special types of properties, likely distorting our expected trend.
 
-- Our data point for the housing with 25 rooms is an outlier, due to its unexpectedly high jump in number of rooms and its single appearance in the data set. Additionally, outliers in sale price shown in graph {C3}, show some prices exceeding 6 million across various bedroom counts, especially in the 1-5 bedroom range. These rare and extreme values might skew the data. Additionally, excessive zeros and missing data could affect the analysis, as seen by the 0 bedroom category's unexpectedly high prices.
+- Our data point for the housing with 25 rooms is an outlier, due to its unexpectedly high jump in number of rooms and its single appearance in the data set. Additionally, outliers in sale price shown in graph {C3}, show some prices exceeding 6 million across various bedroom counts, especially in the 1-5 bedroom range. These rare and extreme values might skew the data. Additionally, possible excessive zeros or missing data could affect the analysis, as seen by the 0 bedroom category's unexpectedly high prices.
 
 
 <br>
