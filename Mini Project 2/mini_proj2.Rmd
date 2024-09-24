@@ -290,8 +290,7 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 ```
 
-
-
+- From our graph {C4}, we can conclude that number of bedrooms has a slight association with sale price based on its Pearson Correlation (R = 0.21). Due to the multimodal properties of graph {C2}, we can reasonably hypothesize that properties sold with 
 
 
 
@@ -451,6 +450,9 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 ```
 
+- From our graph {E2}, we can observe there is a very slight correlation between presence of view quality and square footage, with housing containing view quality data being approximately 1.24 times larger than homes with no view quality description. This is reflected in our Pearson correlation coefficient, calculated to be 0.1353988.
+
+- Outliers can be detected. In housing with no view quality data, while the mean square footage is 1855 sqft, we can see that the bin also contains housing as large as 9510 sqft {E1}. Similarly, outliers can also be found in the bin for housing containing view quality data, which has a mean size of 2308 sqft, but contains values as low as 1 sqft {E1}. Both of these outliers affect our analysis as they lower our Pearson Correlation Coefficient, however due to the size of both bins, these outliers are less impactful. 
 
 
 <br>
