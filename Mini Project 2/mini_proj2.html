@@ -432,8 +432,8 @@ may have on your analysis.</p>
 </tbody>
 </table>
 <p><br></p>
-<div id="sale-price-and-house-square-footage" class="section level2">
-<h2>Sale Price and House Square Footage</h2>
+<div id="a.-sale-price-and-house-square-footage" class="section level2">
+<h2>A. Sale Price and House Square Footage</h2>
 <ul>
 <li>First, we will analyze House square footage, the variable with the
 highest correlation (~0.53) to ‘sale_price’.</li>
@@ -1092,8 +1092,8 @@ expected.</p></li>
 </ul>
 <p><br></p>
 </div>
-<div id="sale-price-and-year-built" class="section level2">
-<h2>Sale Price and Year Built</h2>
+<div id="b.-sale-price-and-year-built" class="section level2">
+<h2>B. Sale Price and Year Built</h2>
 <ul>
 <li>Next, we will view the association between the time the house was
 built and Sale Price.</li>
@@ -1277,14 +1277,13 @@ in a higher value location. Since our bins of decades 1990s, 2000s, and
 2010s have a significant count of data values, these outliers do not as
 greatly impact our analysis.</p></li>
 </ul>
-</div>
-<div id="sale-price-and-number-of-bedrooms" class="section level2">
-<h2>Sale Price and Number of Bedrooms</h2>
 <p><br></p>
+</div>
+<div id="c.-sale-price-and-number-of-bedrooms" class="section level2">
+<h2>C. Sale Price and Number of Bedrooms</h2>
 <ul>
 <li>Lastly, we will view the association between Number of Bedrooms and
-Sale Price. Let us find the summary statistics for Bedrooms in relation
-to Sale Price.</li>
+Sale Price.</li>
 </ul>
 <table>
 <caption>{C1} Summary Statistics for Sale Price by Number of
@@ -1433,6 +1432,22 @@ bedroom category’s unexpectedly high prices.</p></li>
 </ul>
 <p><br></p>
 </div>
+<div id="can-sale-price-be-predicted" class="section level2">
+<h2>Can Sale Price be predicted?</h2>
+<p>Based on the data from the graphs A - C, sale price can be predicted
+to a certain extent with our variables such as house square footage, the
+year built, and the number of bedrooms.</p>
+<pre><code>House Square Footage: There is a moderate correlation (Pearson correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally increases, though there are outliers, especially at higher square footage values that reduce this correlation slightly.
+
+Year Built: The correlation between year built and sale price is weaker (Pearson correlation ~0.23), but certain years (like homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may influence price as well.
+
+Number of Bedrooms: There is a weak correlation between the number of bedrooms and sale price (Pearson correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or very high numbers of bedrooms, which distort the trend.</code></pre>
+<p>Thus, while sale price prediction is possible based on these factors,
+outliers and additional variables (e.g., location, historical
+significance, or amenities) likely play a significant role in the final
+sale price.</p>
+<p><br></p>
+</div>
 </div>
 <div id="part-2" class="section level1">
 <h1>Part 2:</h1>
@@ -1472,8 +1487,8 @@ variable that you created. Follow the same instructions as in Part
 </tbody>
 </table>
 <p><br></p>
-<div id="presence-of-view-quality-and-sale-price" class="section level2">
-<h2>Presence of View Quality and Sale Price</h2>
+<div id="d.-presence-of-view-quality-and-sale-price" class="section level2">
+<h2>D. Presence of View Quality and Sale Price</h2>
 <ul>
 <li>First, we will analyze ‘sale_price’, the variable with the highest
 correlation (~0.24) to ‘has_view_quality’.</li>
@@ -1541,8 +1556,8 @@ analysis.</p></li>
 </ul>
 <p><br></p>
 </div>
-<div id="presence-of-view-quality-and-house-square-footage" class="section level2">
-<h2>Presence of View Quality and House Square Footage</h2>
+<div id="e.-presence-of-view-quality-and-house-square-footage" class="section level2">
+<h2>E. Presence of View Quality and House Square Footage</h2>
 <ul>
 <li>Analyzing association between House square footage and presence of
 view quality description.</li>
@@ -1610,8 +1625,8 @@ outliers are less impactful.</p></li>
 </ul>
 <p><br></p>
 </div>
-<div id="presence-of-view-quality-and-presence-of-waterfront" class="section level2">
-<h2>Presence of View Quality and Presence of Waterfront</h2>
+<div id="f.-presence-of-view-quality-and-presence-of-waterfront" class="section level2">
+<h2>F. Presence of View Quality and Presence of Waterfront</h2>
 <ul>
 <li>Analyzing association between presence of view quality description
 and presence of a waterfront.</li>

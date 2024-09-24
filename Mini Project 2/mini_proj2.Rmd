@@ -73,7 +73,7 @@ kable(cor_price_df,
 
 <br>
 
-## Sale Price and House Square Footage
+## A. Sale Price and House Square Footage
 
 - First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
 
@@ -152,7 +152,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 <br>
 
-## Sale Price and Year Built
+## B. Sale Price and Year Built
 
 - Next, we will view the association between the time the house was built and Sale Price.
 
@@ -222,13 +222,11 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 
 
 
-
-
-## Sale Price and Number of Bedrooms
-
 <br>
 
-- Lastly, we will view the association between Number of Bedrooms and Sale Price. Let us find the summary statistics for Bedrooms in relation to Sale Price.
+## C. Sale Price and Number of Bedrooms
+
+- Lastly, we will view the association between Number of Bedrooms and Sale Price.
 
 ```{R, echo = FALSE}
 # Summary statistics for Bedrooms
@@ -297,6 +295,23 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 <br>
 
+## Can Sale Price be predicted?
+
+Based on the data from the graphs A - C, sale price can be predicted to a certain extent with our variables such as house square footage, the year built, and the number of bedrooms.
+
+    House Square Footage: There is a moderate correlation (Pearson correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally increases, though there are outliers, especially at higher square footage values that reduce this correlation slightly.
+
+    Year Built: The correlation between year built and sale price is weaker (Pearson correlation ~0.23), but certain years (like homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may influence price as well.
+
+    Number of Bedrooms: There is a weak correlation between the number of bedrooms and sale price (Pearson correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or very high numbers of bedrooms, which distort the trend.
+
+Thus, while sale price prediction is possible based on these factors, outliers and additional variables (e.g., location, historical significance, or amenities) likely play a significant role in the final sale price.
+
+
+
+
+<br>
+
 # Part 2: 
 
 Is missingness informative? Create a binary variable that indicates whether
@@ -332,7 +347,7 @@ kable(cor_view_df,
 
 <br>
 
-## Presence of View Quality and Sale Price
+## D. Presence of View Quality and Sale Price
 
 - First, we will analyze 'sale_price', the variable with the highest correlation (~0.24) to 'has_view_quality'.
 
@@ -394,7 +409,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 <br>
 
-## Presence of View Quality and House Square Footage
+## E. Presence of View Quality and House Square Footage
 
 - Analyzing association between House square footage and presence of view quality description.
 
@@ -457,7 +472,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 <br>
 
-## Presence of View Quality and Presence of Waterfront
+## F. Presence of View Quality and Presence of Waterfront
 
 - Analyzing association between presence of view quality description and presence of a waterfront.
 
