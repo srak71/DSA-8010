@@ -290,9 +290,9 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 ```
 
-- From our graph {C4}, we can conclude that number of bedrooms has a slight association with sale price based on its Pearson Correlation (R = 0.21). Due to the multimodal properties of graph {C2}, we can reasonably hypothesize that properties sold with 
+- The summary statistics {C1} indicate that as the number of bedrooms increases, the mean and median sale prices generally increase as well. The correlation between number of bedrooms and sale price, though significant (Pearson Correlation Coefficient = 0.21), is weak, implying that while the number of bedrooms has some effect on sale price, other factors (like location, property type) likely play a stronger role. Properties with 0 bedrooms have a relatively high mean sale price, 652,402, which could mean these are special types of properties, likely distorting our expected trend.
 
-
+- Our data point for the housing with 25 rooms is an outlier, due to its unexpectedly high jump in number of rooms and its single appearance in the data set. Additionally, outliers in sale price shown in graph {C3}, show some prices exceeding 6 million across various bedroom counts, especially in the 1-5 bedroom range. These rare and extreme values might skew the data. Additionally, excessive zeros and missing data could affect the analysis, as seen by the 0 bedroom category's unexpectedly high prices.
 
 
 <br>
@@ -387,9 +387,9 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 ```
 
-- From our graph {D2}, we can observe there is a slight correlation between presence of view quality and sale price, as on average, housing with view quality data sold for a value 1.55 times greater than homes with no view quality description. This is confirmed by our Pearson correlation coefficient, calculated to be 0.2391971.
+- The summary statistics {D1} show that the mean sale price for homes with a view is 696,077 compared to 447,655 for those without. The difference in median sale price is even more substantial, with homes having a view getting a median of 665,000 compared to 410,000 for those without. From our graph {D2}, on average housing with existing view quality data sold for a value 1.55 times greater than homes with no view quality description.  This suggests that a view is a premium feature that can increase the value of a property, and is confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
 
-- Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price for housing without view quality remains at a much lower value of 447,655. Thus, due to the size of the bin, the existence of these outliers does not skew out overall analysis.
+- Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above 6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price remains at a much lower value and does not skew out overall analysis.
 
 
 <br>
