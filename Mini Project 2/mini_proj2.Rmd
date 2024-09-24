@@ -25,11 +25,9 @@ housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
 ```
 
 
-```{R, echo=FALSE}
+```{R, include=FALSE}
 glimpse(housing)
 ```
-
-<br>
 
 Write a short report that describes associations between sale price and other variables.
 You should use methods learned in Weeks 0-2 of the course.
