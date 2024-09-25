@@ -193,6 +193,9 @@ ggplot(data = year_built_summary, aes(x=factor(decade_built), y=mean_sale_price)
   geom_text(aes(label = scales::dollar(mean_sale_price)), vjust=1.5, size=3.5, fontface="bold") +
   scale_y_continuous(labels = scales::dollar_format(), breaks = seq(0, max(year_built_summary$mean_sale_price), by = 100000))
 
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 # Plot distribution of decade built
 ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
@@ -201,10 +204,7 @@ ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
     x = "Decade Built",
     y = "Sale Price"
   ) +
-    scale_y_continuous(
-    labels = scales::dollar_format(),  # Format y-axis as dollar values
-    breaks = seq(0, max(sq_ft_summary$mean_sale_price, na.rm = TRUE), by = 1000000)  # Y-axis breaks at $1,000,000 intervals
-  ) 
+  scale_y_continuous(labels = scales::dollar_format())
 
 ```
 
@@ -240,3 +240,85 @@ kable(year_built_summary,
 - Outliers can also be identified from our graphs. From the distribution graph {B2}, we see that the decades 1990, 2000, and 2010 each have a single house sale price of over 6 million—much higher than the mean sale price for those decades. These individual house sales may be special cases, such as custom-built homes or houses located in high-value areas. Since the bins for the 1990s, 2000s, and 2010s contain a significant number of data points, these outliers do not significantly impact our overall analysis.
 
 - Additionally, outliers can be seen in graph {B1}, where the sale price for houses built in the 1880s is unusually high. However, table {B4} shows that this decade has only one data point, likely a special case influenced by factors such as location or historical value. As a result, this outlier can be disregarded.
+
+
+### Sale Price and Number of Bedrooms
+
+<br>
+
+- Lastly, we will view the association between Number of Bedrooms and Sale Price. Let us find the summary statistics for Bedrooms in relation to Sale Price.
+
+```{R, echo = FALSE}
+# Summary statistics for Bedrooms
+bedroom_summary <- housing %>%
+group_by(bedrooms) %>%
+summarize(
+  count = n(),
+  mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+  median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+  sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+  min_sale_price = min(sale_price, na.rm = TRUE),
+  max_sale_price = max(sale_price, na.rm = TRUE)
+)
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
+
+# Bar chart for mean sale price for bedrooms
+ggplot(data = bedroom_summary, aes(x = factor(bedrooms), y = mean_sale_price)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  labs(
+    title = "{C1} Mean Sale Price by Number of Rooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price"
+  ) +
+  geom_text(aes(label = scales::dollar(mean_sale_price)), vjust=1.5, size=3.5, fontface="bold") +
+  scale_y_continuous(labels = scales::dollar_format(), breaks = seq(0, max(bedroom_summary$mean_sale_price), by = 100000))
+
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
+
+# Plot distribution of bedrooms
+ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(
+    title = "{C2} Sale Price Distribution by Number of Rooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price"
+  ) +
+  scale_y_continuous(labels = scales::dollar_format())
+  
+```
+
+``` {R, echo=FALSE, message=FALSE}
+# scatter plot for number of bedrooms with regression line
+ggscatter(data = housing, x = "bedrooms", y = "sale_price",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson") +
+  labs(
+    title = "{C3} Sale Price Correlation with Number of Bedrooms",
+    x = "Number of Bedrooms",
+    y = "Sale Price"
+  ) +
+  geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
+  scale_y_continuous(labels = scales::dollar_format())
+
+```
+
+```{R, echo = FALSE}
+# Display the summary statistics in a table format for Bedrooms
+kable(bedroom_summary, 
+  col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "{C4} Summary Statistics for Sale Price by Number of Bedrooms",
+  align = "c")
+
+```
+
+- The summary statistics {C4} indicate that as the number of bedrooms increases, the mean and median sale prices generally rise. The correlation between the number of bedrooms and sale price, while statistically significant (Pearson Correlation Coefficient = 0.21), is weak. This suggests that while the number of bedrooms has some effect on sale price, other factors (such as location or property type) likely play a more influential role. Properties with 0 bedrooms have a relatively high mean sale price of $652,402, likely representing special types of properties that distort the expected trend.
+
+- The housing data point with 25 bedrooms is an outlier due to its unusually high number of rooms and its singular occurrence in the dataset. Additionally, outliers in sale price, as shown in graph {C2}, reveal some prices exceeding 6 million across various bedroom counts, particularly in the 1-5 bedroom range. These extreme values may skew the data. Moreover, the high prices in the 0-bedroom category suggest possible data issues, such as excessive zeros or missing values, which could affect the overall analysis.
+
+
+<br>
