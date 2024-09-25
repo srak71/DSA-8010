@@ -1,0 +1,162 @@
+---
+title: "Analysis of Pierce County House Sales"
+author: "Henry Shaw & Saransh Rakshak"
+date: "Due: September 24rd, 2024"
+output: html_document
+---
+
+```{R setup, include=FALSE}
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(summarytools)
+  library(readr)
+  library(gridExtra)
+  library(scales)
+  library(e1071)
+  library(ggpubr)
+  library(openintro)
+  
+  # Reading in data
+  data(pierce_county_house_sales, package = "openintro")
+  
+  housing <- pierce_county_house_sales
+  
+  housing$sale_date <- as.Date(housing$sale_date)
+  housing$decade_built <- housing$year_built - (housing$year_built %% 10)
+  housing$sq_ft_thousand <- round(housing$house_square_feet / 1000, digits = 1)
+  housing$has_view_quality <- ifelse(housing$view_quality == "", 0, 1)
+  housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
+```
+
+
+```{R, echo=FALSE}
+glimpse(housing)
+```
+
+<br>
+
+## Part 1: 
+
+Can sales price be predicted? Choose any three variables other than sale price.
+For each variable, explore its association with sale price using plots, tables, and summary statistics. 
+Include at least one plot or table for each variable. Report appropriate statistics for each variable. 
+Summarize your findings in 2-3 sentences for each variable.
+
+In your analysis, pay attention to outliers, missing
+values, and excessive zeros. In both questions, include in the text a short description of any
+of these features and describe the impact that they may have on your analysis.
+
+
+```{R, echo=FALSE, message=FALSE}
+  # Select columns for correlation analysis
+  vars <- housing %>% select(sale_price, house_square_feet, sq_ft_thousand, year_built, decade_built, bedrooms)
+  
+  # Calculate correlation matrix
+  cor_matrix <- cor(vars, use = "complete.obs")
+  
+  # Print correlation with sale_price
+  cor_price <- cor_matrix["sale_price", ]
+  
+  # Convert to data frame for kable
+  cor_price_df <- as.data.frame(t(cor_price))
+  colnames(cor_price_df) <- c("Sale Price", "House Square Feet", "Square Feet (in Thousands)", "Year Built", "Decade Built", "Bedrooms")  # Set proper column names
+  rownames(cor_price_df) <- "Correlation"
+  
+  # Display with kable
+  kable(cor_price_df, 
+        caption = "Correlation of Variables with Sale Price",
+        col.names = colnames(cor_price_df),
+        align = "c", 
+        format = "markdown")
+```
+- Above is a breakdown of five variables within the Pierce County House Sales dataset provided. For Part 1 of this assignment, we decided to choose House Square Feet, Year Built, and Bedrooms for our three fields to review.
+
+- Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the three fields selected have a positive correlation to sales price. House Square Feet has a strong correlation, Year Built is moderate, while Bedrooms is somewhat weaker.
+
+<br>
+
+### Sale Price and House Square Footage
+
+- First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
+# Summary statistics for square feet
+  sq_ft_summary <- housing %>%
+  group_by(sq_ft_thousand) %>%
+  summarize(
+    count = n(),
+    mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+    median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+    sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+    min_sale_price = min(sale_price, na.rm = TRUE),
+    max_sale_price = max(sale_price, na.rm = TRUE)
+  )
+
+# Bar chart for mean sale price for square feet
+ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  labs(
+    title = "{A1} Mean Sales Price by House Square Feet",
+    x = "Square Feet (in thousands)",
+    y = "Sale Price"
+  ) +
+  geom_text(aes(label=mean_sale_price), vjust= 0.1, size=2.5, angle = 90) +
+    scale_y_continuous(
+    labels = scales::dollar_format(),  # Format y-axis as dollar values
+    breaks = seq(0, max(sq_ft_summary$mean_sale_price, na.rm = TRUE), by = 1000000)  # Y-axis breaks at $1,000,000 intervals
+  ) +
+  scale_x_continuous(
+    breaks = seq(min(sq_ft_summary$sq_ft_thousand, na.rm = TRUE), max(sq_ft_summary$sq_ft_thousand, na.rm = TRUE), by = 0.5)  # X-axis breaks at 0.5 increments
+  )
+  
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
+# Plot distribution of house square feet
+ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(
+    title = "{A2} Sale Price Distribution by Square Footage",
+    x = "Square Feet (in thousands)",
+    y = "Sale Price"
+  ) +
+  scale_y_continuous(
+    labels = scales::dollar_format(),  # Format y-axis as dollar values
+    breaks = seq(0, max(sq_ft_summary$mean_sale_price, na.rm = TRUE), by = 1000000)  # Y-axis breaks at $1,000,000 intervals
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+```
+
+``` {R, echo=FALSE, message=FALSE}
+# Scatter plot with regression line for house square feet
+ggscatter(housing, x = "house_square_feet", y = "sale_price",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson") +
+  labs(
+    title = "{A3} Sale Price Correlation with House Square Feet",
+    x = "Square Feet",
+    y = "Sale Price"
+  ) +
+  geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
+  scale_y_continuous(labels = scales::dollar_format())
+
+```
+
+```{R, echo=FALSE}
+  # Display the summary statistics in a table format for House Square Feet
+  kable(sq_ft_summary, 
+    col.names = c("House Square Feet (in thousands)", "Count", "Mean Sale Price", "Median Sale Price", 
+                  "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+    caption = "{A4} Summary Statistics for Sale Price by House Square Feet",
+    align = "c")
+
+```
+
+- From our graph {A3}, we can see that sale price has a moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A2} that sale price does not have a large range of distribution for homes with 0.6 thousand to 4.1 thousand square feet. This is because there is a greater count of instances (house sales) within that range. As a result, we can conclude that house square feet does have a general association with sale price, with sale price growing as house square feet increases, as reflected in {A3}.
+
+- Outliers can be seen in the mean distribution in Graph {A1}, and their specific values can be found using Table {A4} at 6.0 thousand square feet. This outlier is based on a single point (i.e., a single house sale) whose mean sale price of $6,090,000 is far greater than those with slightly greater or smaller house square feet. The presence of this outlier reduces our Pearson correlation coefficient and thus weakens the association between house square feet and sale price.
+
+- Other high-value sales over $6 million, such as those in the 0.5, 1.4, and 4.2 thousand square foot categories, can also be considered outliers. However, unlike the outlier at 6.0 thousand square feet, these outliers have multiple other values in their bin, so they do not greatly affect our overall analysis between house square feet and sale price. The exact reasoning for these outliers cannot be deduced from the information at hand. However, we can speculate that these sales may have involved special circumstances, such as the house being located in a high-value area, being furnished with modern amenities, or some other factor that significantly increased their value.
+
+<br>
