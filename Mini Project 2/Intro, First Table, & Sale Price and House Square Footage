@@ -73,7 +73,7 @@ of these features and describe the impact that they may have on your analysis.
 
 ### A) Sale Price and House Square Footage
 
-- First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
+- First, we will analyze House Square Footage, the variable with the highest correlation (~0.53) to Sale Price
 
 ```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 # Summary statistics for square feet
@@ -173,7 +173,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 ### B) Sale Price and Year Built
 
-- Next, we will view the association between the time the house was built and Sale Price.
+- Next, we will view the association between the Year the house was Built and Sale Price.
 
 ```{R, echo=FALSE}
 # Summary statistics for Year Built
@@ -261,12 +261,11 @@ kable(year_built_summary,
 
 - Additionally, outliers can be seen in graph {B1}, where the sale price for houses built in the 1880s is unusually high. However, table {B4} shows that this decade has only one data point, likely a special case influenced by factors such as location or historical value. As a result, this outlier can be disregarded.
 
+<br>
 
 ### C) Sale Price and Number of Bedrooms
 
-<br>
-
-- Lastly, we will view the association between Number of Bedrooms and Sale Price. Let us find the summary statistics for Bedrooms in relation to Sale Price.
+- Lastly, we will view the association between Number of Bedrooms and Sale Price
 
 ```{R, echo = FALSE}
 # Summary statistics for Bedrooms
@@ -400,13 +399,15 @@ kable(cor_view_df,
       format = "markdown")
 ```
 
+- The table above presents a breakdown of three variables from the Pierce County House Sales dataset: Sale Price, House Square Feet, and Has Waterfront, in relation to the indicator for View Quality. 
 
+- In our analysis, we conducted a correlation assessment to evaluate the relationships between these variables and View Quality. This indicates that Sale Price and House Square Feet have moderate positive relationships with View Quality, while the Has Waterfront shows a weak negative correlation.
 
 <br>
 
 ### D) Presence of View Quality and Sale Price
 
-- First, we will analyze 'sale_price', the variable with the highest correlation (~0.24) to 'has_view_quality'.
+- First, we will analyze Sale Price, the variable with the highest correlation (~0.24) to View Quality
 
 ```{R, echo=FALSE}
 # Summary statistics for sale_price
@@ -471,7 +472,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 ### E) Presence of View Quality and House Square Footage
 
-- Analyzing association between House square footage and presence of view quality description.
+- Next is the analysis of association between House Square Footage and presence of View Quality description
 
 ```{R, echo=FALSE}
 # Summary statistics for house_square_feet
@@ -537,7 +538,7 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 ### F) Presence of View Quality and Presence of Waterfront
 
-- Analyzing association between presence of view quality description and presence of a waterfront.
+- Lastly, we will view the association between View Quality description and the Presence of a Waterfront
 
 ```{R, echo=FALSE}
 
