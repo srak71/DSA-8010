@@ -160,3 +160,83 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 - Other high-value sales over $6 million, such as those in the 0.5, 1.4, and 4.2 thousand square foot categories, can also be considered outliers. However, unlike the outlier at 6.0 thousand square feet, these outliers have multiple other values in their bin, so they do not greatly affect our overall analysis between house square feet and sale price. The exact reasoning for these outliers cannot be deduced from the information at hand. However, we can speculate that these sales may have involved special circumstances, such as the house being located in a high-value area, being furnished with modern amenities, or some other factor that significantly increased their value.
 
 <br>
+
+### Sale Price and Year Built
+
+- Next, we will view the association between the time the house was built and Sale Price.
+
+```{R, echo=FALSE}
+# Summary statistics for Year Built
+year_built_summary <- housing %>%
+group_by(decade_built) %>%
+summarize(
+  count = n(),
+  mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+  median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+  sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+  min_sale_price = min(sale_price, na.rm = TRUE),
+  max_sale_price = max(sale_price, na.rm = TRUE)
+)
+
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
+
+# Bar chart for mean sale price for decade built
+ggplot(data = year_built_summary, aes(x=factor(decade_built), y=mean_sale_price)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  labs(
+    title = "{B1} Mean Sales Price by Decade Built",
+    x = "Decade Built",
+    y = "Sale Price"
+  ) +
+  geom_text(aes(label = scales::dollar(mean_sale_price)), vjust=1.5, size=3.5, fontface="bold") +
+  scale_y_continuous(labels = scales::dollar_format(), breaks = seq(0, max(year_built_summary$mean_sale_price), by = 100000))
+
+# Plot distribution of decade built
+ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
+  geom_boxplot(fill = "green", color = "black") +
+  labs(
+    title = "{B2} Sale Price Distribution by Decade Built", 
+    x = "Decade Built",
+    y = "Sale Price"
+  ) +
+    scale_y_continuous(
+    labels = scales::dollar_format(),  # Format y-axis as dollar values
+    breaks = seq(0, max(sq_ft_summary$mean_sale_price, na.rm = TRUE), by = 1000000)  # Y-axis breaks at $1,000,000 intervals
+  ) 
+
+```
+
+``` {R, echo=FALSE, message=FALSE}
+
+# Scatter plot with regression line for year built
+ggscatter(housing, x = "year_built", y = "sale_price",
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson") +
+  labs(
+    title = "{B3} Sale Price Correlation with Year Built",
+    x = "Year Built",
+    y = "Sale Price"
+  ) +
+  geom_smooth(method=lm,se=FALSE,fullrange=TRUE) +
+  scale_y_continuous(labels = scales::dollar_format())
+
+```
+
+```{R, echo=FALSE}
+# Display the summary statistics in a table format for Decade built
+kable(year_built_summary, 
+  col.names = c("Decade Built", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "{B4} Summary Statistics for Sale Price by Decade Built",
+  align = "c")
+ 
+``` 
+
+
+- From our graph in {B3}, we can conclude that the year built has a slight association with sale price based on its Pearson Correlation (R = 0.23). We can also observe that houses built in the 1880s and 1930s have a comparably higher mean sale price than other houses built between 1880 and 1980. Thus, we can infer that there is something unique about houses built in the 1880s and 1930s that has allowed them to retain a higher value in today's market.
+
+- Outliers can also be identified from our graphs. From the distribution graph {B2}, we see that the decades 1990, 2000, and 2010 each have a single house sale price of over 6 million—much higher than the mean sale price for those decades. These individual house sales may be special cases, such as custom-built homes or houses located in high-value areas. Since the bins for the 1990s, 2000s, and 2010s contain a significant number of data points, these outliers do not significantly impact our overall analysis.
+
+- Additionally, outliers can be seen in graph {B1}, where the sale price for houses built in the 1880s is unusually high. However, table {B4} shows that this decade has only one data point, likely a special case influenced by factors such as location or historical value. As a result, this outlier can be disregarded.
