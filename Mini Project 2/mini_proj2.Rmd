@@ -6,37 +6,37 @@ output: html_document
 ---
 
 ```{R setup, include=FALSE}
-library(dplyr)
-library(openintro)
-library(ggplot2)
-library(ggpubr)
-library(knitr)
-library(scales)
-
-# Reading in data
-data(pierce_county_house_sales, package = "openintro")
-housing <- pierce_county_house_sales
-
-housing$sale_date <- as.Date(housing$sale_date)
-housing$decade_built <- housing$year_built - (housing$year_built %% 10)
-housing$sq_ft_thousand <- round(housing$house_square_feet / 1000, digits = 1)
-housing$has_view_quality <- ifelse(housing$view_quality == "", 0, 1)
-housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(summarytools)
+  library(readr)
+  library(gridExtra)
+  library(scales)
+  library(e1071)
+  library(ggpubr)
+  library(openintro)
+  
+  # Reading in data
+  data(pierce_county_house_sales, package = "openintro")
+  
+  housing <- pierce_county_house_sales
+  
+  housing$sale_date <- as.Date(housing$sale_date)
+  housing$decade_built <- housing$year_built - (housing$year_built %% 10)
+  housing$sq_ft_thousand <- round(housing$house_square_feet / 1000, digits = 1)
+  housing$has_view_quality <- ifelse(housing$view_quality == "", 0, 1)
+  housing$has_waterfront <- ifelse(housing$waterfront_type == "", 0, 1)
 ```
 
+<br>
 
-```{R, include=FALSE}
-glimpse(housing)
-```
-
-
-# Part 1: 
+## Part 1: 
 
 Can sales price be predicted? Choose any three variables other than sale price.
 For each variable, explore its association with sale price using plots, tables, and summary statistics. 
 Include at least one plot or table for each variable. Report appropriate statistics for each variable. 
-Summarize your findings in 2-3 sentences for each variable. Write a short report that describes associations between sale price and other variables.
-You should use methods learned in Weeks 0-2 of the course.
+Summarize your findings in 2-3 sentences for each variable.
 
 In your analysis, pay attention to outliers, missing
 values, and excessive zeros. In both questions, include in the text a short description of any
@@ -44,70 +44,73 @@ of these features and describe the impact that they may have on your analysis.
 
 
 ```{R, echo=FALSE, message=FALSE}
-# Select columns for correlation analysis
-vars <- housing %>% select(sale_price, house_square_feet, sq_ft_thousand, year_built, decade_built, bedrooms)
-
-# Calculate correlation matrix
-cor_matrix <- cor(vars, use = "complete.obs")
-
-# Print correlation with sale_price
-cor_price <- cor_matrix["sale_price", ]
-
-# Convert to data frame for kable
-cor_price_df <- as.data.frame(t(cor_price))
-colnames(cor_price_df) <- colnames(cor_matrix)  # Set column names
-rownames(cor_price_df) <- "Correlation"
-
-# Display with kable
-kable(cor_price_df, 
-      caption = "Correlation of Variables with Sale Price",
-      col.names = colnames(cor_price_df),
-      align = "c", 
-      format = "markdown")
+  # Select columns for correlation analysis
+  vars <- housing %>% select(sale_price, house_square_feet, sq_ft_thousand, year_built, decade_built, bedrooms)
+  
+  # Calculate correlation matrix
+  cor_matrix <- cor(vars, use = "complete.obs")
+  
+  # Print correlation with sale_price
+  cor_price <- cor_matrix["sale_price", ]
+  
+  # Convert to data frame for kable
+  cor_price_df <- as.data.frame(t(cor_price))
+  colnames(cor_price_df) <- c("Sale Price", "House Square Feet", "Square Feet (in Thousands)", "Year Built", "Decade Built", "Bedrooms")  # Set proper column names
+  rownames(cor_price_df) <- "Correlation"
+  
+  # Display with kable
+  kable(cor_price_df, 
+        caption = "Correlation of Variables with Sale Price",
+        col.names = colnames(cor_price_df),
+        align = "c", 
+        format = "markdown")
 ```
+- Above is a breakdown of five variables within the Pierce County House Sales dataset provided. For Part 1 of this assignment, we decided to choose House Square Feet, Year Built, and Bedrooms for our three fields to review.
 
-
+- Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the three fields selected have a positive correlation to sales price. House Square Feet has a strong correlation, Year Built is moderate, while Bedrooms is somewhat weaker.
 
 <br>
 
-## A. Sale Price and House Square Footage
+### A) Sale Price and House Square Footage
 
+- First, we will analyze House square footage, the variable with the highest correlation (~0.53) to 'sale_price'.
 
-```{R, echo=FALSE}
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 # Summary statistics for square feet
-sq_ft_summary <- housing %>%
-group_by(sq_ft_thousand) %>%
-summarize(
-  count = n(),
-  mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
-  median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
-  sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
-  min_sale_price = min(sale_price, na.rm = TRUE),
-  max_sale_price = max(sale_price, na.rm = TRUE)
-)
+  sq_ft_summary <- housing %>%
+  group_by(sq_ft_thousand) %>%
+  summarize(
+    count = n(),
+    mean_sale_price = as.integer(mean(sale_price, na.rm = TRUE)),
+    median_sale_price = as.integer(median(sale_price, na.rm = TRUE)),
+    sd_sale_price = as.integer(sd(sale_price, na.rm = TRUE)),
+    min_sale_price = min(sale_price, na.rm = TRUE),
+    max_sale_price = max(sale_price, na.rm = TRUE)
+  )
 
-# Display the summary statistics in a table format for House Square Feet
-kable(sq_ft_summary, 
-  col.names = c("House Square Feet (in thousands)", "Count", "Mean Sale Price", "Median Sale Price", 
-                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "{A1} Summary Statistics for Sale Price by House Square Feet",
-  align = "c")
-
-
-```
-
-
-```{R, echo=FALSE, message=FALSE}
 # Bar chart for mean sale price for square feet
 ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
   labs(
-    title = "{A2} Mean Sales Price by House Square Feet",
+    title = "{A1} Mean Sales Price by House Square Feet",
     x = "Square Feet (in thousands)",
     y = "Sale Price"
   ) +
-  geom_text(aes(label=mean_sale_price), vjust=0.1, size=1.5, angle = 90) +
-  scale_y_continuous(labels = scales::dollar_format())
+  geom_text(aes(label = scales::dollar(mean_sale_price)), hjust = -0.1, size = 2.5, angle = 90, fontface = "bold") +
+  scale_y_continuous(
+    labels = scales::dollar_format(),  # Format y-axis as dollar values
+    limits = c(0, 7000000),            # Set y-axis limits to 0 and 7,000,000
+    breaks = seq(0, 7000000, by = 1000000)  # Y-axis breaks at $1,000,000 intervals
+  ) +
+  scale_x_continuous(
+    breaks = seq(min(sq_ft_summary$sq_ft_thousand, na.rm = TRUE), max(sq_ft_summary$sq_ft_thousand, na.rm = TRUE), by = 0.5)  # X-axis breaks at 0.5 increments
+  ) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
   
 ```
 
@@ -116,12 +119,21 @@ ggplot(data = sq_ft_summary, aes(x=sq_ft_thousand, y=mean_sale_price)) +
 ggplot(housing, aes(x = factor(sq_ft_thousand), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
   labs(
-    title = "{A3} Sale Price Distribution by Square Footage",
+    title = "{A2} Sale Price Distribution by Square Footage",
     x = "Square Feet (in thousands)",
     y = "Sale Price"
   ) +
-  scale_y_continuous(labels = scales::dollar_format()) +
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+  scale_y_continuous(
+    labels = scales::dollar_format(),  # Format y-axis as dollar values
+    breaks = seq(0, max(sq_ft_summary$mean_sale_price, na.rm = TRUE), by = 1000000)  # Y-axis breaks at $1,000,000 intervals
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
 ```
 
 ``` {R, echo=FALSE, message=FALSE}
@@ -130,7 +142,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
   labs(
-    title = "{A4} Sale Price Correlation with House Square Feet",
+    title = "{A3} Sale Price Correlation with House Square Feet",
     x = "Square Feet",
     y = "Sale Price"
   ) +
@@ -139,17 +151,29 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 ```
 
-- From our graph {A4}, we can see that sale price has moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A3} that sale price does not have a large range of distribution for 0.6 thousand square feet to 4.1 thousand square feet. This is because there are a greater count of instances (house sales) between that range. As a result, we can conclude that house square feet does have a  general association to sale price, with sale price growing as house square feet increases as reflected in {A4}. 
+```{R, echo=FALSE}
+  # Display the summary statistics in a table format for House Square Feet
+  kable(sq_ft_summary, 
+    col.names = c("House Square Feet (in thousands)", "Count", "Mean Sale Price", "Median Sale Price", 
+                  "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+    caption = "{A4} Summary Statistics for Sale Price by House Square Feet",
+    align = "c")
 
-- Outliers can be seen in the mean distribution in Graph {A2} and it's specific value can be found using Table {A1} at 6.0 thousand square feet. This outlier is based on a single point (i.e. a single house sale), whose mean sale price of \$6,090,000 is far greater than those with slightly greater or less house square feet. The presence of this outlier reduces our Pearson Correlation Coefficient and thus reduces association between house square feet and sale price. Other high values sales over \$6 million, such as those in 0.5, 1.4, and 4.2 thousand sqft can also be considered outliers, however unlike our outlier at 6.0 thousand sqft, these outliers have multiple other values in their bin, thus they does not as greatly affect our overall analysis between house square feet and sale price. 
+```
+
+- From our graph {A3}, we can see that sale price has a moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A2} that sale price does not have a large range of distribution for homes with 0.6 thousand to 4.1 thousand square feet. This is because there is a greater count of instances (house sales) within that range. As a result, we can conclude that house square feet does have a general association with sale price, with sale price growing as house square feet increases, as reflected in {A3}.
+
+- Outliers can be seen in the mean distribution in Graph {A1}, and their specific values can be found using Table {A4} at 6.0 thousand square feet. This outlier is based on a single point (i.e., a single house sale) whose mean sale price of $6,090,000 is far greater than those with slightly greater or smaller house square feet. The presence of this outlier reduces our Pearson Correlation Coefficient and thus weakens the association between house square feet and sale price.
+
+- Other high-value sales over $6 million, such as those in the 0.5, 1.4, and 4.2 thousand square foot categories, can also be considered outliers. However, unlike the outlier at 6.0 thousand square feet, these outliers have multiple other values in their bin, so they do not greatly affect our overall analysis between house square feet and sale price. The exact reasoning for these outliers cannot be deduced from the information at hand. However, we can speculate that these sales may have involved special circumstances, such as the house being located in a high-value area, being furnished with modern amenities, or some other factor that significantly increased their value.
 
 - The exact reasoning for any of these outliers cannot be deducted from the information at hand, however, we can predict these sales were special situations where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases their value far greater than expected.
 
-
 <br>
 
-## B. Sale Price and Year Built
+### B) Sale Price and Year Built
 
+- Next, we will view the association between the time the house was built and Sale Price.
 
 ```{R, echo=FALSE}
 # Summary statistics for Year Built
@@ -164,45 +188,54 @@ summarize(
   max_sale_price = max(sale_price, na.rm = TRUE)
 )
 
-# Display the summary statistics in a table format for Decade built
-kable(year_built_summary, 
-  col.names = c("Decade Built", "Count", "Mean Sale Price", "Median Sale Price", 
-                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "{B1} Summary Statistics for Sale Price by Decade Built",
-  align = "c")
-
-
 ```
 
-```{R, echo=FALSE, message=FALSE}
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 
 # Bar chart for mean sale price for decade built
 ggplot(data = year_built_summary, aes(x=factor(decade_built), y=mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
   labs(
-    title = "{B2} Mean Sales Price by Decade Built",
+    title = "{B1} Mean Sales Price by Decade Built",
     x = "Decade Built",
     y = "Sale Price"
   ) +
-  geom_text(aes(label=mean_sale_price), vjust=0.1, size=2.5, angle = 90) +
-  scale_y_continuous(labels = scales::dollar_format())
+  geom_text(aes(label = scales::dollar(mean_sale_price)), vjust=1.5, size=3.5, fontface="bold") +
+  scale_y_continuous(labels = scales::dollar_format(), breaks = seq(0, max(year_built_summary$mean_sale_price), by = 100000)) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
+```
 
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 # Plot distribution of decade built
 ggplot(housing, aes(x = factor(decade_built), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
   labs(
-    title = "{B3} Sale Price Distribution by Decade Built", 
+    title = "{B2} Sale Price Distribution by Decade Built", 
     x = "Decade Built",
     y = "Sale Price"
   ) +
-  scale_y_continuous(labels = scales::dollar_format())
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
+```
+
+``` {R, echo=FALSE, message=FALSE}
 
 # Scatter plot with regression line for year built
 ggscatter(housing, x = "year_built", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
   labs(
-    title = "{B4} Sale Price Correlation with Year Built",
+    title = "{B3} Sale Price Correlation with Year Built",
     x = "Year Built",
     y = "Sale Price"
   ) +
@@ -211,16 +244,29 @@ ggscatter(housing, x = "year_built", y = "sale_price",
 
 ```
 
-- From our graph in {B4} we can conclude that year built has a slight association with sale price based on its Pearson Correlation (R = 0.23). We can also observe that houses built in the 1880s and 1930s have a comparably higher mean sale price than other houses built in between 1880 and 1980. Thus we can conclude that there was something special about houses built in the 1880s and 1930s which made them retain a higher value in today's market.
+```{R, echo=FALSE}
+# Display the summary statistics in a table format for Decade built
+kable(year_built_summary, 
+  col.names = c("Decade Built", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "{B4} Summary Statistics for Sale Price by Decade Built",
+  align = "c")
+ 
+``` 
 
-- Outliers can also be deducted from our graphs. From our distribution graph {B3}, we can see that the decades 1990, 2000, and 2010 all have a single house sale price of over \$6 million - much greater than the decade's sale price mean. These individual house sales can be regarded as special cases, such as custom built houses or houses located in a higher value location. Since our bins of decades 1990s, 2000s, and 2010s have a significant count of data values, these outliers do not as greatly impact our analysis.
 
+- From our graph in {B3}, we can conclude that the year built has a slight association with sale price based on its Pearson Correlation (R = 0.23). We can also observe that houses built in the 1880s and 1930s have a comparably higher mean sale price than other houses built between 1880 and 1980. Thus, we can infer that there is something unique about houses built in the 1880s and 1930s that has allowed them to retain a higher value in today's market.
 
+- Outliers can also be identified from our graphs. From the distribution graph {B2}, we see that the decades 1990, 2000, and 2010 each have a single house sale price of over 6 million—much higher than the mean sale price for those decades. These individual house sales may be special cases, such as custom-built homes or houses located in high-value areas. Since the bins for the 1990s, 2000s, and 2010s contain a significant number of data points, these outliers do not significantly impact our overall analysis.
+
+- Additionally, outliers can be seen in graph {B1}, where the sale price for houses built in the 1880s is unusually high. However, table {B4} shows that this decade has only one data point, likely a special case influenced by factors such as location or historical value. As a result, this outlier can be disregarded.
 
 <br>
 
-## C. Sale Price and Number of Bedrooms
+### C) Sale Price and Number of Bedrooms
 
+
+- Lastly, we will view the association between Number of Bedrooms and Sale Price. Let us find the summary statistics for Bedrooms in relation to Sale Price.
 
 ```{R, echo = FALSE}
 # Summary statistics for Bedrooms
@@ -234,46 +280,55 @@ summarize(
   min_sale_price = min(sale_price, na.rm = TRUE),
   max_sale_price = max(sale_price, na.rm = TRUE)
 )
-
-# Display the summary statistics in a table format for Bedrooms
-kable(bedroom_summary, 
-  col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
-                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-  caption = "{C1} Summary Statistics for Sale Price by Number of Bedrooms",
-  align = "c")
-
 ```
 
-
-```{R, echo=FALSE, message=FALSE}
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 
 # Bar chart for mean sale price for bedrooms
 ggplot(data = bedroom_summary, aes(x = factor(bedrooms), y = mean_sale_price)) +
   geom_bar(stat = "identity", fill="steelblue") +
   labs(
-    title = "{C2} Mean Sale Price by Number of Rooms",
+    title = "{C1} Mean Sale Price by Number of Rooms",
     x = "Number of Bedrooms",
     y = "Sale Price"
   ) +
-  geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
-  scale_y_continuous(labels = scales::dollar_format())
+  geom_text(aes(label = scales::dollar(mean_sale_price)), vjust=1.5, size=3.5, fontface="bold") +
+  scale_y_continuous(labels = scales::dollar_format(), breaks = seq(0, max(bedroom_summary$mean_sale_price), by = 100000)) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
+
+```
+
+```{R fig.align="center",fig.width = 14, echo=FALSE, message=FALSE}
 
 # Plot distribution of bedrooms
 ggplot(housing, aes(x = factor(bedrooms), y = sale_price)) +
   geom_boxplot(fill = "green", color = "black") +
   labs(
-    title = "{C3} Sale Price Distribution by Number of Rooms",
+    title = "{C2} Sale Price Distribution by Number of Rooms",
     x = "Number of Bedrooms",
     y = "Sale Price"
   ) +
-  scale_y_continuous(labels = scales::dollar_format())
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme(
+    axis.title.x = element_text(size = 13),  # Increase x-axis title font size
+    axis.title.y = element_text(size = 13),  # Increase y-axis title font size
+    axis.text.x = element_text(size = 11),    # Increase x-axis text font size
+    axis.text.y = element_text(size = 11)     # Increase y-axis text font size
+  )
+```
 
+``` {R, echo=FALSE, message=FALSE}
 # scatter plot for number of bedrooms with regression line
 ggscatter(data = housing, x = "bedrooms", y = "sale_price",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson") +
   labs(
-    title = "{C4} Sale Price Correlation with Number of Bedrooms",
+    title = "{C3} Sale Price Correlation with Number of Bedrooms",
     x = "Number of Bedrooms",
     y = "Sale Price"
   ) +
@@ -282,31 +337,39 @@ ggscatter(data = housing, x = "bedrooms", y = "sale_price",
 
 ```
 
-- The summary statistics {C1} indicate that as the number of bedrooms increases, the mean and median sale prices generally increase as well. The correlation between number of bedrooms and sale price, though significant (Pearson Correlation Coefficient = 0.21), is weak, implying that while the number of bedrooms has some effect on sale price, other factors (like location, property type) likely play a stronger role. Properties with 0 bedrooms have a relatively high mean sale price (\$652,402), which could mean these are special types of properties, likely distorting our expected trend.
+```{R, echo = FALSE}
+# Display the summary statistics in a table format for Bedrooms
+kable(bedroom_summary, 
+  col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
+                "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
+  caption = "{C4} Summary Statistics for Sale Price by Number of Bedrooms",
+  align = "c")
 
-- Our data point for the housing with 25 rooms is an outlier, due to its unexpectedly high jump in number of rooms and its single appearance in the data set. Additionally, outliers in sale price shown in graph {C3}, show some prices exceeding \$6 million across various bedroom counts, especially in the 1-5 bedroom range. These rare and extreme values might skew the data. Additionally, possible excessive zeros or missing data could affect the analysis, as seen by the 0 bedroom category's unexpectedly high prices.
+```
 
+- The summary statistics {C4} indicate that as the number of bedrooms increases, the mean and median sale prices generally rise. The correlation between the number of bedrooms and sale price, while statistically significant (Pearson Correlation Coefficient = 0.21), is weak. This suggests that while the number of bedrooms has some effect on sale price, other factors (such as location or property type) likely play a more influential role. Properties with 0 bedrooms have a relatively high mean sale price of $652,402, likely representing special types of properties that distort the expected trend.
 
-<br>
-
-## Can Sale Price be predicted?
-
-Based on the data from the graphs A - C, sale price can be predicted to a certain extent with variables such as house square footage, the year built, and the number of bedrooms.
-
-    House Square Footage: There is a moderate correlation (Pearson Correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally increases, though there are outliers, especially at higher square footage values that reduce this correlation slightly.
-
-    Year Built: The correlation between year built and sale price is weaker (Pearson Correlation ~0.23), but certain years (like homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may influence price as well.
-
-    Number of Bedrooms: There is a weak correlation between the number of bedrooms and sale price (Pearson Correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or very high numbers of bedrooms, which distort the trend.
-
-Thus, while sale price prediction is possible based on these factors, outliers and additional variables (e.g., location, historical significance, or amenities) likely play a significant role in the final sale price.
-
-
+- The housing data point with 25 bedrooms is an outlier due to its unusually high number of rooms and its singular occurrence in the dataset. Additionally, outliers in sale price, as shown in graph {C2}, reveal some prices exceeding 6 million across various bedroom counts, particularly in the 1-5 bedroom range. These extreme values may skew the data. Moreover, the high prices in the 0-bedroom category suggest possible data issues, such as excessive zeros or missing values, which could affect the overall analysis.
 
 
 <br>
 
-# Part 2: 
+### Can Sale Price be predicted?
+
+Based on the data from graphs A - C, sale price can be predicted to a certain extent using variables such as house square footage, year built, and number of bedrooms.
+
+    House Square Footage: There is a moderate correlation (Pearson correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally rises, although there are outliers, particularly at higher square footage values—that slightly reduce this correlation.
+
+    Year Built: The correlation between year built and sale price is weaker (Pearson correlation ~0.23). However, certain years (such as homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may also influence prices.
+
+    Number of Bedrooms: There is a weak correlation between the number of bedrooms and sale price (Pearson correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or a very high number of bedrooms, which distort the trend.
+
+Thus, while it is possible to predict sale price based on these factors, outliers and additional variables (e.g., location, historical significance, or amenities) likely play a significant role in the final sale price.
+
+
+<br>
+
+## Part 2: 
 
 Is missingness informative? Create a binary variable that indicates whether
 the view quality is missing. Missing values in this data file are represented as an empty
@@ -326,7 +389,7 @@ cor_view <- cor_matrix["has_view_quality", ]
 
 # Convert to data frame for kable
 cor_view_df <- as.data.frame(t(cor_view))
-colnames(cor_view_df) <- colnames(cor_matrix)  # Set column names
+colnames(cor_view_df) <- c("Has View Quality", "Sale Price", "House Square Feet", "Has Waterfront")  # Set proper column names
 rownames(cor_view_df) <- "Correlation"
 
 # Display with kable
@@ -341,8 +404,9 @@ kable(cor_view_df,
 
 <br>
 
-## D. Presence of View Quality and Sale Price
+### D) Presence of View Quality and Sale Price
 
+- First, we will analyze 'sale_price', the variable with the highest correlation (~0.24) to 'has_view_quality'.
 
 ```{R, echo=FALSE}
 # Summary statistics for sale_price
@@ -377,10 +441,13 @@ ggplot(data = price_view_summary, aes(x=factor(has_view_quality), y=mean_sale_pr
     x = "Has View Quality",
     y = "Sale Price"
   ) +
-  geom_text(aes(label=mean_sale_price), vjust=1, size=3.5) +
-  scale_y_continuous(labels = scales::dollar_format()) +
+    geom_text(aes(label = dollar(mean_sale_price)), vjust = 1.5, size = 4, fontface = "bold") +
+  scale_y_continuous(
+    labels = dollar_format(),
+    breaks = seq(0, 700000, by = 100000),  # Set breaks up to 700,000
+    limits = c(0, 700000)  # Set limits for the y-axis
+  ) +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes"))
-
 
 # Plot distribution of sale_price
 ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
@@ -395,15 +462,16 @@ ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
 
 ```
 
-- The summary statistics {D1} show that the mean sale price for homes with a view_quality is \$696,077, 1.55 greater than the mean sale price of \$447,655 for those without. The difference in median sale price is even more substantial, with homes having a view_quality getting a median of \$665,000 compared to \$410,000 for those without. This suggests that a view_quality description is a premium feature that can increase the value of a property, and is confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
+- The summary statistics {D1} show that the mean sale price for homes with a view quality is $696,077, which is 1.55 times greater than the mean sale price of $447,655 for those without. The difference in median sale price is even more substantial, with homes having a view quality achieving a median of $665,000 compared to $410,000 for those without. This suggests that a view quality description is a premium feature that can increase the value of a property, as confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
 
-- Outliers can be seen in graph {D3} for those without view quality, as some sale prices were above \$6 million. However due to the existence of 8960 other housing sales without view quality, the mean sale price remains at a much lower value and does not skew out overall analysis.
+- Outliers can be seen in graph {D3} for homes without view quality, as some sale prices exceeded $6 million. However, due to the existence of 8,960 other housing sales without view quality, the mean sale price remains at a much lower value and does not skew our overall analysis.
 
 
 <br>
 
-## E. Presence of View Quality and House Square Footage
+### E) Presence of View Quality and House Square Footage
 
+- Analyzing association between House square footage and presence of view quality description.
 
 ```{R, echo=FALSE}
 # Summary statistics for house_square_feet
@@ -439,8 +507,11 @@ ggplot(data = sqft_view_summary, aes(x=factor(has_view_quality), y=mean_sqft)) +
     x = "Has View Quality",
     y = "House Square Feet (sqft)"
   ) +
-  geom_text(aes(label=mean_sqft), vjust=1, size=3.5) +
-  scale_y_continuous(labels = scales::comma) +
+  geom_text(aes(label = comma(mean_sqft)), vjust = 1.5, size = 4, fontface = "bold") +
+  scale_y_continuous(
+    labels = scales::comma,
+    limits = c(0, 2500)  # Set limits for the y-axis
+  ) +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes"))
 
 
@@ -457,15 +528,16 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 ```
 
-- From our graph {E2}, we can observe there is a very slight correlation between presence of view quality and square footage, with housing containing view quality data being approximately 1.24 times larger than homes with no view quality description. This is reflected in our Pearson Correlation Coefficient, calculated to be 0.1353988.
+- From our graph {E2}, we can observe a very slight correlation between the presence of view quality and square footage, with homes containing view quality data being approximately 1.24 times larger than those without a view quality description. This is reflected in our Pearson Correlation Coefficient, calculated to be 0.1353988.
 
-- Outliers can be detected. In housing with no view quality data, while the mean square footage is 1855 sqft, we can see that the bin also contains housing as large as 9510 sqft {E1}. Similarly, outliers can also be found in the bin for housing containing view quality data, which has a mean size of 2308 sqft, but contains values as low as 1 sqft {E1}. Both of these outliers affect our analysis as they lower our Pearson Correlation Coefficient, however due to the size of both bins, these outliers are less impactful. 
+- Outliers can be detected in the data. For homes without view quality data, the mean square footage is 1,855 sqft; however, this group also contains properties as large as 9,510 sqft {E1}. Similarly, outliers are present in the group of homes with view quality data, which has a mean size of 2,308 sqft but includes values as low as 1 sqft {E1}. Both of these outliers affect our analysis by lowering the Pearson Correlation Coefficient; however, due to the size of both groups, these outliers are less impactful.
 
 
 <br>
 
-## F. Presence of View Quality and Presence of Waterfront
+### F) Presence of View Quality and Presence of Waterfront
 
+- Analyzing association between presence of view quality description and presence of a waterfront.
 
 ```{R, echo=FALSE}
 
@@ -495,20 +567,20 @@ ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size 
 
 ```
 
-- The association between the presence of view quality and waterfront is minimal. From table {F1}, we see that the vast majority of homes without a waterfront also lack a view quality designation (15,349 homes). Only a small number of properties have both waterfront and view quality (7 homes). This suggests that while there is some overlap, view quality and waterfront presence are largely independent features. This is confirmed by our Pearson Correlation Coefficient of -0.0340727.
+- The association between the presence of view quality and waterfront is minimal. From table {F1}, we see that the vast majority of homes without waterfront access also lack a view quality designation (15,349 homes). Only a small number of properties have both waterfront and view quality (7 homes). This suggests that while there is some overlap, view quality and waterfront presence are largely independent features. This is further confirmed by our Pearson Correlation Coefficient of -0.0340727.
 
 
 <br>
 
-## Is missingness informative?
+### Is missingness informative?
 
 Missingness in "view_quality" proves to be informative based on data from tables and graphs D - F.
 
-    Sale Price: Homes with recorded "view_quality" tend to have higher sale prices, with a mean of $696,077 compared to $447,655 for homes where view quality is missing. This suggests that missing "view_quality" is associated with lower-value properties. Therefore, missingness in this feature could indicate homes without premium attributes such as a scenic view.
+    Sale Price: Homes with recorded "view_quality" tend to have higher sale prices, with a mean of $696,077 compared to $447,655 for homes where view quality is missing. This suggests that missing "view_quality" is associated with lower-value properties. Therefore, missingness in this feature could indicate homes without premium attributes, such as a scenic view.
 
     Square Footage: Properties with "view_quality" data also have a higher average square footage (2,308 sq ft compared to 1,855 sq ft). This further emphasizes that missing view quality data may correspond to smaller, less expensive homes.
 
-    Waterfront: The association between having "view_quality" and being on the waterfront is minimal, with only seven homes showing both features. Most homes either lack both or have only one feature, indicating that these characteristics do not strongly co-occur.
+    Waterfront: The association between having "view_quality" and being on the waterfront is minimal, with only seven homes showing both features. Most homes either lack both features or have only one, indicating that these characteristics do not strongly co-occur.
 
 Thus, the missingness of "view_quality" data provides valuable information, potentially signaling homes with fewer premium features.
 
