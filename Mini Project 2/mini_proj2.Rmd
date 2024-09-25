@@ -501,3 +501,20 @@ ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size 
 
 ```
 
+- The association between the presence of view quality and waterfront is minimal. From table {F1}, we see that the vast majority of homes without a waterfront also lack a view quality designation (15,349 homes). Only a small number of properties have both waterfront and view quality (7 homes). This suggests that while there is some overlap, view quality and waterfront presence are largely independent features. This is confirmed by our Pearson Correlation Coefficient of -0.0340727.
+
+
+<br>
+
+## Is missingness informative?
+
+Missingness in "view_quality" is informative based on data from tables and graphs D - F.
+
+    Sale Price and View Quality: Homes with recorded "view_quality" tend to have higher sale prices, with a mean of $696,077 compared to $447,655 for homes where view quality is missing. This suggests that missing "view_quality" is associated with lower-value properties. Therefore, missingness in this feature could indicate homes without premium attributes such as a scenic view.
+
+    Square Footage: Properties with "view_quality" data also have a higher average square footage (2,308 sq ft compared to 1,855 sq ft). This further emphasizes that missing view quality data may correspond to smaller, less expensive homes.
+
+    Waterfront: The association between having "view_quality" and being on the waterfront is minimal, with only seven homes showing both features. Most homes either lack both or have only one feature, indicating that these characteristics do not strongly co-occur.
+
+Thus, the missingness of "view_quality" data provides valuable information, potentially signaling homes with fewer premium features.
+
