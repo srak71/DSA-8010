@@ -1,0 +1,229 @@
+---
+title: "Week 4 lab"
+author: "Suggested solution"
+date: "submission date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Exercises
+
+
+## Exercise 1: Poisson calculations 
+
+Suppose the random variable $Y$ has a Poisson distribution.  Compute the following probabilities
+
+a. $P(Y=4)$ given $\lambda=2$.
+
+**Answer:**
+```{r}
+lambda.value <- 2
+dpois(4,lambda.value)
+```
+
+b. $P(Y=4)$ given $\lambda=3.5$.
+
+**Answer:**
+```{r}
+lambda.value <- 3.5
+dpois(4,lambda.value)
+```
+
+c. $P(Y>4)$ given $\lambda=2$.
+
+**Answer:**
+```{r}
+lambda.value <-2
+ppois(4,lambda.value, lower.tail=FALSE)
+```
+
+d. $P(1 \leq Y < 4)$ given $\lambda=2$.
+
+**Answer:**
+```{r}
+lambda.value <-2
+dpois(1,lambda.value) + dpois(2,lambda.value) + dpois(3,lambda.value)
+```
+
+or
+
+```{r}
+lambda.value <-2
+ppois(3,lambda.value) - ppois(0,lambda.value)
+```
+
+## Exercise 2: quality control 
+
+The quality control department examines all the products returned to a store by customers.  An examination of the returned products yields the following assessment: 5% are defective and not repairable, 45% are defective but repairable, 35% have small surface scratches but are functioning properly, and 15% have no problems. 
+
+Compute the following probabilities for a random sample of 20 returned products.  (Hint: frame the events as Binomial experiments, with differing values of $\pi$.)
+
+**Answer:**
+I will assume from now on that a "problem" includes scratches and defects and that any "defect" is not functioning properly. 
+
+
+a. All of the 20 returned products have some type of problem.
+```{r}
+n <- 20
+pi.value <- 0.05 + 0.45 + 0.35
+dbinom(20,size=n, prob=pi.value)
+```
+
+b. Exactly 6 of the 20 returned products are defective and not repairable.
+
+```{r}
+pi.value <- 0.05 
+dbinom(6,size=n, prob=pi.value)
+```
+
+c. Of the 20 returned products, 6 or more are defective and not functioning properly.
+
+```{r}
+pi.value <- 0.05 +0.45
+# note: P( X >= 6) = P(X > 5) since X is discrete
+pbinom(5,size=n, prob=pi.value, lower.tail=FALSE)
+```
+
+d. None of the 20 returned products has any sort of defect.
+
+```{r}
+pi.value <- 0.05 + 0.45
+dbinom(0,size=n,prob=pi.value)
+```
+
+
+## Exercise 3: expected value of a binomial random variable
+For parts a, b, and c, assume that the random variable X has a binomial distribution with n=8 and $\pi$=0.3.
+
+a. Using information from the Binomial portion of lecture this week, what is the expected value (mean) of X?
+
+**Answer:**
+The mean is n*pi, which here is equal to 2.4.
+  
+b.  The answer will be the same if you use the general formula for expected value, 
+
+$$E(X) = \sum_{x\in\mathcal{X}}xP(X=x). $$
+  
+Write code below that will calculate E(X) according to this formula. Find the $P(X=x)$ values using either the formula for the binomial pmf from lecture or the `dbinom()` function.  Your answer should match part a.
+
+**Answer:**
+Here is one way to calculate the expression.
+```{r}
+E.X <- 0*dbinom(0,8, .3) + 1*dbinom(1,8, .3) + 2*dbinom(2,8, .3) + 3*dbinom(3,8, .3) +
+  4*dbinom(4,8, .3) + 5*dbinom(5,8, .3)+ 6*dbinom(6,8, .3) + 7*dbinom(7,8, .3) +
+  8*dbinom(8,8, .3)
+E.X
+```
+
+If you like shortcuts, here is one.  This is an example of using "vectorized" operations in R.
+
+```{r}
+X.values <- seq(0,8, by=1)
+X.values
+
+# calculate a vector of probabilities for every value in X.values
+dbinom(X.values, size=8, prob=0.3)
+
+# Find expected value
+sum(X.values*dbinom(X.values, size=8, prob=0.3))
+```
+
+c.  Use the `rbinom()` function to approximate the E(X) through simulation.  Try taking samples of size of 100, 1000, 5000, and 10,000.  How many samples does it take to obtain what appears to be a reasonably close approximation?
+
+**Answer:**
+Here is my simulation for a sample size of 100.
+```{r}
+n.samples <- 100
+samples <- rbinom(n.samples,size=8,prob=0.3)
+mean(samples)
+```
+
+The approximation is not equal to 2.4, but it is somewhat close. I can change "n.samples" to try the approximation for larger samples and find that the approximation tends to improve as the number of samples increases.
+
+To summarize the differences, I'm going to save the results for different sample sizes. The following code uses sample sizes of 1000, 5000, and 10,000. For each, I store the approximations of E(X) in a vector and then print and plot the results.
+
+```{r}
+n.values <- c(100,1000,5000,10000)  # vector of n values
+E.X.estimates <- rep(NA, length(n.values)) # vector to store the E(X) estimates
+
+for(j in 1:length(n.values))
+{
+  temp.samples <- rbinom(n.values[j], size=8,prob=0.3)
+  E.X.estimates[j] <- mean(temp.samples)
+}
+
+E.X.estimates
+```
+Here is a plot of the approximations. The horizontal line represents the true value of 2.4.
+```{r}
+plot(n.values, E.X.estimates, main="Approximations of E(X)",xlab="n samples")
+abline(h=2.4,col="navy",lwd=1.4)
+```
+
+Based on the estimates, it seems as though 1000 samples is typically enough to obtain a good approximation to the true value of E(X)=2.4.  When I use 100 samples, the approximation is often pretty far from the true value, so I would say that 100 is not sufficient.
+
+
+## Exercise 4: expected value of a Poisson random variable 
+
+Use the `rpois()` function to approximate E(Y) if Y is a Poisson random variable with $\lambda=8.2$.
+
+**Answer:**
+The code below performs the calculation.
+```{r}
+poisson.samples <- rpois(10000,lambda=8.2)
+E.y <- mean(poisson.samples)
+E.y
+```
+
+
+## Exercise 5: unknown pi
+I generated three random variables from a Binomial distribution with $n=30$ and a fixed value of $\pi$.  The values are 6, 8, and 5.  
+
+The value of $\pi$ is unknown to you, but I will tell you it is one of the following values: 0.17, 0.24, 0.31, 0.39.  Use the `dbinom()` function to find $P(X=6)$, $P(X=8)$, and $P(X=5)$ for each of the possible values of $\pi$:
+
+a. $\pi=$ = 0.17
+
+b. $\pi$ = 0.24
+
+c. $\pi$ = 0.31
+
+d. $\pi$ = 0.39
+
+Do the calculations give you any insight into which $\pi$ values are most plausible?  Give a guess as to which $\pi$ value is the one I used to generate the random sample.
+
+**Answer:**
+Answers will vary here. My approach is to calculate the probability of X=6, 8, and 5 for each of the pi values. The code chunks below do that.
+
+a. $\pi=$ = 0.17
+
+```{r}
+X.values <- c(6,8,5) # values of X
+dbinom(X.values, size=30,prob=0.17) # calculate probabilities for all 3 values
+```
+
+b. $\pi$ = 0.24
+
+```{r}
+dbinom(X.values, size=30,prob=0.24)
+```
+
+c. $\pi$ = 0.31
+
+```{r}
+dbinom(X.values, size=30,prob=0.31)
+```
+
+d. $\pi$ = 0.39
+
+```{r}
+dbinom(X.values, size=30,prob=0.39)
+```
+
+Based on these calculations, I do not think that 0.39 is a very plausible value for pi because each of the sampled values have probability of less than 0.06 when pi is 0.39.  Of the potential values of pi, the value X=8 is most probable when pi=0.24. Both X=6 and X=5 are most probable under pi=0.17.  Because of this, I would say that 0.17 and 0.24 are the most plausible values of pi. 
+

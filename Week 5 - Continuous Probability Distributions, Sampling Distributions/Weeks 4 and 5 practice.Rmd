@@ -1,0 +1,103 @@
+---
+title: "Weeks 4 and 5 practice"
+author: "DK"
+date: "2024-09-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Extra practice with random variables
+# Weeks 4 and 5 
+
+
+## Exercise 1: E(X) and V(X)
+
+### Exercise 1a
+No calculations needed! The mean and variance are given as parameters of the Normal distribution.
+
+E(X) = 13; V(X)=4.5^2 =20.25
+
+### Exercise 1b: 
+use facts about the binomial distribution.
+
+E(X) = n$\pi$ = 281*0.54
+
+V(X) = $n\pi(1-\pi)$ = 281*0.54*0.46
+
+The numeric values are printed below.
+```{r, 1b}
+cat(paste("E(x) is", 281*0.54, "\n"))
+cat(paste("E(x) is", 281*0.54*0.46, "\n"))
+
+```
+
+### Exercise 1c
+In this problem, X is a discrete random variable. Use the information in the table and the equation for E(X) and V(X) to solve.
+
+```{r, 1c}
+E.x <- 0*0.02 + 1*0.02 + 2*0.04 + 3*0.06 + 4*0.06 + 5*0.10 + 6*0.15 + 7*0.20 + 8*0.35 # E(X)
+cat(paste("E(x) is", E.x, "\n"))
+
+V.x <- (0-E.x)^2*0.02 + (1-E.x)^2*0.02 + (2-E.x)^2*0.04 + (3-E.x)^2*0.06 + (4-E.x)^2*0.06 + (5-E.x)^2*0.10 + (6-E.x)^2*0.15 + (7-E.x)^2*0.20 + (8-E.x)^2*0.35 # V(X)
+cat(paste("V(x) is", V.x))
+
+```
+
+## Exercise 2 - Interval probabilities
+
+### Ex 2a
+Let Y be a N(13, 4.5^2) random variable. Find P(10 < Y < 12). The probability is 0.1596.
+
+```{r, 2a}
+pnorm(12,13,4.5) - pnorm(10, 13, 4.5)
+```
+
+### Ex 2b
+For P(3<Y<4), note that Y is a discrete random variable that takes no values between 3 and 4. The first probability, therefore, is o.
+
+For $P(3\leq Y \leq 4)$, this can be found by re-writing the interval probability in terms of point probabilities: $P(3 \leq Y \leq 4) P(Y=3) + P(Y=4)$. These can be found using the dpois function.
+
+Also, you can write the probability in terms of $\leq$ probabilities in order to use the ppois function: $P(3 \leq Y \leq 4) = P(Y\leq 4) - P(Y\leq 2)$.
+
+```{r}
+dpois(3,3.75)+dpois(4,3.75)
+
+ppois(4,3.75)-ppois(2,3.75)
+```
+
+### Ex 2c
+First probability: $P(2 < Y\leq 5)=P(Y=3)+P(Y=4) + P(Y=5) = 0.06+0.06+	0.10 = 0.22$. 
+ 
+Second probability: $P(2 < Y <7)=P(Y=3)+P(Y=4) + P(Y=5) +P(Y=6) = 0.06+0.06+	0.10+0.15 = 0.37$. 
+
+
+## Exercise 3 - percentiles
+
+### Exercise 3a
+For a random variable "X", the 25th percentile is a value x such that P(X<x)=0.25. The 25th percentile is the cutoff value in the distribution such that 25% of the probability is below and 75% of the probability is above.
+
+### Exercise 3b
+
+```{r}
+q.95 <- qnorm(.95, 0, 5)
+q.05 <- qnorm(.05, 0, 5)
+
+cat(paste("The 95th percentile is", q.95, ". The 5th percentile is ", q.05, ". \n"))
+
+```
+
+### Exercise 3c
+
+The figure shows that x1 is the 80th percentile. X2 is the 2nd percentile. X3 is the 90th percentile. Their values are printed below.
+
+```{r, 3c}
+x1 <- qnorm(.80, 100, 12)
+x2 <- qnorm(.02, 100, 12)
+x3 <- qnorm(.90, 100, 12)
+
+cat(paste("x1 is", x1, ". x2 is", x2, ". x3 is", x3, ".\n"))
+
+```

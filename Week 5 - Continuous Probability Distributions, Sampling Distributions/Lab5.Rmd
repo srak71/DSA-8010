@@ -1,0 +1,182 @@
+---
+title: "Week 5 lab"
+author: "your name here"
+date: "Completion date"
+output:
+  html_document: default
+  pdf_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Normal quantile plots
+
+Very often in statistics we assume that observed data values are realizations of random variables from a normal distribution.  A normal quantile plot is used to check whether that assumption is reasonable.  
+
+If data are from a perfect normal distribution, the normal quantile plot will show points along a perfect 45-degree, uphill line.  The code below will generate random normal variables and display the quantile plot.
+
+```{r}
+x1 <- rnorm(5e3) # simulates random normal variables
+qqnorm(x1)
+qqline(x1, col='red')  # adds the line that perfectly normal data would follow
+```
+
+With a smaller sample, the plot will not look as perfect, but the general linear pattern will be the same. 
+
+```{r}
+x2 <- rnorm(15)
+qqnorm(x2)
+qqline(x2, col='red')  
+```
+
+If data are not normal, you may see an S-shaped pattern in the quantile plot, or curvature in the lower or upper tail.  The chunks below generate data from some skewed distributions and show their quantile plots.
+
+
+```{r}
+par(mfrow=c(1,2))
+x3 <- rgamma(5e3,1,10)  # samples from a very skewed gamma distribution
+hist(x3, main='x3 - not normal') 
+qqnorm(x3)
+qqline(x3, col='red')
+```
+
+```{r}
+par(mfrow=c(1,2))
+x4 <- rgamma(5e3, 10,10) # samples from a nearly symmetric gamma distribution
+hist(x4, main = 'x4 - not normal') 
+qqnorm(x4)
+qqline(x4,col='red')
+```
+
+```{r}
+par(mfrow=c(1,2))
+x5 <- rpois(5e3,4) # samples from a discrete distribution
+hist(x5, main='x5 - not normal \n discrete') 
+qqnorm(x5)
+qqline(x5,col='red')
+```
+
+In some of these examples, the histograms clearly indicate that the shape of the distribution does not resemble a normal curve.  Sometimes, however, the quantile plot reveals patterns that are harder to spot in a histogram.  Here is a sample from a t distribution, which is bell-shaped but has fatter tails than a Normal curve. The non-normality is much easier to spot in the normal quantile plot.
+
+```{r}
+par(mfrow=c(1,2))
+x6 <- rt(5e3,6)
+hist(x6, breaks=20)
+qqnorm(x6)
+qqline(x6,col='red')
+```
+
+## Exercises
+
+## Exercise 1: interpreting probability density functions
+Run the code chunk below to see a plot of a "Exponential" probability density function. Then answer the questions using just the plot. (You are not expected to know the exact answers; however, you should be able to form reasonable guesses.)
+
+
+```{r, plot-exponential}
+x.seq <- seq(0,15,by=0.01) # creates a grid of x-values at which to evaluate p(x).
+plot(x.seq, dexp(x.seq,rate=0.5),type='l',main='Exponential distribution with rate=1/2', xlab='x', ylab='p(x)')
+```
+
+a. Based on the plot, give an approximate guess of P(X < 5).
+
+b. Based on the plot, which probability is bigger: P(1 < X < 4) or P(3 < X < 6)?
+
+c. Based on the plot, what do you think the 95th percentile of the distribution is?
+
+d. Based on the plot, what do you think the 50th percentile of the distribution is?
+
+e. Which is bigger: the 45th percentile of the distribution, or the 65th percentile?
+
+
+## Exercise 2: Normal probabilities
+Use the functions `pnorm()` and `qnorm()` to find the following probabilities.
+
+a. Find the 77th percentile of a Normal distribution with mean 0 and standard deviation of 0.5.
+
+**Answer: **
+
+b. Find the probability that a N(0, 0.5^2) random variable is less than -0.35.
+
+**Answer: **
+
+c. Find the probability that a N(10, 3^2) random variable is greater than 17.
+
+**Answer: **
+
+d. Find the probability that a N(10, 3^2) random variable is between 9 and 14.
+
+**Answer: **
+
+
+## Exercise 3: Normal probabilities
+The age of employees at a certain company have a Normal(37,4.7^2) distribution.
+
+a.   Find the probability that a randomly selected employee is older than 40.
+
+**Answer: **
+
+b.  Find the cutoff for the youngest 10% of employees; that is, 10% of employees are younger than what age?
+
+**Answer: **
+
+c. Find the probability that a randomly selected employee is between 33 and 39.
+
+**Answer: **
+
+d.  Find the cutoff for the oldest 5% of employees; that is, 5% of employees are older than what age?
+
+**Answer: **
+
+## Exercise 4: simulation to approximate probabilities (optional)
+Simulation can be used to find approximate probabilities.  It can also be used to find approximate distributions.  If you take a large number of samples (no less than 500) from a probability distribution, the histogram of the samples will look very similar to the true probability density function (or pmf). 
+
+a.  The `rnorm()` function can be used to take samples from a normal distribution.  Here is an example of using `rnorm` to draw n=5 samples from a N(-4,0.8^2) distribution.
+
+```{r}
+y <- rnorm(n=5, mean=-4, sd=0.8)
+print(y)
+```
+
+Now use `rnorm` to draw 1000 samples from the N(21.4, 2.8^2) distribution.  (Do not print the samples.)  Make a histogram of the samples. Does the shape of the histogram resemble a normal curve? Then calculate the mean and standard deviation of the samples -- do these numbers come close to the true mean and standard deviation?
+
+**Answer: **
+
+b.  Using the samples from part (a), calculate the proportion of samples that are greater than 25.  
+
+**Answer: **
+
+
+
+c. Use `pnorm()` to find the probability that a N(21.4, 2.8^2) random variable is greater than 25. Your answer in part (b) is an approximation of this probability. 
+
+**Answer: **
+
+## Exercise 5: gamma simulation to approximate probabilities (optional)
+
+The code below gives an example of drawing random samples from a Gamma distribution using the `rgamma` function. The code draws n=5 samples from the Gamma distribution with shape parameter equal to 0.5 and scale parameter equal to 1.  (This is sometimes called the Gamma(0.5,1) distribution.) 
+
+```{r}
+y <- rgamma(5, shape=0.5, scale=1)
+print(y)
+```
+
+a. Modify the code to generate n=10000 samples. (Do not print them.) Create a histogram and comment on the shape of the distribution.  This shape will be similar to the true density curve of the Gamma(0.5,1) distribution.
+
+**Answer: **
+
+b. Using the samples you obtained in part a, approximate the probability that a Gamma(0.5, 1) random variable is between 1 and 2.
+
+**Answer: **
+
+## Exercise 6: Quantile plots
+
+a. Use the `rnorm` function to generate a sample of size 100 from a Normal(4, 0.75^2) distribution.  Create a normal quantile plot of the sample and state what features of the plot indicate whether it is reasonable to consider the sample to be approximately normal.
+
+**Answer: **
+
+b. Use the `rgamma()` function to generate a sample of size 75 from a Gamma distribution with shape=0.5 and scale=1.  Create a normal quantile plot of the sample and state what features of the plot indicate whether it is reasonable to consider the sample to be approximately normal.
+
+**Answer: **
+

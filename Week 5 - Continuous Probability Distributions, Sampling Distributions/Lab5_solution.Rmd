@@ -1,0 +1,211 @@
+---
+title: "Lab 5"
+author: "Key"
+date: "Date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Exercises
+
+## Exercise 1:
+
+Below is the code for the plot.
+
+```{r, plot-exponential}
+x.seq <- seq(0,15,by=0.01) # creates a grid of x-values at which to evaluate p(x).
+plot(x.seq, dexp(x.seq,rate=0.5),type='l',main='Exponential distribution with rate=1/2', xlab='x', ylab='p(x)')
+```
+
+a. Based on the plot, give an approximate guess of P(X < 5).
+
+**Answer.** My approximation would be 0.90 because most of the area under the curve corresponds to x values less than 5. Note: the correct value is 0.917915.
+
+b. Based on the plot, which probability is bigger: P(1 < X < 4) or P(3 < X < 6)?
+
+**Answer.** Based on the plot, it is clear that there is more area under the curve between 1 and 4 than there is between 3 and 6. So P(1 < X<4) is bigger. Note: the true probabilities are 0.47 and 0.17, respectively.
+
+c. Based on the plot, what do you think the 95th percentile of the distribution is?
+
+**Answer.** My guess is the 95th percentile is 6.5, because it looks like about 5% of the area under the curve is found past 6.5. Note: the true percentile is 5.99.
+
+d. Based on the plot, what do you think the 50th percentile of the distribution is?
+
+**Answer.** This one is challenging because it is hard to guess the median of a highly-skewed distribution. My guess is 2, because I think about half of the area under the curve is on either side of that value. Note: the true 50th percentile (or median) is 1.386.
+
+e. Which is bigger: the 45th percentile of the distribution, or the 65th percentile?
+
+**Answer.** Without looking at the plot, I know that the 45th percentile is always less than or equal to the 65th percentile for any distribution. This follows from the definition of a percentile.
+
+## Exercise 2: Normal probabilities
+Use the functions `pnorm()` and `qnorm()` to find the following probabilities.
+
+a. Find the 77th percentile of a Normal distribution with mean 0 and standard deviation of 0.5.
+
+**Answer: **
+```{r}
+qnorm(0.77,0,0.5)
+```
+
+b. Find the probability that a N(0, 0.5^2) random variable is less than -0.35.
+
+**Answer: **
+```{r}
+pnorm(-0.35,0,0.5)
+```
+
+c. Find the probability that a N(10, 3^2) random variable is greater than 17.
+
+**Answer: **
+```{r}
+pnorm(17,10,3,lower.tail=FALSE)
+```
+
+d. Find the probability that a N(10, 3^2) random variable is between 9 and 14.
+
+**Answer: **
+```{r}
+pnorm(14,10,3) - pnorm(9,10,3)
+```
+
+## Exercise 3: Normal probabilities
+The age of employees at a certain company have a Normal(37,4.7^2) distribution.
+
+a.   Find the probability that a randomly selected employee is older than 40.
+
+**Answer: **
+```{r}
+pnorm(40,37,4.7,lower.tail=FALSE)
+```
+
+b.  Find the cutoff for the youngest 10% of employees; that is, 10% of employees are younger than what age?
+
+**Answer: **
+This is asking for the 10th percentile of ages.
+
+```{r}
+qnorm(.1, 37,4.7)
+```
+
+c. Find the probability that a randomly selected employee is between 33 and 39.
+
+**Answer: **
+```{r}
+pnorm(39,37,4.7) - pnorm(33,37,4.7)
+```
+
+d.  Find the cutoff for the oldest 5% of employees; that is, 5% of employees are older than what age?
+
+**Answer: **
+This is asking for the 95th percentile of ages.
+
+```{r}
+qnorm(0.95,37,4.7)
+```
+
+## Exercise 4: simulation to approximate probabilities
+Simulation can be used to find approximate probabilities.  It can also be used to find approximate distributions.  If you take a large number of samples (no less than 500) from a probability distribution, the histogram of the samples will look very similar to the true probability density function (or pmf). 
+
+a.  The `rnorm()` function can be used to take samples from a normal distribution.  Here is an example of using `rnorm` to draw n=5 samples from a N(-4,0.8^2) distribution.
+
+```{r}
+y <- rnorm(n=5, mean=-4, sd=0.8)
+print(y)
+```
+
+Now use `rnorm` to draw 1000 samples from the N(21.4, 2.8^2) distribution.  (Do not print the samples.)  Make a histogram of the samples. Does the shape of the histogram resemble a normal curve? Then calculate the mean and standard deviation of the samples -- do these numbers come close to the true mean and standard deviation?
+
+**Answer: **
+```{r}
+y <- rnorm(n=1000,mean=21.4,sd=2.8)
+hist(y)
+```
+
+The samples shown in the histogram above do have a symmetric, bell shape as would be expected from the normal distribution.
+
+```{r}
+mean(y)
+sd(y)
+```
+The mean and standard deviation of the samples is printed above. The values will be different each time I knit the document, but at the time of writing this the mean is 21.44751 and the standard deviation is 2.875363. They come pretty close to the true mean and standard deviation -- within about 0.1 of the true values.
+
+b.  Using the samples from part (a), calculate the proportion of samples that are greater than 25.  Compare this to the true probability that a N(21.4, 2.8^2) random variable is greater than 25, which you can find using `pnorm()`. 
+
+**Answer: **
+```{r}
+# proportion of samples that are >25
+mean(y > 25)
+
+# true value using pnorm
+pnorm(25, mean=21.4, sd=2.8, lower.tail=FALSE)
+```
+
+The simulated approximate probability is about 0.02 from the true value found using pnorm.  I would like to see this approximation to be a little more accurate -- I could make this happen by just increasing the number of samples in part (a)!
+
+c. Use pnorm() to find the probability that a N(21.4, 2.8^2) random variable is greater than 25. Your answer in part (b) is an approximation of this probability.
+
+**Answer: ** 
+```{r}
+pnorm(25, 21.4, 2.8, lower.tail=FALSE)
+```
+
+
+## Exercise 5: 
+The code below gives an example of drawing random samples from a Gamma distribution using the `rgamma` function. The code draws n=5 samples from the Gamma distribution with shape parameter equal to 0.5 and scale parameter equal to 1.  (This is sometimes called the Gamma(0.5,1) distribution.) 
+
+```{r}
+y <- rgamma(5, shape=0.5, scale=1)
+print(y)
+```
+
+a.  Modify the code to generate n=10000 samples. (Do not print them.) Create a histogram and comment on the shape of the distribution.  This shape will be similar to the true density curve of the Gamma(0.5,1) distribution.
+
+**Answer: **
+```{r}
+# generate samples
+y <- rgamma(10000, shape=0.5, scale=1)
+hist(y)
+```
+
+The histogram is very right-skewed with most samples falling between zero and 2.
+
+
+b. Using the samples you obtained in part c, approximate the probability that a Gamma(0.5, 1) random variable is between 1 and 2.
+
+**Answer: **
+```{r}
+# Approximation of P(1 < Y < 2)
+# proportion of samples between 1 and 2
+mean(y < 2 & y > 1)
+
+```
+
+## Exercise 6: Quantile plots
+
+a. Use the `rnorm` function to generate a sample of size 100 from a Normal(4, 0.75^2) distribution.  Create a normal quantile plot of the sample and state what features of the plot indicate whether it is reasonable to consider the sample to be approximately normal.
+
+**Answer: **
+```{r}
+y.samples <- rnorm(n=100, mean=4, sd=0.75)
+qqnorm(y.samples)
+qqline(y.samples,col='red')
+```
+
+The samples I generated follow fairly closely to the red line indicating "perfect normality".  It is interesting to notice that in the tails (lower left and upper right) there are some samples that deviate from the red line--the plot is not perfect even though the samples are from a normal distribution.
+
+b. Use the `rgamma()` function to generate a sample of size 75 from a Gamma distribution with shape=0.5 and scale=1.  Create a normal quantile plot of the sample and state what features of the plot indicate whether it is reasonable to consider the sample to be approximately normal.
+
+**Answer: **
+```{r}
+y2.samples <- rgamma(n=75, shape=0.5, scale=1)
+qqnorm(y2.samples)
+qqline(y2.samples,col='red')
+```
+
+Rather than sloping upward in a line, the points on the quantile plot follow a very shallow, uphill curved pattern in the left-hand side of the plot.  In the right-hand side of the plot, they start showing a steep, S-shaped pattern.  It would not be reasonable to assume that these are approximately Normal because the pattern is not close to a linear pattern and it does not appear to be well-approximated by the red line.
+
