@@ -1,0 +1,352 @@
+---
+title: "Quiz1"
+output: html_document
+date: "2024-10-07"
+author: "Saransh Rakshak"
+---
+```{R}
+library(dplyr)
+```
+
+
+```{R}
+data <- read.csv("infections.csv")
+data
+```
+
+
+
+```{R}
+summary(data)
+```
+
+
+```{R}
+# Question 7
+south_hospitals <- subset(data, tolower(region) == 'south')
+proportion_south <- nrow(south_hospitals) / nrow(data)
+proportion_south_rounded <- round(proportion_south, 4)
+
+proportion_south_rounded
+```
+
+```{R}
+# Question 8
+ins_stay_cor <- cor(data$ins, data$stay)
+ins_stay_cor
+```
+
+
+
+```{R}
+# Question 9
+south_data <- filter(data, region == "south")
+sd_risk_south <- sd(south_data$risk)
+sd_risk_south
+```
+
+```{R}
+# Question 10
+west_school_data <- filter(data, region == "west" & school == 1)
+proportion <- nrow(west_school_data) / nrow(data)
+proportion
+```
+
+```{R}
+# Question 11
+short_stay_hospitals <- filter(data, stay < 8.8)
+proportion <- nrow(short_stay_hospitals) / nrow(data)
+proportion
+```
+
+
+```{R}
+# Question 12
+northeast_high_risk <- filter(data, region == "northeast" & risk > 5)
+northeast_hospitals <- filter(data, region == "northeast")
+proportion <- nrow(northeast_high_risk) / nrow(northeast_hospitals)
+proportion
+```
+
+```{R}
+# Question 13
+# Define the total number of solitary species and total species
+total_solarity <- 148
+total_species <- 357
+
+# Calculate the proportion of solitary species
+proportion_solarity <- total_solarity / total_species
+
+# Print the result
+proportion_solarity
+```
+
+
+```{R}
+# Question 16
+# Total outcomes when rolling two dice
+total_outcomes <- 6 * 6
+
+# Favorable outcomes for doubles
+favorable_outcomes <- 6
+
+# Calculate probability of doubles
+P_doubles <- favorable_outcomes / total_outcomes
+
+# Print the result
+P_doubles
+```
+
+
+
+```{R}
+# Question 17
+# Generate all possible outcomes when rolling two dice
+outcomes <- expand.grid(1:6, 1:6)
+
+# Define events A and B
+A <- outcomes[apply(outcomes, 1, function(x) any(x == 4)), ]  # At least one die shows a 4
+B <- outcomes[rowSums(outcomes) >= 8, ]  # Sum is greater than or equal to 8
+
+# Find the intersection of A and B
+A_intersection_B <- intersect(as.data.frame(A), as.data.frame(B))
+
+# Calculate probabilities
+P_A <- nrow(A) / nrow(outcomes)  # P(A)
+P_A_and_B <- nrow(A_intersection_B) / nrow(outcomes)  # P(A ∩ B)
+
+# Calculate P(B|A)
+P_B_given_A <- P_A_and_B / P_A
+
+# Print the result
+P_B_given_A
+```
+
+
+
+
+
+```{R}
+# Question 18
+# Values of X
+X_values <- c(10, 11, 12, 13, 14)
+
+# Probabilities P(X=x)
+P_values <- c(0.37, 0.34, 0.21, 0.05, 0.03)
+
+# Calculate the expected value E(X)
+E_X <- sum(X_values * P_values)
+
+# Print the result rounded to three decimal places
+print(E_X)
+```
+
+
+```{R}
+# Question 19
+# mean and standard deviation
+mu <- 45
+sigma <- 5
+
+# calculate P(Y > 40)
+P_Y_gt_40 <- 1 - pnorm(40, mean = mu, sd = sigma)
+
+# print the result
+print(P_Y_gt_40)
+```
+
+
+```{R}
+# Question 20
+# mean and standard deviation
+mu <- 45
+sigma <- 6
+
+# calculate P(37 < Y < 47)
+P_37_lt_Y_lt_47 <- pnorm(47, mean = mu, sd = sigma) - pnorm(37, mean = mu, sd = sigma)
+
+# print the result
+print(P_37_lt_Y_lt_47)
+```
+
+
+```{R}
+# Question 21
+# mean and standard deviation
+mu <- 1.4
+sigma <- 1
+
+# calculate the 95th percentile
+q_95 <- quantile(rnorm(10000, mu, sigma), probs = 0.95)
+
+# print the result
+print(q_95)
+```
+
+```{R}
+# Question 22
+# parameters
+p = 0.09  # success probability
+n = 15   # number of trials
+
+# calculate the cumulative probability for 0, 1, and 2 successes
+probability = pbinom(2, n, p)
+
+print(probability)
+```
+
+```{R}
+# Question 23
+# define the interval
+a <- 10
+b <- 14
+
+# calculate P(Y > 13)
+probability = integrate(function(x) dunif(x, a, b), 13, 14)
+
+print(probability)
+```
+
+```{R}
+# Question 24
+# define lambda
+lambda <- 1.4
+
+# calculate P(Y<=3)
+probability <- ppois(3, lambda)
+
+# print the result
+print(probability)
+```
+
+```{R}
+# Question 27
+# Define the probabilities
+P_A <- 0.22  # Probability of picking a Polypore
+P_B <- 0.59  # Probability of picking in Deciduous habitat
+P_AB <- 0.17 # Probability of picking a Polypore in Deciduous habitat
+
+# Calculate P(A U B)
+P_A_union_B <- P_A + P_B - P_AB
+
+print(P_A_union_B)
+```
+
+```{R}
+# Question 29
+# Number of white and red balls
+num_red <- 6
+num_white <- 12
+total_balls <- num_red + num_white
+
+# Probability of drawing a non-red ball
+P_non_red <- num_white / total_balls
+
+# Probability of drawing 6 non-red balls
+P_none_red_in_6 <- P_non_red^6
+
+# Print the result
+P_none_red_in_6
+```
+
+
+```{R}
+# Quesiton 30
+# Define the values of X and their corresponding probabilities
+x_values <- c(-4, -3, -2, -1, 0)
+probabilities <- c(0.37, 0.34, 0.21, 0.05, 0.03)
+
+# Define the events A (even numbers) and B (greater than -3)
+A <- c(-4, -2, 0)  # Even numbers
+B <- c(-2, -1, 0)  # Numbers greater than -3
+
+# Find the intersection of A and B
+A_intersection_B <- intersect(A, B)
+
+# Calculate P(A intersection B)
+P_A_intersection_B <- sum(probabilities[x_values %in% A_intersection_B])
+
+# Print the result
+P_A_intersection_B
+```
+
+```{R}
+# Question 31
+# Given probabilities
+P_B <- 0.15                      # P(B) - Probability of a major accident
+P_A_given_B <- 0.30              # P(A | B) - Probability of accident at night given major
+P_A_given_B_hat <- 0.18          # P(A | B') - Probability of accident at night given not major
+
+# a. Probability that an accident is not major
+P_B_hat <- 1 - P_B
+P_B_hat
+
+# b. Probability that an accident is major and occurs at night
+P_A_and_B <- P_A_given_B * P_B
+P_A_and_B
+
+# c. Probability that an accident is major given it occurs at night
+# First calculate P(A)
+P_A <- (P_A_given_B * P_B) + (P_A_given_B_hat * P_B_hat)
+
+# Now calculate P(B | A)
+P_B_given_A <- (P_A_given_B * P_B) / P_A
+P_B_given_A
+```
+
+
+```{R}
+# Question 32
+# Parameters
+n <- 12       # Number of trials
+pi <- 0.66    # Probability of success
+
+# Calculate P(Y <= 6)
+P_Y_less_equal_6 <- pbinom(6, size = n, prob = pi)
+
+# Print the result
+P_Y_less_equal_6
+```
+
+```{R}
+# Question 34
+# Total recipes
+total_recipes <- 27
+
+# Number of cake recipes
+cake_recipes <- 14
+
+# Number of recipes to draw
+drawn_recipes <- 3
+
+# Calculate the probability
+P_all_cake <- choose(cake_recipes, drawn_recipes) / choose(total_recipes, drawn_recipes)
+
+# Print the result
+P_all_cake
+```
+
+```{R}
+# Question 35
+# Total letters and consonants
+total_letters <- 26
+consonants <- 21
+letters_to_choose <- 6
+
+# Calculate the combinations
+total_combinations <- choose(total_letters, letters_to_choose)
+consonant_combinations <- choose(consonants, letters_to_choose)
+
+# Calculate the probability
+P_all_consonants <- consonant_combinations / total_combinations
+
+# Print the result
+P_all_consonants
+```
+
+
+
+
+
+
+
