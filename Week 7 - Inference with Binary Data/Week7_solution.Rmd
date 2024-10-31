@@ -163,4 +163,6 @@ ci <- function(x, n, alpha) {
   interval <- c(p - z, p + z)
   return(interval)
 }
+
+ci(200, 250, 0.05)
 ```

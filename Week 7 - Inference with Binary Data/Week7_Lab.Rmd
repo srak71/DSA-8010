@@ -106,7 +106,7 @@ b. Calculate a 99% large-sample confidence interval for the proportion of mushro
 **Answer: Conf Interval = (45.28%, 57.77%)** 
 
 ```{r exersize1b}
-pi.hat <- sum(mushrooms$edible=='e') / nrow(mushrooms)
+pi.hat <- sum(mushrooms$edible == 'e') / nrow(mushrooms)
 z.star <- qnorm(1 - 0.01 / 2)
 std.error <- sqrt(pi.hat * (1 - pi.hat) / nrow(mushrooms))
 
@@ -122,7 +122,7 @@ c. Use the `prop.test` function to find a 99% confidence interval for the propor
 **Answer: prop.test's 99 percent confidence interval upper bound differs very slightly (old upper bound = 57.77%, new upper bound = 57.82%). This change in confidence interval is not enough to lead to a new conclusion.**
 
 ```{r exersize1c}
-prop.test(sum(mushrooms$edible=='e'), nrow(mushrooms), conf.level=0.99)
+prop.test(sum(mushrooms$edible == 'e'), nrow(mushrooms), conf.level=0.99)
 ```
 
 d. Use the `prop.test` function in R to test whether the data provide strong evidence that the proportion of edible species is not equal to 0.5.  Report the test statistic, p-value, decision, and summarize your conclusion. Use $\alpha=0.01$.
@@ -130,7 +130,7 @@ d. Use the `prop.test` function in R to test whether the data provide strong evi
 **Answer: The calculated test statistic is 0.5820855 and p-value is 0.5605. Since our p-value is greater than $\alpha=0.01$ we fail to reject the null hypothesis. We can conclude that the data does not provide sufficient evidence to conclude that the proportion of edible mushroom species is not 0.5.**
 
 ```{r exersize1d}
-test1 <- prop.test(sum(mushrooms$edible=='e'), nrow(mushrooms), p = 0.5, alternative='two.sided')
+test1 <- prop.test(sum(mushrooms$edible == 'e'), nrow(mushrooms), p = 0.5, alternative = 'two.sided')
 test1
 
 sqrt(test1$statistic)
@@ -144,7 +144,7 @@ Estimate (make a confidence interval for) the proportion of mushrooms whose `gil
 **Answer: I can conclude that I am 95% confident between 63.1% and 72.1% mushrooms have gill size of "broad".**
 
 ```{r exersize2}
-prop.test(sum(mushrooms$gill.size == 'b'), nrow(mushrooms), conf.level=0.95)
+prop.test(sum(mushrooms$gill.size == 'b'), nrow(mushrooms), conf.level = 0.95)
 ```
 
 ## Ex 3: colored mushrooms
@@ -152,7 +152,7 @@ a. Look at the mushrooms for whose `cap.color` equal `w` (white). Test whether t
 
 Report the test statistic, p-value, and conclusion.
 
-**Answer.**
+**Answer: Under the hypothesis $H_0:\pi=0.5; \quad H_A: \pi > 0.5.$, we find the test statistic to be $|z_0|=3.341$ and the p-value = 0.0004177. Thus the null is rejected in favor of the alternative- more than 50% of white mushrooms are edible.**
 
 ```{r exersize3a}
 white <- mushrooms %>% filter(cap.color == 'w')
@@ -162,15 +162,15 @@ table(white$edible)
 prop.table(table(white$edible))
 
 # hyp. test
-prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative='greater')
-test2 <- prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative='greater')
+prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative = 'greater')
+test2 <- prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative = 'greater')
 sqrt(test2$statistic)
 ```
 
 
 b. Compare your findings to exercise 1. Do your findings suggest any association between cap color and edibility? 
 
-**Answer.**
+**Answer. In the previous exercise, we concidered the all mushrooms regardless of color and concluded that the data gave no strong evidence that more than 50% of mushrooms are edible. In this exercise we found strong evidence that more than 50% of white mushrooms are edible. Thus we can see some association between mushroom color and edibility. **
 
 
 
@@ -179,3 +179,15 @@ b. Compare your findings to exercise 1. Do your findings suggest any association
 a. Write an R function to calculate the large-sample confidence interval for $\pi$.  Revisit Lab 1 for an example of writing a function.
 
 **Answer.**
+
+```{r exercise4}
+conf_interval <- function(n, x, alpha) {
+  p <- x / n
+  z_score <- qnorm(1 - alpha / 2, 0, 1)
+  z <- sqrt((p * (1 - p)) / n) * z_score
+  interval <- c(p - z, p + z)
+  return(interval)
+}
+
+conf_interval(200, 100, 0.01)
+```
