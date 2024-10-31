@@ -10,12 +10,12 @@ output:
     toc_float: true
 ---
 
+<style>hr{border: 1px solid black;}</style>
+
 ```{R setup, include=FALSE}
 library(dplyr)
 library(knitr)
 ```
-
-<style>hr{border: 1px solid black;}</style>
 
 ---
 
@@ -23,7 +23,7 @@ library(knitr)
 
 ### The table below shows frequencies by population (clustered or solitary) and habitat (grasses, waste, or woods) for a fictional sample of mushroom species. The table here shows column proportions corresponding to the frequency table.
 
-<center>![](Screenshot 2024-10-10 134613.png){width=50%}
+<center>![](Quiz1Q14_mushrooms_chart.png){width=50%}
 
  
 
@@ -67,40 +67,39 @@ library(knitr)
 
 ```{R}
 # Question 21
-expected_answer <- 3.0449
+expected_answer <- round(3.0449, 3)
 mu <- 1.4
 sigma <- 1
 
 # calculate the 95th percentile
 q_95 <- quantile(rnorm(10000, mu, sigma), probs = 0.95)
+q_95 <- round(q_95, 3)
 ```
 
 
 **Is our function returning the correct answer?**
 ```{R echo=FALSE}
-cat(">>> q_95 == round(expected_answer, 3)\n",
-    q_95 == round(expected_answer, 3))
+cat(">>> q_95 == expected_answer\n", q_95 == expected_answer)
 ```
-
-<span style="color: red;">No, it is not giving the correct exact answer.</span>
-
+<span style="color: red;">No! rnorm() with a sample size of 10,000 is coming close but will not give the exact correct answer.</span>
 
 
 **Is our function returning a consistent answer for 95th percentile of N(1.4, 1^2)?**
 ```{R echo=FALSE}
 # calculating the same equation for same normal distribution random sampling with same params
 q_95_2 <- quantile(rnorm(10000, mu, sigma), probs = 0.95)
+q_95_2 <- round(q_95_2, 3)
 
 cat(">>> q_95\n",
     q_95,
     "\n>>> q_95_2 <- quantile(rnorm(10000, mu, sigma), probs=0.95)",
     "\n>>> q_95_2\n",
     q_95_2,
-    "\n>>> q_95 == q_95_2 \n>>>",
+    "\n>>> q_95 == q_95_2\n",
     q_95 == q_95_2)
 ```
 
-<span style="color: red;">No! Our function is giving unique but close answers for each run.</span>
+<span style="color: red;">No! Our function is giving different answers for each run.</span>
 
 
   - This code does not work because it uses simulation to approximate the percentile.
@@ -121,15 +120,20 @@ cat(">>> q_95\n",
 
 ```{R}
 # Question 21
+expected_answer <- round(3.0449, 3)
 # mean and standard deviation
 mu <- 1.4
 sigma <- 1
 
 # calculate the 95th percentile using qnorm
 q_95 <- qnorm(0.95, mean = mu, sd = sigma)
+q_95 <- round(q_95, 3)
 
 # print the result
-cat("95 Percentile of Normal Distribution with (mu = 1.4) and (sigma = 1): ", round(q_95, 3))
+cat("95 Percentile of Normal Distribution (with mu=1.4, sigma=1): ",
+    q_95,
+    "\n>>> q_95 == expected_answer\n",
+    q_95 == expected_answer)
 ```
 
   - This code gives an exact answer to the percentile.
