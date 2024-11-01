@@ -7,6 +7,7 @@ output:
 ---
   
 ```{r setup, include=FALSE}
+library(dplyr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -38,7 +39,7 @@ prop.table(voter_table,margin=1)
 
 ## Inference on two proportions in R
 
-Let's define $\pi_1$ to be the proportion of 2020 mail-in voters who plan to vote by mail in 2024. Then $\pi_2$ is the proportion of 2020 non-mail voters who plan to vote by mail in 2024. We will use inferential methods to investigate whether the difference $\pi_1-\pi_2$ is significantly greater than zero, which indicates that 2020 voting preference is associated with greater likelihood of mail voting in 2024.
+Let's define $\pi_1$ to be the proportion of 2020 mail-in voters who plan to vote by mail in 2024 (0.5348189). Then $\pi_2$ is the proportion of 2020 non-mail voters who plan to vote by mail in 2024 (0.2360248). We will use inferential methods to investigate whether the difference $\pi_1-\pi_2$ is significantly greater than zero, which indicates that 2020 voting preference is associated with greater likelihood of mail voting in 2024.
 
 
 When using `prop.test()` function for inference on two proportions, the input can either be a `table` or vectors of successes and sample sizes. 
@@ -51,21 +52,26 @@ The code below makes a 90% confidence interval for $\pi_1-\pi_2$:
 prop.test(voter_table, conf.level=0.90)
 ```
 
-We are 90\% confident that $\pi_1-\pi_2$ is between 0.2242593 and 0.3733289. Since all of the values in this interval are greater than zero, it seems that there is evidence that 2020 mail-in voters are more likely to vote by mail in 2024 than 2020 non-mail voters.
+We are 90% confident that $\pi_1-\pi_2$ is between 0.2242593 and 0.3733289. Since all of the values in this interval are greater than zero, it seems that there is evidence that 2020 mail-in voters are more likely to vote by mail in 2024 than 2020 non-mail voters.
 
 ### Input is a vector of counts
-We can also give `prop.test` a vector of successes and a vector of sample sizes, as shown in lecture. The code below will test the hypotheses $$H_0: \pi_1-\pi_2 = 0; H_A: \pi_1-\pi_2 > 0 $$
+
+We can also give `prop.test` a vector of successes and a vector of sample sizes, as shown in lecture. The code below will test the hypotheses 
+$$H_0: \pi_1-\pi_2 = 0; H_A: \pi_1-\pi_2 > 0 $$
 with an $\alpha$ of 0.05.
 
 ```{r}
-prop.test(x=c(192,38), n=c(359, 161), alternative='greater')
+votes2020 <- c(359, 161) #359 mail voters in 2020, 161 non-mail voters in 2020
+mail2024 <- c(192, 38) # 192 mail voters in 2020 will mail vote in 2024, 38 non-mail voters in 2020 will mail vote in 2024
+
+prop.test(x = mail2024, n = votes2020, alternative = 'greater')
 ```
-The p-value for the test is $2.09 \times 10^-10$. The squared test statistic ($z_0^2$) is 39.027. The absolute value of the test statistic is $\sqrt{39.027}$, or 6.247159. The sample proportions are about 6 standard errors apart.   
+The p-value for the test is $$2.09 \times 10^{-10}$$. The squared test statistic ($z_0^2$) is 39.027. The absolute value of the test statistic is $\sqrt{39.027}$, or 6.247159. The sample proportions are about 6 standard errors apart.   
 
 
 Code to print $|z_0|$ and the p-value:
 ```{r}
-test.result <- prop.test(x=c(192,38), n=c(359, 161), alternative='greater')
+test.result <- prop.test(x = mail2024, n = votes2020, alternative = 'greater')
 abs.z0 <- sqrt(test.result$statistic)
 p.value <- test.result$p.value
 
@@ -77,17 +83,24 @@ p.value
 
 Remember that `prop.test` automatically applies a continuity correction, and so its results will not exactly match the large-sample methods seen in lecture.  Just for fun, let's calculate the z0 test statistic using the formula from lecture.
 ```{r}
-n1 <- 359
-n2 <-161
-pihat1 <- 192/n1
-pihat2 <- 38/n2
-pihat_pool <- (192+38)/(n1 + n2)
-z0 <- (pihat1-pihat2)/sqrt(pihat_pool*(1-pihat_pool)/n1 + pihat_pool*(1-pihat_pool)/n2)
+mail_voters_2020 <- 359
+non_mail_voters_2020 <-161
+
+pihat1 <- 192 / mail_voters_2020
+pihat2 <- 38 / non_mail_voters_2020
+pihat_pool <- (192 + 38) / (mail_voters_2020 + non_mail_voters_2020)
+
+z0 <- (pihat1-pihat2) / sqrt(pihat_pool * (1 - pihat_pool) / mail_voters_2020 + pihat_pool*(1 - pihat_pool) / non_mail_voters_2020)
 z0
 ```
 
 
 Try on your own: if you set "correct=FALSE" in the `prop.test` call, R will not use a continuity correction.  Under this setting, the test statistic will be equal to the absolute value of z0 as calculated using the formulas from lecture.
+
+```{r}
+test2.result <- prop.test(x = mail2024, n = votes2020, alternative = 'greater', correct = FALSE)
+sqrt(test2.result$statistic)
+```
 
 
 # Inference on one mean in R
@@ -164,7 +177,7 @@ Use the data in `mushrooms.csv`, posted in Canvas, for the following exercises. 
 a. Create a contingency table (two way table) summarizing the variables `edible` ("e" for edible and "p" for poisonous) and `bruises` ("t" for true, the species bruises and "f" for false, the species does not bruise.) What proportion of species that bruise are edible?
 
 **Answer: 84% of species that bruise are edible.**
-```{r 1a}
+```{r ex1a}
 mushrooms <- read.csv("mushrooms.csv")
 
 mush_table <- table(mushrooms$bruises, mushrooms$edible)
@@ -178,21 +191,21 @@ b. Create an interpret a 90% confidence interval for the difference between the 
 
 
 **Answer: The 90% confidence interval for $\pi_{bruise}-\pi_{no bruise}$ is (0.4816, 0.6224). I am 90% confident that the proportion of edible mushrooms among those that bruise is between 0.4816 and 0.6224 greater than the proportion of edible mushrooms among those that do not bruise.**
-```{r 1b}
-prop.test(mush_table, conf.level = 0.90)
+```{r ex1b}
+prop.test(mush_table, conf.level = 0.90, correct = FALSE)
 ```
 
 
 c. Now consider `gill.size` as a grouping variable.  Gill.size is equal to "b" for mushrooms with broad gills and "n" for mushrooms with narrow gills.  Conduct a hypothesis test, using $\alpha=0.05$, to assess whether the data provide strong evidence that that mushrooms with narrow gills are less likely to bruise than those with broad gills.  State the test statistic, p-value, and conclusion of your test.
 
-**Answer: There is some association between gill size and bruises; 54.2% of broad gilled mushrooms bruise, while only 13.9% of narrrow gilled mushrooms bruise. The test statistic is $|z_0|=7.783997$ with a p-value that is nearly zero, $3.5\times 10^{15}$. Thus we reject the null hypothesis and conclude that the data provide strong evidence that narrow-gilled mushrooms are less likely to bruise than those with broad gills.**
-```{r 1c}
+**Answer: There is some association between gill size and bruises; 54.2% of broad gilled mushrooms bruise, while only 13.9% of narrow gilled mushrooms bruise. The test statistic is $|z_0|=7.783997$ with a p-value that is nearly zero, $3.5\times 10^{15}$. Thus we reject the null hypothesis and conclude that the data provide strong evidence that narrow-gilled mushrooms are less likely to bruise than those with broad gills.**
+```{r ex1c}
 gill_table <- table(mushrooms$gill.size, mushrooms$bruises)
 gill_table
 
 prop.table(gill_table, 1)
 
-gill_test <- prop.test(gill_table, alternative = "less")
+gill_test <- prop.test(gill_table, alternative = "less", correct = FALSE)
 
 sqrt(gill_test$statistic)
 gill_test$p.value
@@ -208,8 +221,8 @@ a. Think about the data collection in this scenario, and how it differs from the
 b. Is there a significant difference in levels of support for candidate A across the two groups? Perform a large sample test. Use $\alpha=0.05$. Report the test statistic, p-value, and conclusion. (Hint: if you use `prop.test`, you'll need to find the number of successes. The sample proportions and sample sizes will help.)
 
 **Answer: We find the test statistic is $|z_0|=1.329649$ and the p-value is 0.1836. The large p-value indicates very weak evidence in favor of the alternative, and for the choice of $\alpha=0.05$ we should fail to reject the null. We conclude that the evidence is insufficient to conclude that the two groups have different levels of support for the candidate.**
-```{r 2b}
-candidate_test <- prop.test(c(72,86), n = c(200,200), alternative = 'two.sided')
+```{r ex2b}
+candidate_test <- prop.test(c(72,86), n = c(200,200), alternative = 'two.sided', correct = FALSE)
 candidate_test
 sqrt(candidate_test$statistic)
 ```
@@ -227,7 +240,7 @@ Use the Airbnb data from the file `airbnb_asheville.csv`.  These represent a sim
 a.  Find a 99% confidence interval for the average price of Airbnb listings in Asheville in 2022.
 
 **Answer: The code below find the confidence interval to be (\$151.13, \$190.66). We are 99% confident that the mean nightly price for Airbnbs in Asheville, winter 2022 is between \$151.13 and \$190.66.**
-```{r 3a}
+```{r ex3a}
 airbnb <- read.csv("airbnb_asheville.csv")
 
 t.test(airbnb$price, conf.level = 0.99)
@@ -236,7 +249,7 @@ t.test(airbnb$price, conf.level = 0.99)
 b. Make a normal quantile plot of the data.  Does the sample appear to be approximately normal? Based on this answer and the sample size, are you concerned with the validity of your results?
 
 **Answer: The normal quantile plot below shows a high degree of curvature, which is probably due to the right-skew in the Price variable. The t test assumes that data are approximately normal; this violation of the assumption could lead to coverage probabilities and type 1 error probabilities that differ from their nominal level. However, the t-test is fairly robust to non-normality; since the sample size is not too small, we can trust that the procedure will still give results that provide useful information about the population.**
-```{r 3b}
+```{r ex3b}
 qqnorm(airbnb$price)
 ```
 
@@ -244,7 +257,7 @@ qqnorm(airbnb$price)
 c. Take the natural log of price.  Use this transformed data to find a 95\% confidence interval for the log of the average Airbnb price.  
 
 **Answer: The code below calculates the CI. We are 95\% confident that the mean log Airbnb price is between \$4.85 and \$4.91. I can also exponentiate the lower and upper endpoints to get a CI on the original price scale. This interval, shown below, is (\$128.20, \$144.7633).**
-```{r 3c}
+```{r ex3c}
 t.test(log(airbnb$price), conf.level=0.95)
 
 print("95% CI on price scale:")
@@ -254,7 +267,7 @@ c(exp(4.8536), exp(4.9751))
 d. Make a normal quantile plot of the natural log of price.  Does the sample appear to be approximately normal?  
 
 **Answer: The log prices seem much closer to approximately normal than the prices do. There is some curvature in the upper right of the plot, indicating that the log samples are still somewhat right skewed, but this pattern indicates only a mild violation of the normality assumption.**
-```{r 3d}
+```{r ex3d}
 qqnorm(log(airbnb$price), main = 'log price')
 qqline(log(airbnb$price), col = 'red')
 ```

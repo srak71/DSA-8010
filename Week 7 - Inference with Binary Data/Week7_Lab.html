@@ -378,7 +378,7 @@ defective and 1 if it is.</p>
 # 
 n &lt;- 320  # number of widgets to sample from the line
 true.pi &lt;- 0.04  # true proportion of defective widgets
-defects &lt;- rbinom(n,1,prob=true.pi) # indicator of whether it is defective
+defects &lt;- rbinom(n, 1, prob = true.pi) # indicator of whether it is defective
 
 # put it all into a data frame
 widget_data &lt;- data.frame(widget_no = 1:n, defective = defects)
@@ -386,7 +386,7 @@ head(widget_data)</code></pre>
 <pre><code>##   widget_no defective
 ## 1         1         0
 ## 2         2         0
-## 3         3         1
+## 3         3         0
 ## 4         4         0
 ## 5         5         0
 ## 6         6         1</code></pre>
@@ -398,38 +398,46 @@ head(widget_data)</code></pre>
 <pre class="r"><code>table(widget_data$defective)</code></pre>
 <pre><code>## 
 ##   0   1 
-## 301  19</code></pre>
+## 307  13</code></pre>
 <pre class="r"><code>prop.table(table(widget_data$defective))</code></pre>
 <pre><code>## 
 ##        0        1 
-## 0.940625 0.059375</code></pre>
+## 0.959375 0.040625</code></pre>
+<pre class="r"><code>head(widget_data)</code></pre>
+<pre><code>##   widget_no defective
+## 1         1         0
+## 2         2         0
+## 3         3         0
+## 4         4         0
+## 5         5         0
+## 6         6         1</code></pre>
 </div>
 <div id="confidence-interval-for-the-proportion" class="section level2">
 <h2>Confidence interval for the proportion</h2>
 <p>To make a 90% confidence interval for pi, the true proportion of
 widgets that are defective, I can use the <code>prop.test</code>
 function as shown below.</p>
-<pre class="r"><code>successes &lt;- sum(widget_data==1)
+<pre class="r"><code>successes &lt;- sum(widget_data$defective == 1)
 n &lt;- nrow(widget_data)
 prop.test(successes, n, conf.level=0.90)</code></pre>
 <pre><code>## 
 ##  1-sample proportions test with continuity correction
 ## 
 ## data:  successes out of n, null probability 0.5
-## X-squared = 243.25, df = 1, p-value &lt; 2.2e-16
+## X-squared = 268.28, df = 1, p-value &lt; 2.2e-16
 ## alternative hypothesis: true p is not equal to 0.5
 ## 90 percent confidence interval:
-##  0.04240790 0.09043403
+##  0.02477101 0.06482758
 ## sample estimates:
-##      p 
-## 0.0625</code></pre>
+##        p 
+## 0.040625</code></pre>
 <p>By default, this function prints a lot of information.</p>
 <p>If you are only interested in the confidence interval, you can
 extract it by appending <code>$conf.int</code> to the call of
 <code>prop.test</code>.</p>
 <pre class="r"><code>ci_pi &lt;- prop.test(successes, n, conf.level=0.90)$conf.int
 ci_pi</code></pre>
-<pre><code>## [1] 0.04240790 0.09043403
+<pre><code>## [1] 0.02477101 0.06482758
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.9</code></pre>
 <p>Remember that the default settings in R use a continuity correction
@@ -447,27 +455,30 @@ You can change the alternative using the <code>alternative</code> option
 (the options are “two.sided”, “less”, and “greater”). The option
 <code>correct=FALSE</code> will result in the large-sample test from
 lecture being performed.</p>
-<pre class="r"><code>test_result &lt;- prop.test(successes,n,p=0.03, alternative=&#39;greater&#39;, correct=FALSE)
+<p>We will now test our hypothesis, <span class="math display">\[H_0:\pi=0.03; \quad H_A: \pi &gt;
+0.03.\]</span></p>
+<pre class="r"><code>test_result &lt;- prop.test(successes, n, p=0.03, alternative=&#39;greater&#39;, correct=FALSE)
 print(test_result)</code></pre>
 <pre><code>## 
 ##  1-sample proportions test without continuity correction
 ## 
 ## data:  successes out of n, null probability 0.03
-## X-squared = 11.615, df = 1, p-value = 0.0003271
+## X-squared = 1.2414, df = 1, p-value = 0.1326
 ## alternative hypothesis: true p is greater than 0.03
 ## 95 percent confidence interval:
-##  0.04370243 1.00000000
+##  0.02599412 1.00000000
 ## sample estimates:
-##      p 
-## 0.0625</code></pre>
+##        p 
+## 0.040625</code></pre>
 <p>You can extract the p-value for the test as follows:</p>
 <pre class="r"><code>test_result$p.value</code></pre>
-<pre><code>## [1] 0.000327089</code></pre>
+<pre><code>## [1] 0.1325998</code></pre>
 <p>You can also find the absolute value of the <span class="math inline">\(z_0\)</span> statistic using the code below. It’s
 good practice to report this value as well as the p-value.</p>
-<pre class="r"><code>sqrt(test_result$statistic)</code></pre>
+<pre class="r"><code>z.0 &lt;- sqrt(test_result$statistic)
+print(z.0)</code></pre>
 <pre><code>## X-squared 
-##  3.408096</code></pre>
+##  1.114185</code></pre>
 </div>
 </div>
 <div id="exercises" class="section level1">
@@ -485,15 +496,6 @@ poisonous? What proportion are edible?</li>
 </ol>
 <p><strong>Answer: Edible = 219, Poisonous = 206, Proportion Edible =
 0.5152941</strong></p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>mushrooms &lt;- read.csv(&#39;mushrooms.csv&#39;)
 table(mushrooms$edible)</code></pre>
 <pre><code>## 
@@ -509,34 +511,37 @@ of mushrooms that are edible. Use the formula for a large-sample
 interval given in lecture.</li>
 </ol>
 <p><strong>Answer: Conf Interval = (45.28%, 57.77%)</strong></p>
-<pre class="r"><code>pi.hat &lt;- sum(mushrooms$edible==&#39;e&#39;) / nrow(mushrooms)
+<pre class="r"><code>pi.hat &lt;- sum(mushrooms$edible == &#39;e&#39;) / nrow(mushrooms)
 z.star &lt;- qnorm(1 - 0.01 / 2)
 std.error &lt;- sqrt(pi.hat * (1 - pi.hat) / nrow(mushrooms))
 
-lower_bound &lt;- round(100 * (pi.hat - z.star * std.error), 2)
-upper_bound &lt;- round(100 * (pi.hat + z.star * std.error), 2)
+lower_bound &lt;- pi.hat - z.star * std.error
+upper_bound &lt;- pi.hat + z.star * std.error
 
-print(paste(&#39;Lower Bound:&#39;, lower_bound, &#39;%&#39;, &#39;Upper Bound&#39;, upper_bound, &#39;%&#39;))</code></pre>
-<pre><code>## [1] &quot;Lower Bound: 45.29 % Upper Bound 57.77 %&quot;</code></pre>
+print(paste(lower_bound, upper_bound))</code></pre>
+<pre><code>## [1] &quot;0.452850313614731 0.577737921679386&quot;</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Use the <code>prop.test</code> function to find a 99% confidence
 interval for the proportion of mushrooms that are edible. Does it differ
 from the one you found in part b? If so, is the difference substantial
 enough to lead you to different conclusions?</li>
 </ol>
-<p><strong>Answer: prop.test’s 99 percent confidence interval upper
-bound differs very slightly (old upper bound = 57.77%, new upper bound =
-57.82%). This change in confidence interval is not enough to lead to a
-new conclusion.</strong></p>
-<pre class="r"><code>prop.test(sum(mushrooms$edible==&#39;e&#39;), nrow(mushrooms), conf.level=0.99)</code></pre>
+<p><strong>Answer: prop.test Conf Interval = (45.31%, 57.70%) This
+change in confidence interval is not enough to lead to a new
+conclusion.</strong></p>
+<pre class="r"><code>edible_cnt &lt;- nrow(mushrooms %&gt;% filter(mushrooms$edible == &#39;e&#39;))
+n_mush &lt;- nrow(mushrooms)
+conf_lvl &lt;- 0.99
+
+prop.test(edible_cnt, n_mush, conf.level = conf_lvl, correct = FALSE)</code></pre>
 <pre><code>## 
-##  1-sample proportions test with continuity correction
+##  1-sample proportions test without continuity correction
 ## 
-## data:  sum(mushrooms$edible == &quot;e&quot;) out of nrow(mushrooms), null probability 0.5
-## X-squared = 0.33882, df = 1, p-value = 0.5605
+## data:  edible_cnt out of n_mush, null probability 0.5
+## X-squared = 0.39765, df = 1, p-value = 0.5283
 ## alternative hypothesis: true p is not equal to 0.5
 ## 99 percent confidence interval:
-##  0.4519339 0.5781753
+##  0.4530966 0.5770215
 ## sample estimates:
 ##         p 
 ## 0.5152941</code></pre>
@@ -548,15 +553,21 @@ summarize your conclusion. Use <span class="math inline">\(\alpha=0.01\)</span>.
 </ol>
 <p><strong>Answer: The calculated test statistic is 0.5820855 and
 p-value is 0.5605. Since our p-value is greater than <span class="math inline">\(\alpha=0.01\)</span> we fail to reject the null
-hypothesis. We can conclude that the data does not provide sufficient
-evidence to conclude that the proportion of edible mushroom species is
-not 0.5.</strong></p>
-<pre class="r"><code>test1 &lt;- prop.test(sum(mushrooms$edible==&#39;e&#39;), nrow(mushrooms), p = 0.5, alternative=&#39;two.sided&#39;)
+hypothesis (i.e. fail to reject <span class="math inline">\(\pi=0.5\)</span>). We can conclude that the data
+does not provide sufficient evidence to conclude that the proportion of
+edible mushroom species is not 0.5.</strong></p>
+<p>Our hypotheses: <span class="math display">\[H_0:\pi=0.5; \quad
+H_A:\pi\neq 0.5\]</span></p>
+<pre class="r"><code>edible_cnt &lt;- sum(mushrooms$edible == &#39;e&#39;)
+n_mush &lt;- nrow(mushrooms)
+pi &lt;- 0.5
+
+test1 &lt;- prop.test(edible_cnt, n_mush, p = pi, alternative = &#39;two.sided&#39;)
 test1</code></pre>
 <pre><code>## 
 ##  1-sample proportions test with continuity correction
 ## 
-## data:  sum(mushrooms$edible == &quot;e&quot;) out of nrow(mushrooms), null probability 0.5
+## data:  edible_cnt out of n_mush, null probability pi
 ## X-squared = 0.33882, df = 1, p-value = 0.5605
 ## alternative hypothesis: true p is not equal to 0.5
 ## 95 percent confidence interval:
@@ -564,7 +575,8 @@ test1</code></pre>
 ## sample estimates:
 ##         p 
 ## 0.5152941</code></pre>
-<pre class="r"><code>sqrt(test1$statistic)</code></pre>
+<pre class="r"><code>z.0 &lt;- sqrt(test1$statistic)
+z.0</code></pre>
 <pre><code>## X-squared 
 ## 0.5820855</code></pre>
 </div>
@@ -576,11 +588,16 @@ n=narrow.) Report and interpret the interval. Use a reasonable
 confidence level of your choosing.</p>
 <p><strong>Answer: I can conclude that I am 95% confident between 63.1%
 and 72.1% mushrooms have gill size of “broad”.</strong></p>
-<pre class="r"><code>prop.test(sum(mushrooms$gill.size == &#39;b&#39;), nrow(mushrooms), conf.level=0.95)</code></pre>
+<pre class="r"><code>broad_gilled_cnt &lt;- sum(mushrooms$gill.size == &#39;b&#39;)
+n_mush &lt;- nrow(mushrooms)
+conf_lvl &lt;- 0.95
+
+gill_test &lt;- prop.test(broad_gilled_cnt, n_mush, conf.level = conf_lvl)
+gill_test</code></pre>
 <pre><code>## 
 ##  1-sample proportions test with continuity correction
 ## 
-## data:  sum(mushrooms$gill.size == &quot;b&quot;) out of nrow(mushrooms), null probability 0.5
+## data:  broad_gilled_cnt out of n_mush, null probability 0.5
 ## X-squared = 52.941, df = 1, p-value = 3.437e-13
 ## alternative hypothesis: true p is not equal to 0.5
 ## 95 percent confidence interval:
@@ -588,6 +605,10 @@ and 72.1% mushrooms have gill size of “broad”.</strong></p>
 ## sample estimates:
 ##         p 
 ## 0.6776471</code></pre>
+<pre class="r"><code>z.0 &lt;- sqrt(gill_test$statistic)
+z.0</code></pre>
+<pre><code>## X-squared 
+##  7.276069</code></pre>
 </div>
 <div id="ex-3-colored-mushrooms" class="section level2">
 <h2>Ex 3: colored mushrooms</h2>
@@ -598,14 +619,15 @@ proportion of these mushrooms that are edible is greater than 0.5. Use
 <span class="math inline">\(\alpha=0.05\)</span>.</li>
 </ol>
 <p>Report the test statistic, p-value, and conclusion.</p>
-<p><strong>Answer. Under the hypothesis <span class="math inline">\(H_0:\pi=0.5; \quad H_A: \pi &gt; 0.5.\)</span>, we
-find the test statistic to be <span class="math inline">\(|z_0|=3.341\)</span> and the p-value = 0.0004177.
-Thus the null is rejected in favor of the alternative. The data provide
-strong evidence that more than 50% of white mushrooms are
-edible.</strong></p>
+<p>Our Hypothesis: <span class="math display">\[H_0:\pi=0.5; \quad H_A:
+\pi &gt; 0.5.\]</span></p>
+<p><strong>Answer: We find the test statistic to be <span class="math inline">\(|z_0|=3.341\)</span> and the p-value = 0.0004177.
+Since our p-value is greater than <span class="math inline">\(\alpha=0.05\)</span> we can reject the null
+hypothesis (i.e. reject <span class="math inline">\(\pi=0.5\)</span>).
+Thus we can conclude that we are 95% confident that more than 50% of
+white mushrooms are edible.</strong></p>
 <pre class="r"><code>white &lt;- mushrooms %&gt;% filter(cap.color == &#39;w&#39;)
 
-# summary
 table(white$edible)</code></pre>
 <pre><code>## 
 ##  e  p 
@@ -614,12 +636,16 @@ table(white$edible)</code></pre>
 <pre><code>## 
 ##         e         p 
 ## 0.7321429 0.2678571</code></pre>
-<pre class="r"><code># hyp. test
-prop.test(sum(white$edible == &#39;e&#39;), nrow(white), p = 0.5, alternative=&#39;greater&#39;)</code></pre>
+<pre class="r"><code>white_edible_cnt &lt;- sum(white$edible == &#39;e&#39;)
+white_cnt &lt;- nrow(white)
+pi &lt;- 0.5
+
+white_test &lt;- prop.test(white_edible_cnt, white_cnt, p = pi, alternative = &#39;greater&#39;)
+white_test</code></pre>
 <pre><code>## 
 ##  1-sample proportions test with continuity correction
 ## 
-## data:  sum(white$edible == &quot;e&quot;) out of nrow(white), null probability 0.5
+## data:  white_edible_cnt out of white_cnt, null probability pi
 ## X-squared = 11.161, df = 1, p-value = 0.0004177
 ## alternative hypothesis: true p is greater than 0.5
 ## 95 percent confidence interval:
@@ -627,15 +653,15 @@ prop.test(sum(white$edible == &#39;e&#39;), nrow(white), p = 0.5, alternative=&#
 ## sample estimates:
 ##         p 
 ## 0.7321429</code></pre>
-<pre class="r"><code>test2 &lt;- prop.test(sum(white$edible == &#39;e&#39;), nrow(white), p = 0.5, alternative=&#39;greater&#39;)
-sqrt(test2$statistic)</code></pre>
+<pre class="r"><code>z.0 &lt;- sqrt(white_test$statistic)
+z.0</code></pre>
 <pre><code>## X-squared 
 ##  3.340766</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Compare your findings to exercise 1. Do your findings suggest any
 association between cap color and edibility?</li>
 </ol>
-<p><strong>Answer. In the previous exercise, we concidered the all
+<p><strong>Answer. In the previous exercise, we considered the all
 mushrooms regardless of color and concluded that the data gave no strong
 evidence that more than 50% of mushrooms are edible. In this exercise we
 found strong evidence that more than 50% of white mushrooms are edible.
@@ -650,6 +676,39 @@ interval for <span class="math inline">\(\pi\)</span>. Revisit Lab 1 for
 an example of writing a function.</li>
 </ol>
 <p><strong>Answer.</strong></p>
+<pre class="r"><code># Function for confidence interval using lecture formula
+conf_int &lt;- function(n, x, alpha) {
+  p &lt;- x / n
+  z_score &lt;- qnorm(1 - alpha / 2, 0, 1)
+  z &lt;- sqrt((p * (1 - p)) / n) * z_score
+  interval &lt;- c(p - z, p + z)
+  return(interval)
+}
+
+conf_int(200, 100, 0.01)</code></pre>
+<pre><code>## [1] 0.4089307 0.5910693</code></pre>
+<pre class="r"><code># Function for confidence interval using lecture formula
+conf_int2 &lt;- function(n, x, alpha) {
+  prop &lt;- x / n
+  z.star &lt;- qnorm(1 - alpha / 2)
+  std.error &lt;- sqrt(prop * (1 - prop) / n) * z.star
+  lower_bound &lt;- prop - std.error
+  upper_bound &lt;- prop + std.error
+  return(c(lower_bound, upper_bound))
+}
+
+conf_int2(200, 100, 0.01)</code></pre>
+<pre><code>## [1] 0.4089307 0.5910693</code></pre>
+<pre class="r"><code># Function for confidence interval using prop.test()
+conf_int3 &lt;- function(n, x, alpha) {
+  test_result = prop.test(x, n, conf.level = 1 - alpha, correct = FALSE)
+  return(test_result$conf.int)
+}
+
+conf_int3(200, 100, 0.01)</code></pre>
+<pre><code>## [1] 0.4104047 0.5895953
+## attr(,&quot;conf.level&quot;)
+## [1] 0.99</code></pre>
 </div>
 </div>
 

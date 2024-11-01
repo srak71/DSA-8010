@@ -397,12 +397,14 @@ proportion among those who didn’t vote by mail in 2020, 23.6%.</p>
 <div id="inference-on-two-proportions-in-r" class="section level2">
 <h2>Inference on two proportions in R</h2>
 <p>Let’s define <span class="math inline">\(\pi_1\)</span> to be the
-proportion of 2020 mail-in voters who plan to vote by mail in 2024. Then
-<span class="math inline">\(\pi_2\)</span> is the proportion of 2020
-non-mail voters who plan to vote by mail in 2024. We will use
-inferential methods to investigate whether the difference <span class="math inline">\(\pi_1-\pi_2\)</span> is significantly greater than
-zero, which indicates that 2020 voting preference is associated with
-greater likelihood of mail voting in 2024.</p>
+proportion of 2020 mail-in voters who plan to vote by mail in 2024
+(0.5348189). Then <span class="math inline">\(\pi_2\)</span> is the
+proportion of 2020 non-mail voters who plan to vote by mail in 2024
+(0.2360248). We will use inferential methods to investigate whether the
+difference <span class="math inline">\(\pi_1-\pi_2\)</span> is
+significantly greater than zero, which indicates that 2020 voting
+preference is associated with greater likelihood of mail voting in
+2024.</p>
 <p>When using <code>prop.test()</code> function for inference on two
 proportions, the input can either be a <code>table</code> or vectors of
 successes and sample sizes.</p>
@@ -435,11 +437,14 @@ likely to vote by mail in 2024 than 2020 non-mail voters.</p>
 vector of sample sizes, as shown in lecture. The code below will test
 the hypotheses <span class="math display">\[H_0: \pi_1-\pi_2 = 0; H_A:
 \pi_1-\pi_2 &gt; 0 \]</span> with an <span class="math inline">\(\alpha\)</span> of 0.05.</p>
-<pre class="r"><code>prop.test(x=c(192,38), n=c(359, 161), alternative=&#39;greater&#39;)</code></pre>
+<pre class="r"><code>votes2020 &lt;- c(359, 161) #359 mail voters in 2020, 161 non-mail voters in 2020
+mail2024 &lt;- c(192, 38) # 192 mail voters in 2020 will mail vote in 2024, 38 non-mail voters in 2020 will mail vote in 2024
+
+prop.test(x = mail2024, n = votes2020, alternative = &#39;greater&#39;)</code></pre>
 <pre><code>## 
 ##  2-sample test for equality of proportions with continuity correction
 ## 
-## data:  c(192, 38) out of c(359, 161)
+## data:  mail2024 out of votes2020
 ## X-squared = 39.027, df = 1, p-value = 2.09e-10
 ## alternative hypothesis: greater
 ## 95 percent confidence interval:
@@ -447,13 +452,13 @@ the hypotheses <span class="math display">\[H_0: \pi_1-\pi_2 = 0; H_A:
 ## sample estimates:
 ##    prop 1    prop 2 
 ## 0.5348189 0.2360248</code></pre>
-<p>The p-value for the test is <span class="math inline">\(2.09 \times
-10^-10\)</span>. The squared test statistic (<span class="math inline">\(z_0^2\)</span>) is 39.027. The absolute value of
+<p>The p-value for the test is <span class="math display">\[2.09 \times
+10^{-10}\]</span>. The squared test statistic (<span class="math inline">\(z_0^2\)</span>) is 39.027. The absolute value of
 the test statistic is <span class="math inline">\(\sqrt{39.027}\)</span>, or 6.247159. The sample
 proportions are about 6 standard errors apart.</p>
 <p>Code to print <span class="math inline">\(|z_0|\)</span> and the
 p-value:</p>
-<pre class="r"><code>test.result &lt;- prop.test(x=c(192,38), n=c(359, 161), alternative=&#39;greater&#39;)
+<pre class="r"><code>test.result &lt;- prop.test(x = mail2024, n = votes2020, alternative = &#39;greater&#39;)
 abs.z0 &lt;- sqrt(test.result$statistic)
 p.value &lt;- test.result$p.value
 
@@ -467,18 +472,24 @@ abs.z0</code></pre>
 continuity correction, and so its results will not exactly match the
 large-sample methods seen in lecture. Just for fun, let’s calculate the
 z0 test statistic using the formula from lecture.</p>
-<pre class="r"><code>n1 &lt;- 359
-n2 &lt;-161
-pihat1 &lt;- 192/n1
-pihat2 &lt;- 38/n2
-pihat_pool &lt;- (192+38)/(n1 + n2)
-z0 &lt;- (pihat1-pihat2)/sqrt(pihat_pool*(1-pihat_pool)/n1 + pihat_pool*(1-pihat_pool)/n2)
+<pre class="r"><code>mail_voters_2020 &lt;- 359
+non_mail_voters_2020 &lt;-161
+
+pihat1 &lt;- 192 / mail_voters_2020
+pihat2 &lt;- 38 / non_mail_voters_2020
+pihat_pool &lt;- (192 + 38) / (mail_voters_2020 + non_mail_voters_2020)
+
+z0 &lt;- (pihat1-pihat2) / sqrt(pihat_pool * (1 - pihat_pool) / mail_voters_2020 + pihat_pool*(1 - pihat_pool) / non_mail_voters_2020)
 z0</code></pre>
 <pre><code>## [1] 6.342653</code></pre>
 <p>Try on your own: if you set “correct=FALSE” in the
 <code>prop.test</code> call, R will not use a continuity correction.
 Under this setting, the test statistic will be equal to the absolute
 value of z0 as calculated using the formulas from lecture.</p>
+<pre class="r"><code>test2.result &lt;- prop.test(x = mail2024, n = votes2020, alternative = &#39;greater&#39;, correct = FALSE)
+sqrt(test2.result$statistic)</code></pre>
+<pre><code>## X-squared 
+##  6.342653</code></pre>
 </div>
 </div>
 <div id="inference-on-one-mean-in-r" class="section level1">
@@ -612,15 +623,15 @@ variable.</li>
 among those that bruise is between 0.4816 and 0.6224 greater than the
 proportion of edible mushrooms among those that do not
 bruise.</strong></p>
-<pre class="r"><code>prop.test(mush_table, conf.level = 0.90)</code></pre>
+<pre class="r"><code>prop.test(mush_table, conf.level = 0.90, correct = FALSE)</code></pre>
 <pre><code>## 
-##  2-sample test for equality of proportions with continuity correction
+##  2-sample test for equality of proportions without continuity correction
 ## 
 ## data:  mush_table
-## X-squared = 123.38, df = 1, p-value &lt; 2.2e-16
+## X-squared = 125.58, df = 1, p-value &lt; 2.2e-16
 ## alternative hypothesis: two.sided
 ## 90 percent confidence interval:
-##  -0.6224087 -0.4815913
+##  -0.6175516 -0.4864484
 ## sample estimates:
 ## prop 1 prop 2 
 ##  0.288  0.840</code></pre>
@@ -634,7 +645,7 @@ p-value, and conclusion of your test.</li>
 </ol>
 <p><strong>Answer: There is some association between gill size and
 bruises; 54.2% of broad gilled mushrooms bruise, while only 13.9% of
-narrrow gilled mushrooms bruise. The test statistic is <span class="math inline">\(|z_0|=7.783997\)</span> with a p-value that is
+narrow gilled mushrooms bruise. The test statistic is <span class="math inline">\(|z_0|=7.783997\)</span> with a p-value that is
 nearly zero, <span class="math inline">\(3.5\times 10^{15}\)</span>.
 Thus we reject the null hypothesis and conclude that the data provide
 strong evidence that narrow-gilled mushrooms are less likely to bruise
@@ -650,13 +661,13 @@ gill_table</code></pre>
 ##             f         t
 ##   b 0.4583333 0.5416667
 ##   n 0.8613139 0.1386861</code></pre>
-<pre class="r"><code>gill_test &lt;- prop.test(gill_table, alternative = &quot;less&quot;)
+<pre class="r"><code>gill_test &lt;- prop.test(gill_table, alternative = &quot;less&quot;, correct = FALSE)
 
 sqrt(gill_test$statistic)</code></pre>
 <pre><code>## X-squared 
-##  7.783997</code></pre>
+##  7.889437</code></pre>
 <pre class="r"><code>gill_test$p.value</code></pre>
-<pre><code>## [1] 3.513427e-15</code></pre>
+<pre><code>## [1] 1.51776e-15</code></pre>
 </div>
 <div id="ex-2-promotion" class="section level2">
 <h2>Ex 2 (promotion)</h2>
@@ -683,22 +694,22 @@ alternative, and for the choice of <span class="math inline">\(\alpha=0.05\)</sp
 null. We conclude that the evidence is insufficient to conclude that the
 two groups have different levels of support for the
 candidate.</strong></p>
-<pre class="r"><code>candidate_test &lt;- prop.test(c(72,86), n = c(200,200), alternative = &#39;two.sided&#39;)
+<pre class="r"><code>candidate_test &lt;- prop.test(c(72,86), n = c(200,200), alternative = &#39;two.sided&#39;, correct = FALSE)
 candidate_test</code></pre>
 <pre><code>## 
-##  2-sample test for equality of proportions with continuity correction
+##  2-sample test for equality of proportions without continuity correction
 ## 
 ## data:  c(72, 86) out of c(200, 200)
-## X-squared = 1.768, df = 1, p-value = 0.1836
+## X-squared = 2.0504, df = 1, p-value = 0.1522
 ## alternative hypothesis: two.sided
 ## 95 percent confidence interval:
-##  -0.17056709  0.03056709
+##  -0.16556709  0.02556709
 ## sample estimates:
 ## prop 1 prop 2 
 ##   0.36   0.43</code></pre>
 <pre class="r"><code>sqrt(candidate_test$statistic)</code></pre>
 <pre><code>## X-squared 
-##  1.329649</code></pre>
+##   1.43193</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Find a large sample 95% confidence interval for the the difference
 in support for Candidate A across the groups. Does the interval contain

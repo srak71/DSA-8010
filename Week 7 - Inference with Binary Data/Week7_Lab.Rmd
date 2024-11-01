@@ -7,7 +7,7 @@ output:
 ---
   
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
 ```
 
 (You might want to knit the first time you read this document to view the notation.)
@@ -25,7 +25,7 @@ Instead of giving you a fictional data set to download, I am going to just simul
 # 
 n <- 320  # number of widgets to sample from the line
 true.pi <- 0.04  # true proportion of defective widgets
-defects <- rbinom(n,1,prob=true.pi) # indicator of whether it is defective
+defects <- rbinom(n, 1, prob = true.pi) # indicator of whether it is defective
 
 # put it all into a data frame
 widget_data <- data.frame(widget_no = 1:n, defective = defects)
@@ -39,14 +39,19 @@ table(widget_data$defective)
 prop.table(table(widget_data$defective))
 ```
 
+```{r}
+head(widget_data)
+```
+
 ## Confidence interval for the proportion
 To make a 90% confidence interval for pi, the true proportion of widgets that are defective, I can use the `prop.test` function as shown below. 
 
 ```{r}
-successes <- sum(widget_data==1)
+successes <- sum(widget_data$defective == 1)
 n <- nrow(widget_data)
 prop.test(successes, n, conf.level=0.90)
 ```
+
 
 By default, this function prints a lot of information.
 
@@ -65,8 +70,9 @@ The same `prop.test` function performs a hypothesis test for $\pi$.  By default,
 
 You can change the null value ($\pi_0$) using the `p` option. You can change the alternative using the `alternative` option (the options are "two.sided", "less", and "greater").  The option `correct=FALSE` will result in the large-sample test from lecture being performed.
 
+We will now test our hypothesis, $$H_0:\pi=0.03; \quad H_A: \pi > 0.03.$$
 ```{r}
-test_result <- prop.test(successes,n,p=0.03, alternative='greater', correct=FALSE)
+test_result <- prop.test(successes, n, p=0.03, alternative='greater', correct=FALSE)
 print(test_result)
 ```
 
@@ -78,7 +84,8 @@ test_result$p.value
 You can also find the absolute value of the $z_0$ statistic using the code below. It's good practice to report this value as well as the p-value.
 
 ```{r}
-sqrt(test_result$statistic)
+z.0 <- sqrt(test_result$statistic)
+print(z.0)
 ```
 
 # Exercises
@@ -93,8 +100,7 @@ a. How many species in the sample are edible and how many are poisonous?  What p
 
 **Answer: Edible = 219, Poisonous = 206, Proportion Edible = 0.5152941**
 
-```{r exersize1a}
-library(dplyr)
+```{r ex1a}
 mushrooms <- read.csv('mushrooms.csv')
 table(mushrooms$edible)
 prop.table(table(mushrooms$edible))
@@ -105,35 +111,46 @@ b. Calculate a 99% large-sample confidence interval for the proportion of mushro
 
 **Answer: Conf Interval = (45.28%, 57.77%)** 
 
-```{r exersize1b}
+```{r ex1b}
 pi.hat <- sum(mushrooms$edible == 'e') / nrow(mushrooms)
 z.star <- qnorm(1 - 0.01 / 2)
 std.error <- sqrt(pi.hat * (1 - pi.hat) / nrow(mushrooms))
 
-lower_bound <- round(100 * (pi.hat - z.star * std.error), 2)
-upper_bound <- round(100 * (pi.hat + z.star * std.error), 2)
+lower_bound <- pi.hat - z.star * std.error
+upper_bound <- pi.hat + z.star * std.error
 
-print(paste('Lower Bound:', lower_bound, '%', 'Upper Bound', upper_bound, '%'))
+print(paste(lower_bound, upper_bound))
 ```
 
 
 c. Use the `prop.test` function to find a 99% confidence interval for the proportion of mushrooms that are edible.  Does it differ from the one you found in part b?  If so, is the difference substantial enough to lead you to different conclusions? 
 
-**Answer: prop.test's 99 percent confidence interval upper bound differs very slightly (old upper bound = 57.77%, new upper bound = 57.82%). This change in confidence interval is not enough to lead to a new conclusion.**
+**Answer: prop.test Conf Interval = (45.31%, 57.70%) This change in confidence interval is not enough to lead to a new conclusion.**
 
-```{r exersize1c}
-prop.test(sum(mushrooms$edible == 'e'), nrow(mushrooms), conf.level=0.99)
+```{r ex1c}
+edible_cnt <- nrow(mushrooms %>% filter(mushrooms$edible == 'e'))
+n_mush <- nrow(mushrooms)
+conf_lvl <- 0.99
+
+prop.test(edible_cnt, n_mush, conf.level = conf_lvl, correct = FALSE)
 ```
 
 d. Use the `prop.test` function in R to test whether the data provide strong evidence that the proportion of edible species is not equal to 0.5.  Report the test statistic, p-value, decision, and summarize your conclusion. Use $\alpha=0.01$.
 
-**Answer: The calculated test statistic is 0.5820855 and p-value is 0.5605. Since our p-value is greater than $\alpha=0.01$ we fail to reject the null hypothesis. We can conclude that the data does not provide sufficient evidence to conclude that the proportion of edible mushroom species is not 0.5.**
+**Answer: The calculated test statistic is 0.5820855 and p-value is 0.5605. Since our p-value is greater than $\alpha=0.01$ we fail to reject the null hypothesis (i.e. fail to reject $\pi=0.5$). We can conclude that the data does not provide sufficient evidence to conclude that the proportion of edible mushroom species is not 0.5.**
 
-```{r exersize1d}
-test1 <- prop.test(sum(mushrooms$edible == 'e'), nrow(mushrooms), p = 0.5, alternative = 'two.sided')
+Our hypotheses: $$H_0:\pi=0.5; \quad H_A:\pi\neq 0.5$$
+
+```{r ex1d}
+edible_cnt <- sum(mushrooms$edible == 'e')
+n_mush <- nrow(mushrooms)
+pi <- 0.5
+
+test1 <- prop.test(edible_cnt, n_mush, p = pi, alternative = 'two.sided')
 test1
 
-sqrt(test1$statistic)
+z.0 <- sqrt(test1$statistic)
+z.0
 ```
 
 
@@ -143,8 +160,16 @@ Estimate (make a confidence interval for) the proportion of mushrooms whose `gil
 
 **Answer: I can conclude that I am 95% confident between 63.1% and 72.1% mushrooms have gill size of "broad".**
 
-```{r exersize2}
-prop.test(sum(mushrooms$gill.size == 'b'), nrow(mushrooms), conf.level = 0.95)
+```{r ex2}
+broad_gilled_cnt <- sum(mushrooms$gill.size == 'b')
+n_mush <- nrow(mushrooms)
+conf_lvl <- 0.95
+
+gill_test <- prop.test(broad_gilled_cnt, n_mush, conf.level = conf_lvl)
+gill_test
+
+z.0 <- sqrt(gill_test$statistic)
+z.0
 ```
 
 ## Ex 3: colored mushrooms
@@ -152,25 +177,33 @@ a. Look at the mushrooms for whose `cap.color` equal `w` (white). Test whether t
 
 Report the test statistic, p-value, and conclusion.
 
-**Answer: Under the hypothesis $H_0:\pi=0.5; \quad H_A: \pi > 0.5.$, we find the test statistic to be $|z_0|=3.341$ and the p-value = 0.0004177. Thus the null is rejected in favor of the alternative- more than 50% of white mushrooms are edible.**
+Our Hypothesis: $$H_0:\pi=0.5; \quad H_A: \pi > 0.5.$$
 
-```{r exersize3a}
+**Answer: We find the test statistic to be $|z_0|=3.341$ and the p-value = 0.0004177. Since our p-value is greater than $\alpha=0.05$ we can reject the null hypothesis (i.e. reject $\pi=0.5$). Thus we can conclude that we are 95% confident that more than 50% of white mushrooms are edible.**
+
+```{r ex3asumry}
 white <- mushrooms %>% filter(cap.color == 'w')
 
-# summary
 table(white$edible)
 prop.table(table(white$edible))
+```
 
-# hyp. test
-prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative = 'greater')
-test2 <- prop.test(sum(white$edible == 'e'), nrow(white), p = 0.5, alternative = 'greater')
-sqrt(test2$statistic)
+```{r ex3ahypotest}
+white_edible_cnt <- sum(white$edible == 'e')
+white_cnt <- nrow(white)
+pi <- 0.5
+
+white_test <- prop.test(white_edible_cnt, white_cnt, p = pi, alternative = 'greater')
+white_test
+
+z.0 <- sqrt(white_test$statistic)
+z.0
 ```
 
 
 b. Compare your findings to exercise 1. Do your findings suggest any association between cap color and edibility? 
 
-**Answer. In the previous exercise, we concidered the all mushrooms regardless of color and concluded that the data gave no strong evidence that more than 50% of mushrooms are edible. In this exercise we found strong evidence that more than 50% of white mushrooms are edible. Thus we can see some association between mushroom color and edibility. **
+**Answer. In the previous exercise, we considered the all mushrooms regardless of color and concluded that the data gave no strong evidence that more than 50% of mushrooms are edible. In this exercise we found strong evidence that more than 50% of white mushrooms are edible. Thus we can see some association between mushroom color and edibility. **
 
 
 
@@ -180,8 +213,9 @@ a. Write an R function to calculate the large-sample confidence interval for $\p
 
 **Answer.**
 
-```{r exercise4}
-conf_interval <- function(n, x, alpha) {
+```{r ex4}
+# Function for confidence interval using lecture formula
+conf_int <- function(n, x, alpha) {
   p <- x / n
   z_score <- qnorm(1 - alpha / 2, 0, 1)
   z <- sqrt((p * (1 - p)) / n) * z_score
@@ -189,5 +223,36 @@ conf_interval <- function(n, x, alpha) {
   return(interval)
 }
 
-conf_interval(200, 100, 0.01)
+conf_int(200, 100, 0.01)
 ```
+
+```{r ex4b}
+# Function for confidence interval using lecture formula
+conf_int2 <- function(n, x, alpha) {
+  prop <- x / n
+  z.star <- qnorm(1 - alpha / 2)
+  std.error <- sqrt(prop * (1 - prop) / n) * z.star
+  lower_bound <- prop - std.error
+  upper_bound <- prop + std.error
+  return(c(lower_bound, upper_bound))
+}
+
+conf_int2(200, 100, 0.01)
+```
+
+```{r ex4c}
+# Function for confidence interval using prop.test()
+conf_int3 <- function(n, x, alpha) {
+  test_result = prop.test(x, n, conf.level = 1 - alpha, correct = FALSE)
+  return(test_result$conf.int)
+}
+
+conf_int3(200, 100, 0.01)
+```
+
+
+
+
+
+
+
