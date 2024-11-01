@@ -1,0 +1,162 @@
+---
+title: "Week 8 Lab - inference on two proportions; inference on one mean"
+author: "suggested solution"
+date: "Submission date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+# Exercises
+
+## Ex 1: Mushrooms
+
+Use the data in `mushrooms.csv`, posted in Canvas, for the following exercises.  You may choose whether to use `prop.test` with the default continuity corrections for this exercise or use the formulas from lecture.  
+
+a. Create a contingency table (two way table) summarizing the variables `edible` ("e" for edible and "p" for poisonous) and `bruises` ("t" for true, the species bruises and "f" for false, the species does not bruise.) What proportion of species that bruise are edible?
+
+**Answer:**
+The code below reads in the data, creates the frequency table, and finds a proportion table with row proportions. Among the species that bruise, 84% are edible.
+
+```{r}
+mush <- read.csv("mushrooms.csv")
+
+t.mush <- table(mush$bruises, mush$edible)
+t.mush
+
+prop.table(t.mush,1)
+```
+
+
+b. Create an interpret a 90% confidence interval for the difference between the proportion of mushrooms that bruise that are edible (group 1) and the proportion of mushrooms that do not bruise that are edible.  
+
+
+**Answer:**
+The output from prop.test with the table input is shown below. I see that prop 1 is 0.288, which is the proportion of edible mushrooms among those that do not bruise. The group labels are reversed from those given above and the given interval is for $\pi_{no bruise}-\pi_{bruise}$. If I want an interval for $\pi_{bruise}-\pi_{no bruise}$, I switch the end points and signs.
+
+The 90% CI for $\pi_{bruise}-\pi_{no bruise}$ is (0.4816, 0.6224); in other words, we are 90% confident that the proportion of edible mushrooms among those that bruise is between 0.4816 and 0.6224 greater than the proportion of edible mushrooms among those that do not bruise.
+
+```{r}
+prop.test(t.mush, conf.level=0.90)
+```
+
+If I don't want to switch the signs and endpoints of the interval, I can also make sure that the groups are labeled the way I want in prop.test.  Here, I input the number of edible species in each group as "x" and the sample sizes as "n" in prop.test. This gives me the result with "bruise" as group 1.
+
+```{r}
+prop.test(x=c(147,72), n=c(147+28,72+178),conf.level=0.90)
+```
+
+c. Now consider `gill.size` as a grouping variable.  Gill.size is equal to "b" for mushrooms with broad gills and "n" for mushrooms with narrow gills.  Conduct a hypothesis test, using $\alpha=0.05$, to assess whether the data provide strong evidence that that mushrooms with narrow gills are less likely to bruise than those with broad gills.  State the test statistic, p-value, and conclusion of your test.
+
+**Answer:**
+
+I'll start with a quick descriptive analysis. It's always good to do this before a test, even if you aren't forced to. The proportion table below indicates that there is some association between gill size and bruises; 54.2% of broad gilled mushrooms bruise, while only 13.9% of narrrow gilled mushrooms bruise.
+
+```{r}
+gill.table <- table(mush$gill.size, mush$bruises)
+gill.table
+
+prop.table(gill.table,1)
+
+```
+
+The test statistic is $|z_0|=7.783997$ with a p-value that is nearly zero, $3.5\times 10^{15}$. Reject the null hypothesis and conclude that the data provide strong evidence that narrow-gilled mushrooms are less likely to bruise than those with broad gills.
+
+```{r}
+gill.test <- prop.test(gill.table, alternative='less')
+
+sqrt(gill.test$statistic)
+gill.test$p.value
+```
+
+
+## Ex 2 (promotion)
+
+A political research group asked a random sample of 200 homeowners and asked if they plan to vote for Candidate A. 36\% of the volunteers planned to vote for A.  They then asked a random sample of 200 non-homeowners, and they found that 43\% planned to vote for Candidate A. 
+
+a. Think about the data collection in this scenario, and how it differs from the similar scenario discussed in lecture. Convince yourself that using the inference on two proportions procedures is reasonable in this case. (You don't need to write anything.)
+
+**Answer.**
+In this scenario, there are two groups of 200 voters, for a total sample size of 400. The scenario discussed in lecture had only 200 voters, with repeated measurements on each voter.
+
+b. Is there a significant difference in levels of support for candidate A across the two groups? Perform a large sample test. Use $\alpha=0.05$. Report the test statistic, p-value, and conclusion. (Hint: if you use `prop.test`, you'll need to find the number of successes. The sample proportions and sample sizes will help.)
+
+**Answer:**
+First, I notice that if 36% of 200 homeowners support the candidate, then there were 200\*0.36 = 72 successes in that group. Similarly, in the non-homeowner group there were 200\*0.43= 86 successes.  I will let $\pi_1$ be the proportion of homeowners who support the candidate and $\pi_2$ be the proportion of non-owners who support it. 
+
+The hypotheses are $$H_0: \pi_1 - \pi_2 =0; \quad H_A: \pi_1 - \pi_2 \neq  0. $$
+
+The code below shows that the test statistic is $|z_0|=1.329649$ and the p-value is 0.1836. The large p-value indicates very weak evidence in favor of the alternative, and for the conventional choice of $\alpha=0.05$ we should fail to reject the null. We conclude that the evidence is insufficient to conclude that the two groups have different levels of support for the candidate. 
+```{r}
+candidate.test <- prop.test(c(72,86), n=c(200,200),alternative='two.sided')
+candidate.test
+sqrt(candidate.test$statistic)
+```
+
+c. Find a large sample 95% confidence interval for the the difference in support for Candidate A across the groups. Does the interval contain 0? Is this consistent with your finding in part (b)?
+
+**Answer:**
+The large sample interval for $\pi_1-\pi_2$ is printed in the output above: (-0.17056709,  0.03056709). We can be confident that the true difference in support for Candidate A between homeowners and non-owners is between -0.17056709 and 0.03056709. The interval does contain zero, indicating that "no difference" is among the plausible true values. This is consistent with the test, which also found that we can cannot rule out the possibility of no difference between the groups. 
+
+
+
+## Ex 3 (prices)
+
+Use the Airbnb data from the file `airbnb_asheville.csv`.  These represent a simple random sample of active Airbnb listings in Asheville in 2022.
+
+a.  Find a 99% confidence interval for the average price of Airbnb listings in Asheville in 2022.
+
+**Answer:**
+
+The code below find the confidence interval to be (\$151.13, \$190.66). We are 99% confident that the mean nightly price for Airbnbs in Asheville, winter 2022 is between \$151.13 and \$190.66. 
+
+```{r}
+airbnb <- read.csv("Data/airbnb_asheville.csv")
+
+t.test(airbnb$price, conf.level=0.99)
+```
+
+b. Make a normal quantile plot of the data.  Does the sample appear to be approximately normal? Based on this answer and the sample size, are you concerned with the validity of your results?
+
+**Answer:**
+The normal quantile plot below shows a high degree of curvature, which is probably due to the right-skew in the Price variable. The t test assumes that data are approximately normal; this violation of the assumption could lead to coverage probabilities and type 1 error probabilities that differ from their nominal level. However, the t-test is fairly robust to non-normality; since the sample size is not too small, we can trust that the procedure will still give results that provide useful information about the population.
+
+```{r}
+qqnorm(airbnb$price)
+
+```
+
+
+c. Take the natural log of price.  Use this transformed data to find a 95\% confidence interval for the log of the average Airbnb price.  
+
+**Answer:**
+The code below calculates the CI. We are 95\% confident that the mean log Airbnb price is between \$4.85 and \$4.91. 
+
+```{r}
+t.test(log(airbnb$price), conf.level=0.95) # CI on log scale
+```
+
+I can also exponentiate the lower and upper endpoints to get a CI on the original price scale. This interval, shown below, is (\$128.20, \$144.7633).
+
+```{r}
+c( exp(4.8536), exp(4.9751) ) # CI on price scale
+```
+
+
+d. Make a normal quantile plot of the natural log of price.  Does the sample appear to be approximately normal?  
+
+**Answer:**
+The log prices seem much closer to approximately normal than the prices do. There is some curvature in the upper right of the plot, indicating that the log samples are still somewhat right skewed, but this pattern indicates only a mild violation of the normality assumption.
+```{r}
+qqnorm(log(airbnb$price),main='log price')
+qqline(log(airbnb$price), col='red')
+```
+
+
+

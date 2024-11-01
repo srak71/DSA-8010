@@ -1,0 +1,2198 @@
+country,points,price,province,variety
+US,88,14,California,Pinot Noir
+France,88,14,Provence,Rosé
+US,84,12,California,Pinot Noir
+France,84,12,France Other,Pinot Noir
+Argentina,83,14,Other,Pinot Noir
+US,88,55,California,Pinot Noir
+US,91,45,California,Pinot Noir
+France,85,14,Burgundy,Pinot Noir
+France,87,35,Burgundy,Pinot Noir
+US,86,42,Oregon,Pinot Noir
+US,90,38,California,Chardonnay
+Argentina,88,25,Mendoza Province,Chardonnay
+US,86,125,California,Cabernet Sauvignon
+US,90,95,California,Cabernet Sauvignon
+France,90,80,Burgundy,Pinot Noir
+US,87,65,California,Cabernet Sauvignon
+France,90,26,Burgundy,Chardonnay
+France,87,25,Burgundy,Chardonnay
+France,91,90,Burgundy,Pinot Noir
+US,81,25,California,Chardonnay
+US,91,25,California,Rosé
+US,91,42,Oregon,Pinot Noir
+US,91,125,California,Cabernet Sauvignon
+US,86,40,California,Pinot Noir
+US,92,60,California,Pinot Noir
+US,88,30,California,Pinot Noir
+US,87,30,California,Pinot Noir
+France,87,12,Languedoc-Roussillon,Chardonnay
+Italy,93,40,Tuscany,Cabernet Sauvignon
+US,87,30,California,Cabernet Sauvignon
+US,89,45,California,Chardonnay
+US,93,145,California,Cabernet Sauvignon
+US,88,42,California,Pinot Noir
+US,88,55,California,Pinot Noir
+US,90,34,California,Chardonnay
+France,87,15,Languedoc-Roussillon,Rosé
+US,87,44,California,Pinot Noir
+US,88,28,Washington,Chardonnay
+Argentina,88,20,Mendoza Province,Cabernet Sauvignon
+US,93,29,California,Pinot Noir
+US,86,34,California,Cabernet Sauvignon
+US,89,45,California,Cabernet Sauvignon
+US,92,35,Oregon,Chardonnay
+France,87,13,Rhône Valley,Rosé
+US,92,39,California,Chardonnay
+US,91,35,California,Chardonnay
+US,82,25,New York,Pinot Noir
+US,90,55,Oregon,Pinot Noir
+US,89,40,California,Pinot Noir
+US,90,36,California,Chardonnay
+US,88,36,California,Chardonnay
+US,90,42,California,Pinot Noir
+Argentina,87,32,Mendoza Province,Cabernet Sauvignon
+Chile,90,20,Colchagua Valley,Cabernet Sauvignon
+Chile,85,14,Casablanca Valley,Chardonnay
+US,87,75,California,Pinot Noir
+US,86,20,Oregon,Pinot Noir
+France,89,56,Burgundy,Chardonnay
+US,88,26,Oregon,Pinot Noir
+US,83,13,California,Cabernet Sauvignon
+US,85,17,California,Chardonnay
+US,95,48,California,Pinot Noir
+US,89,30,California,Cabernet Sauvignon
+US,94,44,California,Pinot Noir
+France,87,18,Burgundy,Chardonnay
+US,92,44,California,Pinot Noir
+US,86,26,California,Chardonnay
+US,95,165,California,Cabernet Sauvignon
+US,86,58,California,Cabernet Sauvignon
+Chile,88,20,Casablanca Valley,Pinot Noir
+US,91,100,California,Cabernet Sauvignon
+US,86,20,Oregon,Rosé
+US,91,36,California,Pinot Noir
+US,84,20,California,Cabernet Sauvignon
+US,91,44,Oregon,Cabernet Sauvignon
+US,84,18,California,Pinot Noir
+US,91,55,Oregon,Pinot Noir
+US,94,125,California,Cabernet Sauvignon
+US,93,60,California,Cabernet Sauvignon
+France,93,72,Burgundy,Pinot Noir
+US,91,32,Washington,Cabernet Sauvignon
+US,85,12,California,Chardonnay
+US,90,58,California,Pinot Noir
+France,88,35,Burgundy,Chardonnay
+US,85,48,California,Pinot Noir
+US,92,50,California,Pinot Noir
+US,91,65,California,Pinot Noir
+US,88,23,California,Chardonnay
+US,92,36,Oregon,Pinot Noir
+US,94,70,California,Chardonnay
+US,90,25,Washington,Rosé
+US,88,22,Oregon,Chardonnay
+Chile,84,10,Central Valley,Chardonnay
+US,88,22,California,Chardonnay
+US,88,18,Oregon,Pinot Noir
+US,91,55,California,Chardonnay
+France,91,79,Burgundy,Pinot Noir
+US,94,80,California,Cabernet Sauvignon
+France,83,10,France Other,Rosé
+France,86,23,Burgundy,Chardonnay
+US,88,12,Washington,Rosé
+France,89,16,Provence,Rosé
+US,87,50,California,Pinot Noir
+US,90,20,California,Pinot Noir
+US,93,40,California,Pinot Noir
+US,86,17,California,Pinot Noir
+US,91,49,California,Pinot Noir
+France,85,27,Burgundy,Chardonnay
+US,92,42,California,Pinot Noir
+US,85,12,California,Pinot Noir
+US,92,48,California,Pinot Noir
+France,89,46,Provence,Rosé
+US,91,45,California,Chardonnay
+Italy,91,40,Tuscany,Cabernet Sauvignon
+US,89,17,California,Cabernet Sauvignon
+Chile,88,19,Curicó Valley,Cabernet Sauvignon
+France,90,68,Burgundy,Pinot Noir
+US,92,42,Washington,Cabernet Sauvignon
+US,88,35,Oregon,Pinot Noir
+US,91,40,Oregon,Chardonnay
+US,91,60,California,Cabernet Sauvignon
+US,87,50,Oregon,Pinot Noir
+Chile,84,12,Maipo Valley,Pinot Noir
+US,94,58,California,Chardonnay
+US,88,25,California,Pinot Noir
+US,87,18,California,Chardonnay
+France,89,28,Burgundy,Pinot Noir
+US,94,68,California,Pinot Noir
+France,83,21,Burgundy,Chardonnay
+France,89,56,Burgundy,Chardonnay
+US,88,32,California,Pinot Noir
+US,88,60,California,Pinot Noir
+US,95,50,California,Chardonnay
+Chile,85,12,Maule Valley,Cabernet Sauvignon
+US,86,70,California,Cabernet Sauvignon
+US,88,20,California,Chardonnay
+US,92,39,California,Pinot Noir
+US,92,45,Washington,Cabernet Sauvignon
+Chile,87,16,Casablanca Valley,Pinot Noir
+US,88,30,Washington,Cabernet Sauvignon
+US,93,100,Oregon,Pinot Noir
+Chile,89,20,Casablanca Valley,Pinot Noir
+France,88,16,Bordeaux,Rosé
+US,92,55,California,Cabernet Sauvignon
+France,88,25,Burgundy,Pinot Noir
+US,93,48,California,Pinot Noir
+France,90,28,Burgundy,Chardonnay
+France,92,32,Burgundy,Chardonnay
+France,91,125,Bordeaux,Cabernet Sauvignon
+US,87,20,California,Cabernet Sauvignon
+US,90,75,California,Cabernet Sauvignon
+US,89,35,New York,Chardonnay
+US,87,60,California,Pinot Noir
+US,91,28,Washington,Rosé
+US,87,8,California,Chardonnay
+US,90,25,California,Cabernet Sauvignon
+US,89,27,California,Pinot Noir
+US,85,36,California,Cabernet Sauvignon
+France,94,117,Burgundy,Pinot Noir
+France,88,19,Alsace,Pinot Noir
+US,92,110,California,Cabernet Sauvignon
+US,92,50,California,Pinot Noir
+US,90,42,California,Chardonnay
+Argentina,85,15,Other,Cabernet Sauvignon
+US,88,50,Oregon,Pinot Noir
+US,92,84,California,Cabernet Sauvignon
+US,88,30,California,Pinot Noir
+US,92,40,California,Pinot Noir
+US,93,40,California,Pinot Noir
+US,90,200,California,Cabernet Sauvignon
+Chile,84,24,Casablanca Valley,Chardonnay
+France,92,17,Rhône Valley,Rosé
+France,90,80,Burgundy,Chardonnay
+US,90,50,Oregon,Pinot Noir
+US,85,23,California,Cabernet Sauvignon
+US,90,34,California,Pinot Noir
+US,85,45,Michigan,Pinot Noir
+US,89,37,Washington,Cabernet Sauvignon
+US,88,32,Washington,Cabernet Sauvignon
+US,82,18,California,Cabernet Sauvignon
+US,85,38,California,Chardonnay
+US,90,20,Washington,Chardonnay
+US,86,12,Washington,Chardonnay
+US,88,44,California,Pinot Noir
+US,94,100,California,Cabernet Sauvignon
+US,87,24,California,Pinot Noir
+France,92,43,Burgundy,Pinot Noir
+US,84,54,California,Pinot Noir
+US,90,75,Washington,Cabernet Sauvignon
+US,91,19,California,Rosé
+US,92,30,California,Cabernet Sauvignon
+US,88,70,California,Pinot Noir
+US,93,40,Oregon,Chardonnay
+US,89,48,Oregon,Pinot Noir
+US,93,80,California,Cabernet Sauvignon
+France,87,16,France Other,Rosé
+US,89,40,California,Pinot Noir
+US,89,20,Oregon,Pinot Noir
+US,89,25,California,Chardonnay
+France,90,36,Burgundy,Chardonnay
+US,91,26,California,Chardonnay
+US,88,100,Oregon,Pinot Noir
+US,90,65,Oregon,Pinot Noir
+US,87,39,California,Pinot Noir
+US,91,36,California,Chardonnay
+US,90,90,California,Cabernet Sauvignon
+US,86,28,California,Pinot Noir
+Argentina,80,22,Mendoza Province,Cabernet Sauvignon
+US,91,44,California,Pinot Noir
+France,88,25,Burgundy,Chardonnay
+US,87,18,New York,Rosé
+Chile,86,23,Curicó and Maipo Valleys,Pinot Noir
+US,91,110,California,Cabernet Sauvignon
+US,85,22,California,Chardonnay
+US,92,32,California,Pinot Noir
+US,87,46,California,Pinot Noir
+US,82,14,California,Pinot Noir
+France,86,18,Provence,Rosé
+US,95,65,Oregon,Pinot Noir
+US,85,20,New York,Chardonnay
+US,91,48,California,Pinot Noir
+US,94,95,California,Pinot Noir
+Argentina,84,13,Mendoza Province,Cabernet Sauvignon
+France,91,66,Burgundy,Pinot Noir
+US,83,11,California,Cabernet Sauvignon
+Argentina,82,8,Mendoza Province,Cabernet Sauvignon
+US,88,40,California,Pinot Noir
+France,93,80,Burgundy,Chardonnay
+US,93,65,California,Cabernet Sauvignon
+France,87,25,Burgundy,Pinot Noir
+US,92,50,California,Pinot Noir
+France,92,28,Burgundy,Chardonnay
+US,96,125,Washington,Cabernet Sauvignon
+France,96,281,Burgundy,Pinot Noir
+US,88,20,California,Cabernet Sauvignon
+France,91,47,Burgundy,Chardonnay
+US,90,80,California,Cabernet Sauvignon
+US,85,20,California,Cabernet Sauvignon
+US,89,25,California,Chardonnay
+US,91,22,Oregon,Chardonnay
+US,93,20,California,Chardonnay
+US,86,19,California,Chardonnay
+US,84,15,California,Chardonnay
+US,88,38,California,Pinot Noir
+Argentina,92,90,Mendoza Province,Cabernet Sauvignon
+US,92,40,California,Chardonnay
+France,85,24,Burgundy,Pinot Noir
+US,90,70,Oregon,Pinot Noir
+US,88,26,Washington,Rosé
+France,87,35,Burgundy,Pinot Noir
+France,88,20,Provence,Rosé
+US,86,17,California,Chardonnay
+US,88,30,California,Pinot Noir
+US,90,45,Washington,Cabernet Sauvignon
+US,86,35,Pennsylvania,Pinot Noir
+Chile,84,8,Curicó Valley,Cabernet Sauvignon
+France,85,18,Provence,Rosé
+US,86,35,California,Chardonnay
+US,91,150,Oregon,Pinot Noir
+US,93,30,California,Pinot Noir
+Chile,86,12,Casablanca Valley,Pinot Noir
+US,93,65,California,Pinot Noir
+France,95,42,Burgundy,Chardonnay
+US,95,80,California,Pinot Noir
+France,85,10,Bordeaux,Rosé
+France,89,40,Burgundy,Pinot Noir
+US,91,35,California,Pinot Noir
+France,92,180,Burgundy,Pinot Noir
+US,90,24,Oregon,Rosé
+US,88,65,California,Pinot Noir
+US,92,60,Oregon,Pinot Noir
+US,94,49,California,Pinot Noir
+Argentina,87,17,Other,Chardonnay
+France,88,60,Burgundy,Chardonnay
+US,95,175,California,Cabernet Sauvignon
+US,92,125,California,Cabernet Sauvignon
+US,89,15,California,Pinot Noir
+US,93,44,California,Pinot Noir
+US,86,24,California,Pinot Noir
+US,87,45,California,Pinot Noir
+France,89,79,Burgundy,Pinot Noir
+Chile,83,12,Casablanca Valley,Chardonnay
+US,92,39,California,Pinot Noir
+US,90,45,California,Pinot Noir
+US,85,38,California,Cabernet Sauvignon
+US,86,35,Washington,Cabernet Sauvignon
+US,89,18,California,Chardonnay
+France,87,15,Rhône Valley,Rosé
+US,89,35,California,Cabernet Sauvignon
+US,89,45,Oregon,Pinot Noir
+US,92,120,California,Pinot Noir
+Argentina,82,8,Mendoza Province,Chardonnay
+US,93,80,California,Cabernet Sauvignon
+US,92,32,California,Pinot Noir
+France,87,25,Burgundy,Chardonnay
+US,93,50,California,Pinot Noir
+US,92,44,California,Pinot Noir
+US,90,40,California,Cabernet Sauvignon
+US,88,36,California,Cabernet Sauvignon
+US,87,24,California,Chardonnay
+US,85,15,Washington,Rosé
+France,87,25,Burgundy,Chardonnay
+US,88,150,California,Cabernet Sauvignon
+France,91,78,Burgundy,Pinot Noir
+US,90,20,California,Rosé
+France,93,80,Burgundy,Pinot Noir
+US,90,16,Washington,Rosé
+US,84,15,California,Chardonnay
+US,87,8,California,Chardonnay
+US,86,14,Washington,Rosé
+US,94,48,California,Pinot Noir
+US,91,70,California,Cabernet Sauvignon
+US,83,9,Oregon,Pinot Noir
+US,80,10,California,Cabernet Sauvignon
+US,87,25,California,Pinot Noir
+US,95,75,California,Cabernet Sauvignon
+US,84,55,California,Cabernet Sauvignon
+US,84,8,California,Pinot Noir
+Argentina,85,17,Mendoza Province,Cabernet Sauvignon
+US,86,50,Oregon,Pinot Noir
+US,87,11,California,Chardonnay
+US,93,72,California,Cabernet Sauvignon
+US,88,12,Washington,Chardonnay
+US,86,35,California,Chardonnay
+US,89,24,California,Chardonnay
+US,87,12,California,Chardonnay
+US,92,38,California,Chardonnay
+US,85,20,New York,Chardonnay
+US,88,30,California,Pinot Noir
+US,90,40,California,Pinot Noir
+US,92,40,California,Pinot Noir
+US,93,44,Washington,Cabernet Sauvignon
+US,87,30,California,Cabernet Sauvignon
+US,90,38,California,Cabernet Sauvignon
+US,89,28,California,Cabernet Sauvignon
+US,88,12,California,Chardonnay
+US,89,45,California,Chardonnay
+US,87,22,Oregon,Pinot Noir
+US,85,42,California,Cabernet Sauvignon
+US,84,12,California,Chardonnay
+US,90,65,California,Pinot Noir
+US,89,20,California,Chardonnay
+US,91,49,California,Pinot Noir
+US,93,65,California,Cabernet Sauvignon
+France,86,11,Bordeaux,Rosé
+US,93,78,California,Cabernet Sauvignon
+US,85,45,California,Chardonnay
+US,88,19,New York,Pinot Noir
+France,96,630,Burgundy,Chardonnay
+US,81,12,New York,Chardonnay
+France,88,20,Alsace,Pinot Noir
+US,85,17,California,Cabernet Sauvignon
+US,94,40,California,Chardonnay
+US,85,13,California,Cabernet Sauvignon
+US,84,15,California,Chardonnay
+Chile,84,12,Casablanca Valley,Pinot Noir
+US,91,120,California,Cabernet Sauvignon
+US,88,25,California,Pinot Noir
+US,94,62,California,Pinot Noir
+US,93,55,California,Pinot Noir
+France,92,85,Burgundy,Pinot Noir
+US,90,55,California,Cabernet Sauvignon
+US,89,15,California,Pinot Noir
+US,87,16,California,Pinot Noir
+US,93,22,California,Rosé
+US,91,45,Washington,Cabernet Sauvignon
+US,85,10,New York,Rosé
+US,93,42,California,Pinot Noir
+US,89,28,Oregon,Pinot Noir
+US,87,17,Oregon,Chardonnay
+France,86,17,Burgundy,Chardonnay
+US,87,60,California,Pinot Noir
+US,93,69,California,Cabernet Sauvignon
+US,82,32,California,Cabernet Sauvignon
+US,90,35,California,Chardonnay
+France,90,45,Burgundy,Pinot Noir
+US,96,85,Oregon,Pinot Noir
+France,86,14,Provence,Rosé
+US,93,95,California,Cabernet Sauvignon
+US,91,42,Oregon,Pinot Noir
+US,87,32,California,Pinot Noir
+Chile,86,20,Casablanca Valley,Chardonnay
+US,88,70,California,Cabernet Sauvignon
+US,84,39,California,Cabernet Sauvignon
+US,93,25,California,Cabernet Sauvignon
+US,89,24,Oregon,Pinot Noir
+US,90,49,Oregon,Pinot Noir
+US,85,11,California,Chardonnay
+US,88,55,California,Cabernet Sauvignon
+US,94,125,California,Cabernet Sauvignon
+Argentina,83,8,Mendoza Province,Chardonnay
+US,90,25,California,Chardonnay
+US,89,17,California,Cabernet Sauvignon
+US,90,22,Oregon,Pinot Noir
+US,94,150,California,Cabernet Sauvignon
+Chile,83,13,Limarí Valley,Pinot Noir
+France,88,23,Burgundy,Pinot Noir
+US,94,120,California,Pinot Noir
+US,87,38,California,Chardonnay
+US,88,68,Oregon,Pinot Noir
+US,90,125,Oregon,Pinot Noir
+France,85,9,Rhône Valley,Rosé
+US,90,38,California,Pinot Noir
+Chile,86,12,Maule Valley,Pinot Noir
+Chile,88,10,Casablanca Valley,Chardonnay
+France,88,13,Provence,Rosé
+US,94,40,California,Pinot Noir
+US,88,22,California,Rosé
+US,91,35,California,Chardonnay
+Italy,87,29,Tuscany,Rosé
+US,90,19,California,Chardonnay
+US,90,30,California,Rosé
+US,91,42,Oregon,Pinot Noir
+US,90,35,California,Chardonnay
+US,94,45,California,Chardonnay
+US,88,25,California,Pinot Noir
+France,94,103,Burgundy,Chardonnay
+US,93,50,California,Pinot Noir
+US,88,18,California,Chardonnay
+US,90,40,California,Pinot Noir
+Chile,86,10,Maule Valley,Pinot Noir
+US,90,42,California,Chardonnay
+US,88,30,California,Cabernet Sauvignon
+US,86,35,California,Pinot Noir
+US,93,75,California,Cabernet Sauvignon
+US,93,110,Washington,Cabernet Sauvignon
+France,91,29,Provence,Rosé
+US,89,34,California,Cabernet Sauvignon
+US,87,15,Oregon,Chardonnay
+France,89,24,Burgundy,Chardonnay
+France,85,15,Bordeaux,Rosé
+US,90,48,California,Pinot Noir
+US,92,125,California,Cabernet Sauvignon
+US,83,20,California,Cabernet Sauvignon
+US,86,20,California,Cabernet Sauvignon
+US,92,85,California,Pinot Noir
+US,86,10,Washington,Chardonnay
+US,86,15,New York,Chardonnay
+US,92,30,California,Chardonnay
+US,86,29,California,Chardonnay
+US,91,75,Oregon,Pinot Noir
+US,88,45,Washington,Cabernet Sauvignon
+US,91,48,California,Chardonnay
+US,85,14,California,Chardonnay
+Argentina,86,11,Mendoza Province,Chardonnay
+France,87,28,Provence,Rosé
+US,87,35,New York,Rosé
+US,85,44,California,Cabernet Sauvignon
+US,85,20,California,Cabernet Sauvignon
+US,87,30,Washington,Cabernet Sauvignon
+France,89,14,Languedoc-Roussillon,Rosé
+US,84,25,California,Chardonnay
+US,90,85,Oregon,Pinot Noir
+US,93,44,California,Pinot Noir
+US,89,14,California,Cabernet Sauvignon
+US,92,38,California,Pinot Noir
+US,89,50,Oregon,Pinot Noir
+Italy,89,16,Northeastern Italy,Chardonnay
+Argentina,87,20,Mendoza Province,Cabernet Sauvignon
+US,92,55,Washington,Cabernet Sauvignon
+France,94,97,Burgundy,Pinot Noir
+France,90,24,Rhône Valley,Rosé
+US,90,60,California,Cabernet Sauvignon
+US,92,23,California,Chardonnay
+US,87,25,California,Pinot Noir
+US,85,42,California,Pinot Noir
+US,86,13,California,Chardonnay
+US,94,60,California,Pinot Noir
+US,94,45,California,Chardonnay
+France,91,40,Burgundy,Chardonnay
+US,92,40,California,Pinot Noir
+US,85,30,California,Chardonnay
+US,89,24,Washington,Rosé
+US,85,55,California,Cabernet Sauvignon
+France,90,29,Burgundy,Chardonnay
+US,88,18,California,Cabernet Sauvignon
+Argentina,83,16,Mendoza Province,Chardonnay
+US,90,75,California,Pinot Noir
+US,82,20,Washington,Pinot Noir
+Chile,84,12,Maipo Valley,Cabernet Sauvignon
+France,85,12,France Other,Rosé
+US,96,100,California,Pinot Noir
+US,92,95,Washington,Cabernet Sauvignon
+US,82,11,California,Chardonnay
+US,91,60,Oregon,Pinot Noir
+US,92,45,California,Pinot Noir
+US,92,46,California,Chardonnay
+US,83,24,California,Rosé
+US,89,50,Oregon,Pinot Noir
+France,84,13,Loire Valley,Rosé
+France,84,14,Southwest France,Chardonnay
+US,88,43,California,Pinot Noir
+US,89,19,California,Pinot Noir
+US,93,20,California,Cabernet Sauvignon
+France,86,15,Loire Valley,Chardonnay
+US,89,35,California,Pinot Noir
+Argentina,86,18,Mendoza Province,Pinot Noir
+France,87,20,Provence,Rosé
+US,87,54,Oregon,Pinot Noir
+US,90,65,Washington,Cabernet Sauvignon
+US,84,12,Washington,Cabernet Sauvignon
+US,86,40,Oregon,Pinot Noir
+US,92,22,California,Cabernet Sauvignon
+US,91,17,Washington,Chardonnay
+US,93,18,California,Pinot Noir
+US,89,45,California,Pinot Noir
+France,84,10,Provence,Rosé
+US,90,85,Oregon,Pinot Noir
+US,93,80,California,Cabernet Sauvignon
+US,88,39,Oregon,Pinot Noir
+US,87,25,Oregon,Pinot Noir
+US,84,20,California,Cabernet Sauvignon
+Chile,83,12,Casablanca Valley,Pinot Noir
+France,86,13,Provence,Rosé
+France,91,37,Champagne,Chardonnay
+US,84,40,California,Chardonnay
+US,92,35,California,Chardonnay
+US,91,85,Washington,Cabernet Sauvignon
+US,90,50,California,Pinot Noir
+US,85,40,California,Cabernet Sauvignon
+France,88,12,Bordeaux,Rosé
+US,90,60,Oregon,Pinot Noir
+France,92,35,Burgundy,Chardonnay
+US,86,45,California,Pinot Noir
+France,87,20,Burgundy,Pinot Noir
+France,85,15,Provence,Rosé
+France,87,23,Burgundy,Chardonnay
+US,95,99,Oregon,Pinot Noir
+US,93,45,California,Pinot Noir
+France,86,10,France Other,Cabernet Sauvignon
+US,88,64,California,Pinot Noir
+US,87,25,California,Cabernet Sauvignon
+US,86,25,California,Cabernet Sauvignon
+US,94,60,California,Pinot Noir
+France,85,10,France Other,Cabernet Sauvignon
+US,90,35,California,Chardonnay
+US,88,38,Oregon,Pinot Noir
+France,91,60,Burgundy,Chardonnay
+Italy,87,12,Tuscany,Chardonnay
+US,92,35,California,Chardonnay
+US,87,50,California,Chardonnay
+US,95,44,California,Cabernet Sauvignon
+US,89,65,California,Pinot Noir
+US,87,29,Oregon,Pinot Noir
+France,87,58,Burgundy,Chardonnay
+US,92,38,Oregon,Pinot Noir
+US,91,45,Oregon,Pinot Noir
+US,93,40,California,Chardonnay
+US,90,34,California,Cabernet Sauvignon
+US,92,75,California,Cabernet Sauvignon
+US,87,55,California,Pinot Noir
+US,93,39,California,Cabernet Sauvignon
+US,87,50,California,Pinot Noir
+France,92,40,Burgundy,Chardonnay
+Chile,85,10,Cachapoal Valley,Cabernet Sauvignon
+US,90,48,California,Pinot Noir
+US,92,52,California,Pinot Noir
+US,90,50,California,Cabernet Sauvignon
+Chile,87,24,Leyda Valley,Pinot Noir
+Chile,86,12,Colchagua Valley,Cabernet Sauvignon
+Chile,88,25,Maipo Valley,Cabernet Sauvignon
+US,92,65,California,Cabernet Sauvignon
+US,94,52,California,Pinot Noir
+US,91,38,California,Chardonnay
+US,90,29,California,Cabernet Sauvignon
+US,86,40,Washington,Cabernet Sauvignon
+US,88,179,California,Cabernet Sauvignon
+US,86,38,California,Pinot Noir
+France,91,100,Champagne,Pinot Noir
+France,85,10,France Other,Chardonnay
+US,90,45,Washington,Cabernet Sauvignon
+US,92,59,California,Chardonnay
+France,91,23,Provence,Rosé
+US,90,25,California,Chardonnay
+Chile,86,35,Leyda Valley,Pinot Noir
+US,95,75,California,Cabernet Sauvignon
+US,93,75,California,Pinot Noir
+US,94,44,California,Pinot Noir
+US,90,35,Washington,Cabernet Sauvignon
+US,91,40,California,Chardonnay
+France,93,463,Burgundy,Pinot Noir
+US,90,40,California,Cabernet Sauvignon
+US,92,49,California,Pinot Noir
+France,86,16,Provence,Rosé
+Chile,87,25,Casablanca Valley,Chardonnay
+Argentina,83,17,Mendoza Province,Cabernet Sauvignon
+US,89,38,California,Pinot Noir
+Italy,93,130,Tuscany,Cabernet Sauvignon
+US,89,28,California,Chardonnay
+US,91,32,California,Chardonnay
+US,87,14,California,Cabernet Sauvignon
+US,89,36,Washington,Cabernet Sauvignon
+US,92,110,California,Cabernet Sauvignon
+US,91,55,California,Pinot Noir
+US,87,21,California,Chardonnay
+US,95,85,California,Cabernet Sauvignon
+US,92,48,Oregon,Pinot Noir
+France,85,30,Burgundy,Chardonnay
+US,87,36,California,Pinot Noir
+Chile,85,12,Central Valley,Cabernet Sauvignon
+US,88,35,California,Pinot Noir
+US,87,25,California,Chardonnay
+US,90,70,California,Pinot Noir
+US,86,40,California,Cabernet Sauvignon
+US,90,155,California,Cabernet Sauvignon
+US,92,50,Washington,Chardonnay
+France,85,16,Burgundy,Chardonnay
+US,83,23,California,Chardonnay
+France,88,20,Alsace,Pinot Noir
+US,93,65,Oregon,Pinot Noir
+US,93,30,California,Chardonnay
+US,93,72,California,Pinot Noir
+US,91,90,California,Cabernet Sauvignon
+France,87,25,Burgundy,Chardonnay
+US,92,35,California,Chardonnay
+US,93,35,Oregon,Pinot Noir
+US,87,65,California,Pinot Noir
+France,90,14,Provence,Rosé
+Chile,87,17,Leyda Valley,Pinot Noir
+US,91,175,California,Cabernet Sauvignon
+US,88,22,Oregon,Pinot Noir
+US,90,100,California,Cabernet Sauvignon
+US,89,28,Oregon,Cabernet Sauvignon
+France,91,60,Champagne,Chardonnay
+US,90,65,California,Cabernet Sauvignon
+US,90,50,California,Pinot Noir
+US,88,19,California,Chardonnay
+France,85,22,Burgundy,Pinot Noir
+Argentina,89,21,Mendoza Province,Cabernet Sauvignon
+US,89,20,Washington,Chardonnay
+US,94,160,California,Cabernet Sauvignon
+US,89,30,Washington,Cabernet Sauvignon
+US,91,38,California,Pinot Noir
+US,86,48,California,Cabernet Sauvignon
+US,87,20,California,Pinot Noir
+US,89,55,California,Cabernet Sauvignon
+US,88,30,California,Cabernet Sauvignon
+France,86,10,France Other,Chardonnay
+US,90,30,California,Chardonnay
+US,93,50,California,Pinot Noir
+US,87,16,California,Chardonnay
+US,94,45,California,Chardonnay
+US,90,50,California,Pinot Noir
+US,90,22,California,Chardonnay
+US,88,35,California,Cabernet Sauvignon
+US,92,60,California,Pinot Noir
+US,90,25,California,Pinot Noir
+US,89,40,California,Pinot Noir
+France,89,24,Rhône Valley,Rosé
+US,94,50,California,Chardonnay
+US,92,50,California,Chardonnay
+France,89,48,Burgundy,Pinot Noir
+US,93,50,Washington,Cabernet Sauvignon
+US,88,56,California,Chardonnay
+US,86,42,California,Cabernet Sauvignon
+Argentina,83,12,Mendoza Province,Cabernet Sauvignon
+Argentina,82,11,Other,Cabernet Sauvignon
+US,88,25,California,Pinot Noir
+France,85,13,Southwest France,Rosé
+US,85,45,California,Pinot Noir
+US,94,58,California,Pinot Noir
+US,91,35,Oregon,Chardonnay
+US,91,32,Oregon,Chardonnay
+US,86,15,California,Cabernet Sauvignon
+US,92,49,California,Pinot Noir
+US,88,34,Oregon,Pinot Noir
+US,94,85,California,Cabernet Sauvignon
+US,89,32,Washington,Chardonnay
+US,90,30,New York,Rosé
+France,91,26,Provence,Rosé
+US,90,60,California,Pinot Noir
+US,92,68,California,Pinot Noir
+US,90,65,Oregon,Pinot Noir
+US,86,49,California,Pinot Noir
+Chile,85,15,Casablanca Valley,Pinot Noir
+Argentina,89,55,Mendoza Province,Cabernet Sauvignon
+US,93,56,California,Pinot Noir
+France,87,15,Provence,Rosé
+France,86,15,Provence,Rosé
+France,85,17,Burgundy,Pinot Noir
+US,90,38,Oregon,Pinot Noir
+Italy,88,28,Northeastern Italy,Chardonnay
+US,90,15,California,Chardonnay
+France,91,102,Burgundy,Chardonnay
+US,95,45,Oregon,Pinot Noir
+US,90,60,Oregon,Pinot Noir
+US,88,29,California,Chardonnay
+US,93,100,California,Cabernet Sauvignon
+US,86,50,Oregon,Pinot Noir
+France,85,15,Rhône Valley,Rosé
+US,88,30,California,Cabernet Sauvignon
+US,88,54,California,Cabernet Sauvignon
+US,89,95,California,Cabernet Sauvignon
+Chile,87,9,Casablanca Valley,Chardonnay
+US,91,15,California,Pinot Noir
+US,88,45,California,Cabernet Sauvignon
+France,83,15,Burgundy,Chardonnay
+US,84,13,California,Rosé
+France,89,80,Burgundy,Pinot Noir
+US,96,115,California,Pinot Noir
+US,91,60,California,Pinot Noir
+Italy,88,31,Italy Other,Chardonnay
+France,85,15,Provence,Rosé
+Argentina,80,12,Other,Rosé
+US,95,56,California,Pinot Noir
+US,90,72,California,Pinot Noir
+US,91,44,California,Pinot Noir
+US,91,16,California,Cabernet Sauvignon
+US,85,25,California,Cabernet Sauvignon
+US,86,12,California,Cabernet Sauvignon
+US,84,20,California,Pinot Noir
+Chile,85,21,Casablanca Valley,Pinot Noir
+US,93,55,California,Cabernet Sauvignon
+US,82,16,California,Pinot Noir
+US,92,56,California,Pinot Noir
+US,87,38,Oregon,Pinot Noir
+Italy,87,17,Piedmont,Chardonnay
+France,84,28,Burgundy,Pinot Noir
+US,87,21,California,Chardonnay
+France,89,18,Alsace,Rosé
+US,87,39,Washington,Cabernet Sauvignon
+US,88,35,Washington,Cabernet Sauvignon
+US,88,35,California,Cabernet Sauvignon
+US,89,28,California,Pinot Noir
+US,87,44,California,Pinot Noir
+US,91,36,California,Chardonnay
+US,88,25,New York,Cabernet Sauvignon
+US,86,42,California,Pinot Noir
+US,92,80,California,Pinot Noir
+US,93,50,California,Pinot Noir
+Chile,89,40,Maipo Valley,Cabernet Sauvignon
+France,89,48,Burgundy,Chardonnay
+US,90,40,California,Chardonnay
+US,91,35,California,Pinot Noir
+US,91,32,California,Cabernet Sauvignon
+US,91,50,California,Pinot Noir
+US,84,65,California,Cabernet Sauvignon
+US,88,12,New York,Chardonnay
+US,87,18,Oregon,Pinot Noir
+US,92,47,California,Cabernet Sauvignon
+US,87,17,Washington,Cabernet Sauvignon
+US,87,28,California,Chardonnay
+US,84,40,California,Pinot Noir
+US,90,90,Washington,Cabernet Sauvignon
+US,88,28,California,Cabernet Sauvignon
+US,90,22,California,Cabernet Sauvignon
+France,92,115,Burgundy,Chardonnay
+US,86,18,Washington,Cabernet Sauvignon
+US,88,30,California,Chardonnay
+US,84,42,California,Cabernet Sauvignon
+US,91,70,California,Pinot Noir
+US,88,45,Washington,Cabernet Sauvignon
+US,92,48,Oregon,Pinot Noir
+US,88,39,Washington,Cabernet Sauvignon
+US,91,30,California,Pinot Noir
+US,88,15,California,Chardonnay
+France,88,29,Southwest France,Chardonnay
+France,84,10,Languedoc-Roussillon,Chardonnay
+US,88,36,California,Chardonnay
+US,89,26,California,Chardonnay
+Argentina,87,45,Mendoza Province,Chardonnay
+US,86,45,Oregon,Pinot Noir
+US,90,39,Oregon,Pinot Noir
+US,87,28,Oregon,Pinot Noir
+US,91,25,California,Cabernet Sauvignon
+France,94,70,Burgundy,Chardonnay
+US,93,115,California,Cabernet Sauvignon
+US,86,27,California,Chardonnay
+US,93,35,California,Pinot Noir
+France,87,18,Provence,Rosé
+US,88,48,California,Pinot Noir
+France,88,18,Provence,Rosé
+US,90,30,California,Pinot Noir
+France,91,70,Burgundy,Chardonnay
+US,87,22,California,Pinot Noir
+US,93,70,California,Pinot Noir
+Italy,87,15,Tuscany,Chardonnay
+US,91,50,California,Pinot Noir
+US,87,25,California,Cabernet Sauvignon
+US,88,35,California,Chardonnay
+US,93,40,California,Pinot Noir
+US,84,28,California,Chardonnay
+US,91,39,Washington,Cabernet Sauvignon
+US,89,20,California,Chardonnay
+US,85,25,California,Chardonnay
+US,91,75,California,Cabernet Sauvignon
+US,88,150,California,Cabernet Sauvignon
+US,93,70,California,Chardonnay
+US,87,22,California,Chardonnay
+US,90,50,California,Pinot Noir
+Chile,85,11,Casablanca Valley,Chardonnay
+France,91,25,Burgundy,Chardonnay
+US,90,80,California,Cabernet Sauvignon
+US,87,43,California,Pinot Noir
+Chile,84,11,Central Valley,Cabernet Sauvignon
+US,86,24,California,Pinot Noir
+US,93,45,California,Pinot Noir
+US,83,13,New York,Chardonnay
+US,87,20,California,Chardonnay
+France,86,13,Languedoc-Roussillon,Chardonnay
+Argentina,85,17,Mendoza Province,Cabernet Sauvignon
+US,90,12,California,Chardonnay
+US,85,20,New York,Pinot Noir
+US,87,52,California,Pinot Noir
+US,94,62,California,Pinot Noir
+US,86,26,California,Cabernet Sauvignon
+France,86,56,Burgundy,Chardonnay
+US,90,25,California,Rosé
+US,88,35,California,Cabernet Sauvignon
+US,91,45,California,Cabernet Sauvignon
+Argentina,85,12,Other,Cabernet Sauvignon
+US,86,40,Oregon,Cabernet Sauvignon
+Chile,86,11,Central Valley,Cabernet Sauvignon
+Argentina,83,12,Mendoza Province,Chardonnay
+US,92,45,California,Pinot Noir
+Chile,85,13,Maule Valley,Chardonnay
+US,86,75,California,Cabernet Sauvignon
+US,86,50,California,Cabernet Sauvignon
+France,87,16,Bordeaux,Rosé
+US,90,85,Oregon,Pinot Noir
+Argentina,93,95,Mendoza Province,Cabernet Sauvignon
+US,88,13,California,Chardonnay
+US,87,79,California,Pinot Noir
+US,86,16,Washington,Chardonnay
+France,93,132,Burgundy,Pinot Noir
+US,86,13,California,Cabernet Sauvignon
+US,85,15,California,Chardonnay
+Italy,88,41,Tuscany,Cabernet Sauvignon
+US,90,45,California,Cabernet Sauvignon
+US,86,14,California,Chardonnay
+Italy,89,35,Northeastern Italy,Chardonnay
+US,92,50,California,Cabernet Sauvignon
+US,83,27,California,Rosé
+France,97,476,Burgundy,Chardonnay
+US,97,625,California,Cabernet Sauvignon
+US,91,50,Oregon,Pinot Noir
+US,92,44,California,Chardonnay
+US,88,48,California,Pinot Noir
+France,95,520,Burgundy,Chardonnay
+Italy,90,35,Tuscany,Cabernet Sauvignon
+US,89,37,Oregon,Pinot Noir
+US,89,50,California,Pinot Noir
+US,92,40,California,Cabernet Sauvignon
+France,84,25,Burgundy,Chardonnay
+France,85,15,Provence,Rosé
+US,82,16,California,Cabernet Sauvignon
+US,86,15,California,Cabernet Sauvignon
+US,94,46,California,Pinot Noir
+France,84,20,Burgundy,Chardonnay
+US,89,26,California,Cabernet Sauvignon
+US,93,38,California,Chardonnay
+US,86,20,Washington,Cabernet Sauvignon
+US,90,75,California,Cabernet Sauvignon
+US,88,13,California,Chardonnay
+US,91,70,California,Pinot Noir
+US,90,15,California,Cabernet Sauvignon
+US,90,29,California,Pinot Noir
+Chile,88,12,Curicó Valley,Cabernet Sauvignon
+US,95,130,California,Cabernet Sauvignon
+US,87,54,California,Pinot Noir
+US,90,60,California,Chardonnay
+US,92,70,Oregon,Pinot Noir
+Argentina,86,12,Mendoza Province,Cabernet Sauvignon
+US,91,48,Oregon,Pinot Noir
+US,89,30,Washington,Cabernet Sauvignon
+US,92,28,Oregon,Pinot Noir
+US,88,30,California,Chardonnay
+US,93,28,California,Chardonnay
+France,91,107,Burgundy,Pinot Noir
+US,87,45,Washington,Cabernet Sauvignon
+US,94,44,California,Pinot Noir
+US,88,30,California,Pinot Noir
+US,92,45,California,Chardonnay
+US,92,35,California,Chardonnay
+France,93,80,Burgundy,Chardonnay
+US,89,32,California,Pinot Noir
+France,90,27,Burgundy,Chardonnay
+US,90,40,California,Pinot Noir
+US,88,40,California,Chardonnay
+Chile,85,16,Maipo Valley,Cabernet Sauvignon
+France,83,5,Languedoc-Roussillon,Pinot Noir
+US,91,50,Oregon,Pinot Noir
+US,92,30,Oregon,Chardonnay
+US,84,24,California,Chardonnay
+US,89,40,Oregon,Pinot Noir
+US,88,12,California,Pinot Noir
+Chile,84,11,Casablanca Valley,Chardonnay
+US,90,12,Washington,Cabernet Sauvignon
+US,88,60,New York,Chardonnay
+US,87,45,California,Chardonnay
+US,87,25,California,Cabernet Sauvignon
+France,94,89,Burgundy,Pinot Noir
+US,87,30,Oregon,Pinot Noir
+US,90,39,Washington,Cabernet Sauvignon
+US,94,68,California,Pinot Noir
+US,93,38,California,Pinot Noir
+US,91,48,California,Pinot Noir
+US,86,38,California,Pinot Noir
+France,90,25,Alsace,Pinot Noir
+US,87,24,Washington,Chardonnay
+US,95,65,California,Pinot Noir
+France,90,75,Burgundy,Chardonnay
+Chile,86,12,Cachapoal Valley,Pinot Noir
+US,88,18,California,Chardonnay
+Argentina,82,22,Mendoza Province,Chardonnay
+US,94,60,California,Chardonnay
+US,89,50,California,Cabernet Sauvignon
+France,93,90,Burgundy,Chardonnay
+US,86,25,California,Cabernet Sauvignon
+US,90,46,California,Pinot Noir
+US,91,55,California,Pinot Noir
+US,90,40,California,Cabernet Sauvignon
+US,86,29,California,Chardonnay
+France,85,13,Languedoc-Roussillon,Pinot Noir
+France,87,60,Champagne,Chardonnay
+France,88,20,Burgundy,Chardonnay
+US,89,28,Oregon,Chardonnay
+France,91,65,Burgundy,Chardonnay
+France,89,35,Burgundy,Chardonnay
+US,92,59,California,Pinot Noir
+US,90,20,Oregon,Chardonnay
+Chile,89,32,Casablanca Valley,Pinot Noir
+US,90,45,California,Cabernet Sauvignon
+US,88,36,Washington,Cabernet Sauvignon
+Chile,86,17,Maipo Valley,Cabernet Sauvignon
+US,91,20,Washington,Pinot Noir
+US,89,42,Washington,Cabernet Sauvignon
+France,88,43,Champagne,Chardonnay
+US,91,50,California,Cabernet Sauvignon
+US,86,50,Oregon,Pinot Noir
+US,87,23,Idaho,Cabernet Sauvignon
+US,92,85,California,Cabernet Sauvignon
+US,90,26,California,Cabernet Sauvignon
+US,94,70,California,Pinot Noir
+US,91,28,California,Pinot Noir
+France,90,50,Champagne,Chardonnay
+US,87,14,California,Cabernet Sauvignon
+US,88,60,California,Pinot Noir
+US,87,15,California,Pinot Noir
+US,88,23,New York,Pinot Noir
+US,94,48,California,Pinot Noir
+France,86,12,France Other,Rosé
+US,84,45,Michigan,Chardonnay
+France,88,23,Burgundy,Chardonnay
+Argentina,86,17,Other,Chardonnay
+US,90,42,California,Chardonnay
+US,87,14,California,Cabernet Sauvignon
+US,93,75,California,Cabernet Sauvignon
+US,90,22,California,Cabernet Sauvignon
+France,94,145,Burgundy,Pinot Noir
+France,89,27,Burgundy,Chardonnay
+US,87,75,California,Cabernet Sauvignon
+US,91,26,California,Chardonnay
+US,90,49,California,Pinot Noir
+US,90,28,Washington,Chardonnay
+US,84,27,Virginia,Cabernet Sauvignon
+US,90,18,California,Rosé
+US,87,35,California,Chardonnay
+US,88,25,California,Cabernet Sauvignon
+Chile,84,12,Maule Valley,Chardonnay
+US,84,75,California,Cabernet Sauvignon
+US,88,40,California,Cabernet Sauvignon
+US,85,25,California,Pinot Noir
+Argentina,90,50,Mendoza Province,Chardonnay
+France,88,15,Bordeaux,Rosé
+US,89,45,California,Pinot Noir
+France,86,13,Languedoc-Roussillon,Rosé
+US,91,42,Oregon,Chardonnay
+US,92,95,Oregon,Pinot Noir
+US,91,86,California,Cabernet Sauvignon
+US,85,26,California,Pinot Noir
+US,89,50,Oregon,Pinot Noir
+US,84,15,Virginia,Chardonnay
+US,91,50,California,Pinot Noir
+France,85,12,France Other,Rosé
+US,90,40,California,Pinot Noir
+US,90,48,California,Cabernet Sauvignon
+US,90,48,California,Pinot Noir
+US,86,15,California,Cabernet Sauvignon
+US,89,28,Oregon,Pinot Noir
+Chile,86,18,Limarí Valley,Chardonnay
+US,92,28,California,Chardonnay
+US,88,26,California,Pinot Noir
+US,87,10,California,Rosé
+Italy,91,37,Northeastern Italy,Chardonnay
+US,86,48,California,Cabernet Sauvignon
+US,83,30,Michigan,Pinot Noir
+US,89,38,California,Cabernet Sauvignon
+France,90,38,Alsace,Pinot Noir
+US,82,11,California,Chardonnay
+Chile,88,19,Leyda Valley,Chardonnay
+Italy,88,18,Northeastern Italy,Chardonnay
+Chile,86,11,Aconcagua Valley,Pinot Noir
+US,94,25,California,Pinot Noir
+US,90,75,California,Pinot Noir
+US,90,42,Oregon,Pinot Noir
+US,87,26,California,Pinot Noir
+France,84,14,Burgundy,Pinot Noir
+US,82,15,California,Cabernet Sauvignon
+US,94,45,California,Pinot Noir
+France,85,15,Beaujolais,Chardonnay
+France,90,65,Burgundy,Pinot Noir
+US,92,40,Washington,Cabernet Sauvignon
+France,89,18,Burgundy,Chardonnay
+Chile,86,12,Maipo Valley,Cabernet Sauvignon
+US,94,46,California,Pinot Noir
+France,86,16,Provence,Rosé
+US,86,16,Oregon,Pinot Noir
+US,88,25,California,Cabernet Sauvignon
+Chile,87,14,Limarí Valley,Pinot Noir
+US,87,18,Washington,Chardonnay
+US,87,23,California,Chardonnay
+US,93,40,California,Chardonnay
+France,89,25,Burgundy,Pinot Noir
+US,90,15,California,Chardonnay
+US,87,54,California,Cabernet Sauvignon
+France,86,18,Burgundy,Rosé
+US,94,50,California,Pinot Noir
+Chile,84,7,Central Valley,Chardonnay
+France,91,100,Burgundy,Pinot Noir
+France,88,40,Burgundy,Pinot Noir
+US,93,40,California,Pinot Noir
+US,84,18,California,Cabernet Sauvignon
+France,84,18,Alsace,Pinot Noir
+US,90,28,Oregon,Pinot Noir
+US,90,45,Washington,Cabernet Sauvignon
+US,86,22,California,Chardonnay
+US,88,14,California,Chardonnay
+US,90,16,California,Chardonnay
+US,87,50,California,Chardonnay
+US,90,65,California,Cabernet Sauvignon
+US,91,95,California,Cabernet Sauvignon
+Chile,84,7,Casablanca Valley,Pinot Noir
+US,90,45,California,Chardonnay
+US,92,65,California,Chardonnay
+France,95,208,Burgundy,Pinot Noir
+US,91,22,California,Chardonnay
+US,87,30,California,Chardonnay
+US,84,70,California,Chardonnay
+Italy,87,49,Northeastern Italy,Chardonnay
+US,84,80,California,Cabernet Sauvignon
+US,91,40,California,Pinot Noir
+Chile,88,20,Casablanca Valley,Pinot Noir
+US,91,48,Oregon,Pinot Noir
+Italy,90,26,Northeastern Italy,Chardonnay
+US,90,40,California,Chardonnay
+France,92,160,Burgundy,Pinot Noir
+US,88,22,California,Rosé
+Argentina,81,13,Mendoza Province,Cabernet Sauvignon
+France,84,17,Provence,Rosé
+France,90,45,Burgundy,Chardonnay
+US,85,18,Virginia,Chardonnay
+France,91,93,Burgundy,Chardonnay
+Chile,84,12,Maipo Valley,Rosé
+Chile,88,20,Cachapoal Valley,Cabernet Sauvignon
+US,89,38,Oregon,Chardonnay
+US,90,44,California,Pinot Noir
+Argentina,88,22,Other,Pinot Noir
+US,89,12,California,Chardonnay
+France,89,28,Loire Valley,Pinot Noir
+US,91,35,California,Pinot Noir
+US,89,42,California,Pinot Noir
+US,91,36,California,Pinot Noir
+Chile,92,120,Puente Alto,Cabernet Sauvignon
+France,86,30,Burgundy,Pinot Noir
+US,89,35,Oregon,Pinot Noir
+US,86,22,California,Chardonnay
+US,84,32,California,Cabernet Sauvignon
+US,91,20,California,Pinot Noir
+US,87,20,Virginia,Chardonnay
+Chile,90,20,Maipo Valley,Cabernet Sauvignon
+US,86,34,California,Pinot Noir
+Argentina,89,30,Mendoza Province,Cabernet Sauvignon
+Chile,86,11,Maule Valley,Cabernet Sauvignon
+US,86,100,California,Cabernet Sauvignon
+US,88,18,California,Chardonnay
+US,90,45,California,Cabernet Sauvignon
+France,87,65,Burgundy,Pinot Noir
+US,91,23,California,Chardonnay
+US,93,45,California,Chardonnay
+US,86,30,California,Cabernet Sauvignon
+France,87,26,Burgundy,Chardonnay
+US,88,38,California,Chardonnay
+France,88,12,Bordeaux,Rosé
+US,91,105,California,Cabernet Sauvignon
+France,85,20,Burgundy,Pinot Noir
+US,92,38,California,Pinot Noir
+France,90,18,Provence,Rosé
+US,93,25,California,Pinot Noir
+Chile,87,19,Colchagua Valley,Cabernet Sauvignon
+France,85,12,Bordeaux,Rosé
+France,86,14,Burgundy,Chardonnay
+France,86,23,Burgundy,Pinot Noir
+France,91,50,Champagne,Chardonnay
+US,85,22,California,Chardonnay
+France,85,22,Alsace,Pinot Noir
+Chile,83,9,Central Valley,Cabernet Sauvignon
+Italy,85,9,Central Italy,Chardonnay
+US,94,36,California,Pinot Noir
+Argentina,87,15,Mendoza Province,Cabernet Sauvignon
+US,85,25,Washington,Cabernet Sauvignon
+US,88,21,Washington,Cabernet Sauvignon
+US,87,16,New York,Chardonnay
+US,86,30,California,Pinot Noir
+US,90,25,California,Chardonnay
+US,94,60,California,Pinot Noir
+US,92,49,California,Pinot Noir
+US,91,55,Washington,Cabernet Sauvignon
+US,95,55,Oregon,Chardonnay
+France,92,84,Champagne,Chardonnay
+US,94,38,California,Chardonnay
+US,87,20,California,Cabernet Sauvignon
+US,90,48,Oregon,Pinot Noir
+Chile,84,16,Bío Bío Valley,Pinot Noir
+US,85,45,California,Cabernet Sauvignon
+France,93,85,Champagne,Chardonnay
+France,85,14,Loire Valley,Chardonnay
+France,88,40,France Other,Pinot Noir
+US,91,60,California,Cabernet Sauvignon
+France,96,2500,Burgundy,Pinot Noir
+US,92,55,Oregon,Pinot Noir
+US,85,26,Oregon,Chardonnay
+Chile,85,11,Rio Claro,Cabernet Sauvignon
+US,89,17,California,Chardonnay
+US,93,48,California,Chardonnay
+US,89,24,California,Pinot Noir
+US,93,26,California,Pinot Noir
+France,89,45,Burgundy,Pinot Noir
+US,90,75,California,Cabernet Sauvignon
+US,87,50,California,Pinot Noir
+US,92,38,California,Pinot Noir
+US,89,15,California,Chardonnay
+US,84,23,California,Pinot Noir
+Chile,86,12,Colchagua Valley,Cabernet Sauvignon
+US,85,20,Washington,Chardonnay
+US,89,45,California,Pinot Noir
+US,91,44,California,Pinot Noir
+US,94,45,California,Pinot Noir
+US,89,40,California,Pinot Noir
+US,83,7,California,Cabernet Sauvignon
+US,91,65,California,Pinot Noir
+France,87,15,Provence,Rosé
+US,87,52,California,Pinot Noir
+US,85,38,California,Pinot Noir
+US,86,36,Washington,Cabernet Sauvignon
+US,92,58,California,Pinot Noir
+US,95,150,California,Cabernet Sauvignon
+Chile,85,13,Chile,Chardonnay
+US,92,75,California,Pinot Noir
+France,87,19,France Other,Chardonnay
+US,92,45,California,Chardonnay
+US,87,125,Oregon,Cabernet Sauvignon
+US,91,25,California,Cabernet Sauvignon
+US,93,45,California,Pinot Noir
+France,87,35,Bordeaux,Rosé
+US,95,60,Oregon,Chardonnay
+US,85,25,California,Cabernet Sauvignon
+US,81,75,California,Cabernet Sauvignon
+US,84,23,California,Chardonnay
+US,86,15,New York,Chardonnay
+US,83,12,California,Cabernet Sauvignon
+Chile,92,75,Maipo Valley,Cabernet Sauvignon
+France,88,35,Burgundy,Chardonnay
+France,86,14,Languedoc-Roussillon,Rosé
+US,88,60,California,Cabernet Sauvignon
+US,91,55,California,Chardonnay
+US,90,55,California,Cabernet Sauvignon
+US,87,45,California,Pinot Noir
+US,93,60,California,Pinot Noir
+US,88,42,Oregon,Pinot Noir
+US,90,20,California,Chardonnay
+US,88,45,California,Pinot Noir
+US,87,35,Washington,Cabernet Sauvignon
+France,95,300,Champagne,Chardonnay
+Argentina,85,10,Mendoza Province,Pinot Noir
+Argentina,86,17,Other,Chardonnay
+US,85,30,California,Pinot Noir
+Italy,90,25,Northeastern Italy,Chardonnay
+US,89,18,Washington,Cabernet Sauvignon
+US,94,66,Oregon,Pinot Noir
+US,87,18,California,Cabernet Sauvignon
+US,90,45,California,Cabernet Sauvignon
+US,85,15,Washington,Chardonnay
+US,83,10,California,Rosé
+US,86,18,California,Pinot Noir
+US,85,7,California,Chardonnay
+France,87,23,Loire Valley,Pinot Noir
+US,93,100,California,Cabernet Sauvignon
+US,86,28,America,Chardonnay
+France,85,14,Provence,Rosé
+US,92,100,Oregon,Pinot Noir
+US,92,25,California,Cabernet Sauvignon
+France,85,30,Burgundy,Pinot Noir
+Chile,85,12,Casablanca Valley,Chardonnay
+US,84,12,California,Cabernet Sauvignon
+US,92,80,California,Cabernet Sauvignon
+US,93,48,California,Pinot Noir
+Chile,81,11,Maule Valley,Cabernet Sauvignon
+US,88,13,Washington,Cabernet Sauvignon
+France,91,43,Burgundy,Chardonnay
+US,91,48,California,Pinot Noir
+US,86,16,New York,Pinot Noir
+US,93,82,California,Pinot Noir
+US,91,28,California,Pinot Noir
+US,91,45,California,Chardonnay
+US,85,20,New York,Chardonnay
+US,87,15,Oregon,Chardonnay
+US,95,155,California,Cabernet Sauvignon
+France,84,11,Southwest France,Rosé
+US,88,38,California,Pinot Noir
+Argentina,88,18,Mendoza Province,Cabernet Sauvignon
+US,94,75,California,Cabernet Sauvignon
+US,88,24,California,Cabernet Sauvignon
+US,90,55,Washington,Cabernet Sauvignon
+Argentina,83,20,Mendoza Province,Chardonnay
+US,93,55,Oregon,Pinot Noir
+US,95,100,California,Cabernet Sauvignon
+US,90,17,Washington,Chardonnay
+US,92,215,California,Cabernet Sauvignon
+France,85,12,France Other,Pinot Noir
+US,82,32,California,Cabernet Sauvignon
+US,93,48,Washington,Cabernet Sauvignon
+France,95,150,Champagne,Chardonnay
+US,84,25,California,Chardonnay
+US,92,50,California,Chardonnay
+France,84,10,Southwest France,Rosé
+US,90,45,California,Pinot Noir
+Argentina,84,13,Other,Cabernet Sauvignon
+US,84,31,California,Chardonnay
+US,88,45,California,Chardonnay
+US,91,40,Oregon,Pinot Noir
+US,87,35,California,Pinot Noir
+France,91,29,Burgundy,Chardonnay
+US,95,57,California,Pinot Noir
+US,88,30,Colorado,Cabernet Sauvignon
+US,82,50,California,Cabernet Sauvignon
+France,89,27,Burgundy,Chardonnay
+US,89,30,California,Cabernet Sauvignon
+US,87,60,California,Cabernet Sauvignon
+US,86,16,California,Chardonnay
+US,91,18,California,Cabernet Sauvignon
+US,83,65,California,Cabernet Sauvignon
+US,92,37,California,Chardonnay
+US,92,70,California,Pinot Noir
+US,88,15,California,Chardonnay
+US,94,70,California,Chardonnay
+US,90,28,California,Rosé
+US,87,24,California,Pinot Noir
+US,87,35,California,Chardonnay
+US,92,40,Oregon,Pinot Noir
+US,94,50,California,Chardonnay
+France,91,90,Burgundy,Pinot Noir
+US,86,12,Washington,Chardonnay
+US,90,35,California,Pinot Noir
+US,88,36,California,Cabernet Sauvignon
+US,90,45,California,Pinot Noir
+US,86,45,California,Pinot Noir
+US,88,17,California,Chardonnay
+US,86,16,Oregon,Chardonnay
+France,84,29,Burgundy,Chardonnay
+US,88,75,California,Chardonnay
+France,89,40,Burgundy,Pinot Noir
+US,92,30,California,Chardonnay
+US,93,30,California,Pinot Noir
+US,90,50,Washington,Chardonnay
+US,88,25,California,Rosé
+US,83,10,California,Cabernet Sauvignon
+US,94,35,California,Chardonnay
+US,94,60,California,Pinot Noir
+US,85,38,California,Chardonnay
+US,88,50,California,Cabernet Sauvignon
+US,85,20,California,Cabernet Sauvignon
+US,91,40,Washington,Cabernet Sauvignon
+US,90,32,California,Chardonnay
+Argentina,86,17,Other,Chardonnay
+US,87,12,Washington,Chardonnay
+Chile,83,25,Elqui Valley,Pinot Noir
+US,89,59,California,Pinot Noir
+France,84,15,Loire Valley,Rosé
+US,91,35,Oregon,Pinot Noir
+US,90,58,California,Cabernet Sauvignon
+US,88,68,California,Pinot Noir
+US,82,18,Virginia,Chardonnay
+US,89,27,California,Pinot Noir
+US,93,110,California,Cabernet Sauvignon
+US,87,27,New York,Pinot Noir
+US,85,45,California,Cabernet Sauvignon
+US,92,19,California,Pinot Noir
+France,86,9,Languedoc-Roussillon,Rosé
+US,85,7,California,Cabernet Sauvignon
+US,93,50,California,Chardonnay
+US,87,30,California,Pinot Noir
+US,86,22,Virginia,Rosé
+US,92,30,California,Pinot Noir
+Italy,86,30,Northeastern Italy,Chardonnay
+US,88,26,California,Pinot Noir
+US,90,22,Oregon,Rosé
+US,86,14,Oregon,Rosé
+US,86,33,California,Cabernet Sauvignon
+US,88,23,Oregon,Pinot Noir
+US,92,32,California,Pinot Noir
+US,92,80,California,Pinot Noir
+US,89,35,California,Pinot Noir
+France,93,86,Burgundy,Pinot Noir
+Argentina,88,20,Mendoza Province,Chardonnay
+US,94,50,California,Pinot Noir
+Chile,84,8,Maule Valley,Cabernet Sauvignon
+US,86,15,California,Chardonnay
+US,88,28,Washington,Cabernet Sauvignon
+US,90,70,Oregon,Pinot Noir
+Chile,90,19,Curicó Valley,Chardonnay
+US,93,38,California,Pinot Noir
+Chile,92,33,Maipo Valley,Cabernet Sauvignon
+US,87,14,California,Chardonnay
+US,88,37,California,Pinot Noir
+US,85,15,California,Chardonnay
+US,90,40,Oregon,Pinot Noir
+Argentina,86,16,Mendoza Province,Cabernet Sauvignon
+US,92,45,Oregon,Chardonnay
+US,92,35,California,Pinot Noir
+US,93,45,California,Pinot Noir
+US,94,55,California,Chardonnay
+US,86,18,California,Cabernet Sauvignon
+US,87,20,California,Pinot Noir
+France,95,214,Burgundy,Chardonnay
+US,91,65,Oregon,Pinot Noir
+US,91,38,California,Pinot Noir
+US,90,18,Washington,Rosé
+Chile,86,14,Central Valley,Cabernet Sauvignon
+France,93,50,Burgundy,Pinot Noir
+US,86,24,California,Pinot Noir
+US,87,40,California,Pinot Noir
+Argentina,84,11,Mendoza Province,Chardonnay
+US,93,40,California,Pinot Noir
+US,93,38,California,Chardonnay
+US,86,85,California,Cabernet Sauvignon
+Italy,89,24,Tuscany,Cabernet Sauvignon
+US,87,18,California,Rosé
+US,83,8,California,Cabernet Sauvignon
+US,87,15,California,Rosé
+US,93,100,Oregon,Pinot Noir
+Chile,87,17,Casablanca Valley,Chardonnay
+US,93,42,California,Chardonnay
+US,92,45,California,Pinot Noir
+France,91,44,Burgundy,Chardonnay
+Chile,86,14,San Antonio,Chardonnay
+Chile,80,12,Maule Valley,Chardonnay
+US,86,170,California,Cabernet Sauvignon
+France,90,32,Burgundy,Chardonnay
+US,94,59,California,Pinot Noir
+France,93,80,Champagne,Chardonnay
+US,87,25,California,Cabernet Sauvignon
+US,89,13,California,Chardonnay
+France,93,43,Burgundy,Chardonnay
+France,89,33,Burgundy,Chardonnay
+US,85,42,California,Pinot Noir
+US,90,36,California,Pinot Noir
+US,94,75,California,Cabernet Sauvignon
+US,82,19,California,Pinot Noir
+France,93,46,Provence,Rosé
+US,90,35,California,Chardonnay
+US,87,18,California,Chardonnay
+US,85,10,Washington,Cabernet Sauvignon
+US,91,60,California,Pinot Noir
+US,91,56,California,Cabernet Sauvignon
+Chile,84,19,Casablanca Valley,Pinot Noir
+US,90,50,California,Cabernet Sauvignon
+France,94,87,Champagne,Chardonnay
+US,83,20,California,Chardonnay
+Argentina,83,9,Mendoza Province,Chardonnay
+US,88,48,California,Cabernet Sauvignon
+US,91,145,California,Cabernet Sauvignon
+France,95,398,Burgundy,Chardonnay
+Argentina,86,15,Other,Pinot Noir
+US,84,17,California,Pinot Noir
+Chile,86,30,Maipo Valley,Cabernet Sauvignon
+US,92,75,California,Chardonnay
+US,90,25,Washington,Cabernet Sauvignon
+US,86,15,California,Chardonnay
+US,86,59,Michigan,Pinot Noir
+Italy,86,13,Central Italy,Rosé
+US,87,65,California,Cabernet Sauvignon
+US,88,30,Washington,Cabernet Sauvignon
+US,86,20,California,Pinot Noir
+US,87,48,California,Pinot Noir
+France,87,15,Languedoc-Roussillon,Rosé
+US,91,60,California,Chardonnay
+US,87,25,Washington,Chardonnay
+US,93,58,California,Pinot Noir
+US,82,20,California,Chardonnay
+US,89,45,Oregon,Pinot Noir
+US,92,18,California,Pinot Noir
+US,89,25,Washington,Chardonnay
+US,89,40,Washington,Cabernet Sauvignon
+US,87,20,New York,Chardonnay
+US,90,35,California,Cabernet Sauvignon
+France,90,40,Burgundy,Pinot Noir
+US,92,50,California,Pinot Noir
+Chile,85,12,Casablanca Valley,Chardonnay
+France,91,25,Provence,Rosé
+US,87,25,California,Cabernet Sauvignon
+Argentina,87,35,Mendoza Province,Chardonnay
+US,90,35,California,Cabernet Sauvignon
+France,93,103,Burgundy,Pinot Noir
+France,88,20,Provence,Rosé
+France,92,124,Burgundy,Pinot Noir
+US,88,15,California,Pinot Noir
+US,95,37,California,Pinot Noir
+US,86,28,California,Cabernet Sauvignon
+US,93,65,California,Cabernet Sauvignon
+US,85,48,California,Pinot Noir
+France,94,450,Burgundy,Pinot Noir
+US,90,36,California,Pinot Noir
+US,90,35,California,Chardonnay
+US,83,28,California,Chardonnay
+Chile,88,15,Maule Valley,Cabernet Sauvignon
+US,84,17,California,Chardonnay
+US,92,22,California,Chardonnay
+US,88,40,California,Chardonnay
+France,96,116,Burgundy,Pinot Noir
+US,91,54,California,Pinot Noir
+US,87,35,Oregon,Pinot Noir
+US,92,20,Washington,Rosé
+France,86,44,Burgundy,Pinot Noir
+US,88,70,California,Cabernet Sauvignon
+US,87,40,California,Cabernet Sauvignon
+France,94,110,Burgundy,Chardonnay
+US,91,25,California,Cabernet Sauvignon
+France,91,30,Provence,Rosé
+US,91,38,Washington,Cabernet Sauvignon
+US,86,20,California,Cabernet Sauvignon
+US,90,49,California,Pinot Noir
+France,88,24,Provence,Rosé
+US,90,35,California,Pinot Noir
+France,89,28,Burgundy,Pinot Noir
+US,89,33,Oregon,Pinot Noir
+Argentina,94,50,Mendoza Province,Cabernet Sauvignon
+US,88,39,Oregon,Pinot Noir
+US,87,28,Oregon,Chardonnay
+US,92,75,New York,Cabernet Sauvignon
+Chile,84,15,Leyda Valley,Pinot Noir
+France,86,25,Burgundy,Chardonnay
+US,82,30,Virginia,Chardonnay
+US,86,20,Oregon,Cabernet Sauvignon
+US,89,39,California,Pinot Noir
+US,89,42,California,Chardonnay
+US,86,25,California,Chardonnay
+France,85,12,Loire Valley,Chardonnay
+US,90,45,California,Cabernet Sauvignon
+US,88,30,Oregon,Pinot Noir
+US,89,32,Washington,Cabernet Sauvignon
+US,90,55,California,Pinot Noir
+France,86,19,Burgundy,Chardonnay
+US,91,28,California,Chardonnay
+US,91,25,Washington,Chardonnay
+US,90,42,California,Pinot Noir
+US,90,35,California,Chardonnay
+US,87,19,California,Chardonnay
+US,91,65,California,Pinot Noir
+US,92,39,California,Chardonnay
+US,92,38,California,Pinot Noir
+US,91,38,Oregon,Pinot Noir
+US,88,19,Oregon,Chardonnay
+US,87,35,California,Pinot Noir
+US,86,12,California,Cabernet Sauvignon
+US,86,52,California,Cabernet Sauvignon
+US,92,45,California,Chardonnay
+US,93,38,California,Pinot Noir
+US,85,18,California,Chardonnay
+US,83,28,Virginia,Chardonnay
+US,90,40,California,Chardonnay
+US,86,55,California,Chardonnay
+US,86,17,Oregon,Pinot Noir
+US,89,15,Oregon,Pinot Noir
+US,89,50,California,Pinot Noir
+France,89,14,Provence,Rosé
+US,95,65,Oregon,Chardonnay
+US,90,90,California,Cabernet Sauvignon
+US,89,38,Washington,Cabernet Sauvignon
+US,86,45,California,Chardonnay
+US,88,28,California,Chardonnay
+US,90,24,California,Pinot Noir
+France,86,30,Burgundy,Chardonnay
+US,91,48,California,Pinot Noir
+France,91,145,Burgundy,Pinot Noir
+US,88,20,California,Chardonnay
+US,88,13,Washington,Cabernet Sauvignon
+US,87,25,Virginia,Chardonnay
+US,92,52,California,Cabernet Sauvignon
+Argentina,83,12,Mendoza Province,Cabernet Sauvignon
+US,88,36,Oregon,Pinot Noir
+Argentina,88,30,Mendoza Province,Chardonnay
+France,84,12,France Other,Chardonnay
+France,88,20,Provence,Rosé
+US,89,85,California,Cabernet Sauvignon
+US,91,80,Washington,Cabernet Sauvignon
+US,87,20,California,Cabernet Sauvignon
+US,88,38,California,Pinot Noir
+US,93,95,Washington,Cabernet Sauvignon
+US,97,135,California,Cabernet Sauvignon
+US,94,64,California,Cabernet Sauvignon
+Argentina,85,20,Other,Pinot Noir
+US,96,36,California,Chardonnay
+Chile,86,12,Maule Valley,Chardonnay
+US,90,15,Oregon,Rosé
+France,87,20,Provence,Rosé
+US,84,14,California,Pinot Noir
+US,96,45,California,Cabernet Sauvignon
+US,92,50,Oregon,Pinot Noir
+US,86,9,California,Chardonnay
+US,87,22,Washington,Cabernet Sauvignon
+US,91,54,California,Pinot Noir
+US,92,40,California,Chardonnay
+Argentina,85,9,Mendoza Province,Chardonnay
+US,93,24,California,Chardonnay
+US,87,24,Oregon,Pinot Noir
+US,94,35,California,Chardonnay
+France,84,16,Beaujolais,Rosé
+US,85,50,California,Pinot Noir
+US,92,45,California,Pinot Noir
+US,86,14,Oregon,Pinot Noir
+US,90,70,California,Cabernet Sauvignon
+Chile,86,19,Leyda Valley,Pinot Noir
+US,90,90,California,Cabernet Sauvignon
+Chile,88,24,Casablanca Valley,Pinot Noir
+US,93,125,California,Cabernet Sauvignon
+US,94,105,Oregon,Pinot Noir
+US,85,35,California,Pinot Noir
+US,87,55,California,Chardonnay
+US,90,24,New York,Cabernet Sauvignon
+US,90,60,California,Chardonnay
+US,91,33,Pennsylvania,Chardonnay
+Chile,85,15,Casablanca Valley,Pinot Noir
+US,92,40,California,Chardonnay
+France,86,23,Burgundy,Pinot Noir
+US,96,82,California,Pinot Noir
+US,85,34,New York,Cabernet Sauvignon
+France,94,220,Burgundy,Pinot Noir
+France,87,50,Alsace,Pinot Noir
+France,88,80,Burgundy,Pinot Noir
+US,86,24,California,Chardonnay
+US,91,30,California,Pinot Noir
+Argentina,85,12,Mendoza Province,Cabernet Sauvignon
+US,91,60,California,Pinot Noir
+US,89,32,California,Chardonnay
+US,92,54,California,Pinot Noir
+US,84,18,California,Rosé
+US,90,12,California,Pinot Noir
+US,91,30,Oregon,Pinot Noir
+US,94,62,California,Pinot Noir
+US,91,65,California,Cabernet Sauvignon
+US,88,22,Washington,Cabernet Sauvignon
+US,85,48,California,Chardonnay
+France,88,63,Burgundy,Chardonnay
+US,87,40,Oregon,Cabernet Sauvignon
+US,86,17,California,Chardonnay
+US,96,65,California,Chardonnay
+France,90,27,Burgundy,Chardonnay
+France,88,50,Burgundy,Pinot Noir
+US,91,72,California,Cabernet Sauvignon
+US,86,36,Oregon,Pinot Noir
+France,90,55,Burgundy,Pinot Noir
+US,87,25,New York,Rosé
+US,94,54,California,Pinot Noir
+France,85,16,Languedoc-Roussillon,Chardonnay
+US,92,65,California,Pinot Noir
+Argentina,89,16,Mendoza Province,Cabernet Sauvignon
+US,93,65,Oregon,Pinot Noir
+US,85,38,California,Pinot Noir
+US,91,52,Oregon,Pinot Noir
+US,81,15,New York,Pinot Noir
+US,92,28,California,Chardonnay
+US,86,36,Washington,Pinot Noir
+US,87,12,Oregon,Chardonnay
+US,86,20,California,Cabernet Sauvignon
+US,91,35,California,Chardonnay
+US,90,20,California,Chardonnay
+France,88,23,Alsace,Pinot Noir
+US,87,29,Oregon,Pinot Noir
+US,90,65,Oregon,Pinot Noir
+US,91,20,California,Chardonnay
+US,90,88,California,Chardonnay
+US,95,75,California,Cabernet Sauvignon
+US,86,12,New York,Chardonnay
+France,86,20,Bordeaux,Rosé
+US,90,75,Oregon,Pinot Noir
+France,87,44,Burgundy,Chardonnay
+US,91,35,California,Chardonnay
+US,90,25,California,Chardonnay
+US,93,40,California,Pinot Noir
+France,93,90,Burgundy,Pinot Noir
+US,90,20,California,Pinot Noir
+US,85,30,California,Pinot Noir
+US,88,38,California,Pinot Noir
+Argentina,90,150,Other,Pinot Noir
+France,92,180,Burgundy,Chardonnay
+US,83,17,California,Chardonnay
+US,87,90,California,Cabernet Sauvignon
+US,87,30,California,Chardonnay
+US,85,26,Oregon,Pinot Noir
+Italy,91,40,Sicily & Sardinia,Cabernet Sauvignon
+US,85,14,California,Pinot Noir
+France,88,12,Provence,Rosé
+US,96,63,Oregon,Pinot Noir
+US,92,30,Oregon,Chardonnay
+France,89,90,Burgundy,Chardonnay
+US,93,78,California,Chardonnay
+France,93,197,Burgundy,Pinot Noir
+France,92,67,Champagne,Chardonnay
+France,95,90,Champagne,Chardonnay
+US,88,70,California,Pinot Noir
+Italy,90,30,Piedmont,Chardonnay
+US,86,40,California,Pinot Noir
+Argentina,87,18,Mendoza Province,Cabernet Sauvignon
+US,90,30,California,Cabernet Sauvignon
+US,92,35,Washington,Cabernet Sauvignon
+Argentina,89,20,Mendoza Province,Cabernet Sauvignon
+Chile,93,69,Puente Alto,Cabernet Sauvignon
+France,90,40,Burgundy,Chardonnay
+US,93,45,California,Chardonnay
+US,91,38,Washington,Cabernet Sauvignon
+Chile,88,12,Maule Valley,Pinot Noir
+US,87,65,Oregon,Pinot Noir
+US,89,65,Oregon,Pinot Noir
+US,89,20,California,Chardonnay
+US,84,12,California,Cabernet Sauvignon
+Chile,88,13,Maipo Valley-Colchagua Valley,Cabernet Sauvignon
+US,90,23,California,Chardonnay
+US,87,25,California,Cabernet Sauvignon
+Chile,87,14,Maipo Valley,Cabernet Sauvignon
+France,88,42,Burgundy,Chardonnay
+US,90,23,California,Chardonnay
+US,92,42,California,Pinot Noir
+US,91,35,California,Cabernet Sauvignon
+US,92,90,California,Cabernet Sauvignon
+US,85,16,Massachusetts,Chardonnay
+US,88,20,California,Pinot Noir
+US,83,10,California,Chardonnay
+US,88,16,California,Chardonnay
+US,93,40,California,Pinot Noir
+US,92,25,California,Chardonnay
+France,96,115,Burgundy,Chardonnay
+France,84,15,Bordeaux,Rosé
+US,91,15,Oregon,Chardonnay
+Italy,89,40,Veneto,Cabernet Sauvignon
+US,91,35,Oregon,Chardonnay
+US,88,34,California,Cabernet Sauvignon
+US,84,18,Virginia,Chardonnay
+US,93,75,California,Chardonnay
+Chile,85,13,Colchagua Valley,Rosé
+US,91,25,California,Cabernet Sauvignon
+Chile,85,11,Central Valley,Cabernet Sauvignon
+US,85,25,California,Chardonnay
+Italy,89,28,Northeastern Italy,Chardonnay
+US,89,32,California,Pinot Noir
+US,95,56,California,Pinot Noir
+US,90,105,California,Cabernet Sauvignon
+US,87,25,California,Chardonnay
+US,90,85,California,Pinot Noir
+US,88,18,Oregon,Chardonnay
+France,89,67,Champagne,Chardonnay
+Chile,83,8,Central Valley,Cabernet Sauvignon
+France,86,13,Languedoc-Roussillon,Pinot Noir
+US,88,18,New York,Chardonnay
+US,92,115,California,Cabernet Sauvignon
+US,83,45,California,Pinot Noir
+US,92,44,California,Pinot Noir
+US,87,19,California,Cabernet Sauvignon
+France,87,16,Burgundy,Chardonnay
+France,93,330,Burgundy,Pinot Noir
+US,92,45,Oregon,Pinot Noir
+France,91,90,Burgundy,Chardonnay
+US,87,50,California,Pinot Noir
+US,86,20,Virginia,Chardonnay
+US,91,40,California,Pinot Noir
+US,90,21,California,Cabernet Sauvignon
+US,92,28,California,Cabernet Sauvignon
+Argentina,85,10,Mendoza Province,Cabernet Sauvignon
+France,87,20,Provence,Rosé
+Chile,85,10,Maule Valley,Chardonnay
+US,90,50,California,Cabernet Sauvignon
+Italy,90,30,Sicily & Sardinia,Chardonnay
+Chile,81,10,Maipo Valley,Chardonnay
+Chile,86,15,Limarí Valley,Pinot Noir
+US,84,13,California,Chardonnay
+US,90,38,Oregon,Pinot Noir
+France,89,26,Burgundy,Chardonnay
+US,93,70,California,Pinot Noir
+US,95,125,California,Cabernet Sauvignon
+US,93,85,California,Cabernet Sauvignon
+US,90,23,California,Chardonnay
+France,88,26,Burgundy,Chardonnay
+France,89,22,Rhône Valley,Rosé
+France,87,60,Burgundy,Pinot Noir
+US,90,39,California,Cabernet Sauvignon
+US,88,20,California,Cabernet Sauvignon
+France,87,7,France Other,Pinot Noir
+US,86,55,California,Pinot Noir
+US,85,18,California,Pinot Noir
+Italy,87,16,Tuscany,Cabernet Sauvignon
+US,85,15,California,Pinot Noir
+US,91,38,California,Chardonnay
+France,93,99,Burgundy,Pinot Noir
+Chile,85,15,Casablanca & Leyda Valleys,Chardonnay
+US,86,14,California,Chardonnay
+US,81,17,California,Pinot Noir
+France,90,55,Alsace,Pinot Noir
+US,91,40,California,Chardonnay
+Argentina,83,9,Mendoza Province,Cabernet Sauvignon
+US,90,44,California,Pinot Noir
+US,90,55,Washington,Cabernet Sauvignon
+US,90,36,Oregon,Pinot Noir
+France,85,32,Burgundy,Pinot Noir
+US,89,50,California,Cabernet Sauvignon
+US,86,90,California,Cabernet Sauvignon
+France,90,95,Burgundy,Pinot Noir
+Italy,91,36,Lombardy,Chardonnay
+US,87,20,California,Chardonnay
+US,90,35,California,Pinot Noir
+US,85,17,California,Pinot Noir
+US,88,28,California,Pinot Noir
+US,86,34,California,Cabernet Sauvignon
+US,87,34,California,Pinot Noir
+France,87,26,Burgundy,Chardonnay
+France,84,16,Southwest France,Rosé
+US,89,49,Washington,Cabernet Sauvignon
+US,90,55,California,Cabernet Sauvignon
+US,87,50,California,Chardonnay
+US,91,56,California,Pinot Noir
+US,84,75,California,Cabernet Sauvignon
+US,89,20,New York,Rosé
+France,84,20,Provence,Rosé
+US,85,28,Virginia,Chardonnay
+US,85,10,Washington,Chardonnay
+France,86,13,Southwest France,Rosé
+US,92,22,California,Chardonnay
+US,93,44,California,Pinot Noir
+US,90,47,New York,Pinot Noir
+Chile,91,24,Maipo Valley,Cabernet Sauvignon
+US,95,55,California,Chardonnay
+US,92,39,California,Chardonnay
+France,86,30,Burgundy,Chardonnay
+US,87,38,Washington,Cabernet Sauvignon
+US,87,40,Washington,Cabernet Sauvignon
+US,88,50,California,Pinot Noir
+US,88,27,California,Pinot Noir
+US,82,16,Oregon,Pinot Noir
+US,88,50,Oregon,Pinot Noir
+US,90,32,Oregon,Pinot Noir
+France,92,52,Provence,Rosé
+US,88,38,Washington,Cabernet Sauvignon
+US,85,28,California,Cabernet Sauvignon
+US,82,11,California,Cabernet Sauvignon
+US,94,235,California,Cabernet Sauvignon
+US,92,48,California,Pinot Noir
+France,84,14,Languedoc-Roussillon,Rosé
+US,91,50,Oregon,Pinot Noir
+US,94,58,California,Pinot Noir
+US,87,13,California,Cabernet Sauvignon
+US,88,24,California,Pinot Noir
+US,84,16,California,Chardonnay
+US,94,100,Oregon,Pinot Noir
+US,86,60,California,Pinot Noir
+US,91,54,California,Pinot Noir
+US,93,75,California,Chardonnay
+US,87,55,Oregon,Pinot Noir
+Chile,83,10,Curicó Valley,Pinot Noir
+US,87,14,California,Chardonnay
+US,86,23,Oregon,Pinot Noir
+US,84,6,California,Chardonnay
+US,87,41,California,Cabernet Sauvignon
+US,89,25,California,Chardonnay
+France,88,50,Burgundy,Chardonnay
+US,87,50,California,Chardonnay
+France,90,40,Burgundy,Chardonnay
+France,85,28,Loire Valley,Rosé
+US,82,18,California,Chardonnay
+US,93,85,California,Cabernet Sauvignon
+US,91,48,Washington,Chardonnay
+US,93,45,California,Pinot Noir
+France,84,18,Burgundy,Chardonnay
+Argentina,86,20,Mendoza Province,Cabernet Sauvignon
+US,86,25,California,Pinot Noir
+Italy,88,25,Northeastern Italy,Chardonnay
+Chile,84,13,Casablanca Valley,Chardonnay
+US,85,55,California,Cabernet Sauvignon
+US,95,70,California,Pinot Noir
+US,88,14,California,Rosé
+US,93,40,California,Pinot Noir
+US,92,20,California,Rosé
+US,83,21,California,Pinot Noir
+US,93,40,California,Pinot Noir
+France,89,40,Burgundy,Pinot Noir
+US,94,40,California,Pinot Noir
+US,88,30,Oregon,Pinot Noir
+US,90,30,Washington,Cabernet Sauvignon
+US,92,90,California,Cabernet Sauvignon
+US,88,40,California,Cabernet Sauvignon
+US,92,100,California,Cabernet Sauvignon
+US,85,15,California,Cabernet Sauvignon
+US,95,75,California,Cabernet Sauvignon
+Argentina,85,13,Mendoza Province,Chardonnay
+France,90,24,Alsace,Pinot Noir
+US,92,48,California,Cabernet Sauvignon
+US,95,48,California,Chardonnay
+US,87,48,California,Pinot Noir
+US,84,38,California,Pinot Noir
+US,87,32,Oregon,Pinot Noir
+France,85,20,Burgundy,Chardonnay
+US,87,17,Washington,Chardonnay
+US,94,68,California,Chardonnay
+US,89,26,California,Cabernet Sauvignon
+US,92,65,California,Pinot Noir
+US,87,30,California,Pinot Noir
+France,90,20,Alsace,Chardonnay
+US,90,25,California,Cabernet Sauvignon
+US,87,34,Oregon,Pinot Noir
+Chile,85,19,Limarí Valley,Pinot Noir
+US,94,65,Oregon,Pinot Noir
+US,87,21,California,Rosé
+US,92,65,California,Chardonnay
+US,94,62,California,Chardonnay
+France,87,35,Burgundy,Chardonnay
+US,85,18,California,Pinot Noir
+Argentina,83,19,Mendoza Province,Pinot Noir
+France,91,26,Rhône Valley,Rosé
+Chile,80,25,Casablanca Valley,Pinot Noir
+US,92,55,Oregon,Pinot Noir
+US,88,20,California,Cabernet Sauvignon
+US,85,11,California,Pinot Noir
+US,86,14,Oregon,Pinot Noir
+US,92,48,California,Pinot Noir
+US,87,14,California,Chardonnay
+US,89,50,Washington,Cabernet Sauvignon
+US,89,18,California,Chardonnay
+US,89,26,Oregon,Pinot Noir
+US,88,38,California,Pinot Noir
+US,88,18,California,Rosé
+US,87,56,California,Pinot Noir
+US,87,86,California,Cabernet Sauvignon
+France,86,12,Rhône Valley,Rosé
+Chile,84,10,Curicó Valley,Cabernet Sauvignon
+US,92,40,California,Chardonnay
+Chile,88,28,Colchagua Valley,Cabernet Sauvignon
+US,87,45,California,Chardonnay
+US,84,25,Virginia,Chardonnay
+US,92,70,Oregon,Chardonnay
+France,92,80,Champagne,Chardonnay
+US,88,29,California,Chardonnay
+US,86,50,California,Pinot Noir
+US,85,14,California,Chardonnay
+US,83,40,California,Cabernet Sauvignon
+US,87,35,California,Chardonnay
+US,87,15,California,Pinot Noir
+US,89,48,California,Pinot Noir
+France,89,18,Provence,Rosé
+US,92,65,Oregon,Pinot Noir
+US,89,20,Oregon,Pinot Noir
+Italy,93,50,Tuscany,Cabernet Sauvignon
+US,85,25,Michigan,Pinot Noir
+US,90,25,California,Cabernet Sauvignon
+US,92,22,California,Chardonnay
+US,90,18,California,Chardonnay
+US,90,65,California,Cabernet Sauvignon
+US,94,70,California,Chardonnay
+Italy,93,60,Central Italy,Chardonnay
+France,88,54,Burgundy,Chardonnay
+US,91,45,Oregon,Pinot Noir
+US,89,32,Washington,Cabernet Sauvignon
+US,86,36,California,Chardonnay
+US,91,65,Oregon,Pinot Noir
+US,92,100,California,Cabernet Sauvignon
+Italy,92,120,Tuscany,Chardonnay
+US,88,57,California,Pinot Noir
+US,90,36,California,Pinot Noir
+US,92,20,California,Rosé
+US,87,14,New York,Pinot Noir
+US,90,125,Oregon,Pinot Noir
+France,86,14,Provence,Rosé
+US,82,16,California,Chardonnay
+France,88,40,Burgundy,Pinot Noir
+US,85,12,California,Cabernet Sauvignon
+US,94,75,Oregon,Pinot Noir
+US,88,16,California,Pinot Noir
+France,90,35,Loire Valley,Pinot Noir
+US,88,25,California,Cabernet Sauvignon
+France,86,45,Burgundy,Chardonnay
+France,90,65,Burgundy,Pinot Noir
+US,93,55,California,Pinot Noir
+US,88,75,California,Pinot Noir
+US,91,48,California,Chardonnay
+US,90,18,Oregon,Pinot Noir
+US,83,20,California,Chardonnay
+US,89,30,California,Cabernet Sauvignon
+US,93,80,California,Pinot Noir
+US,88,28,California,Pinot Noir
+US,85,42,California,Pinot Noir
+US,82,18,California,Rosé
+France,86,20,Burgundy,Chardonnay
+US,89,30,Oregon,Pinot Noir
+US,88,70,California,Cabernet Sauvignon
+US,93,55,Oregon,Pinot Noir
+Chile,88,45,Casablanca Valley,Pinot Noir
+US,82,35,California,Chardonnay
+US,93,28,California,Chardonnay
+US,86,48,California,Cabernet Sauvignon
+France,87,10,Languedoc-Roussillon,Rosé
+US,90,35,Oregon,Pinot Noir
+France,95,200,Burgundy,Pinot Noir
+US,88,35,California,Pinot Noir
+US,92,53,California,Cabernet Sauvignon
+US,87,13,New York,Chardonnay
+France,95,125,Burgundy,Pinot Noir
+US,89,175,California,Cabernet Sauvignon
+US,85,20,California,Cabernet Sauvignon
+US,93,50,California,Pinot Noir
+US,90,54,California,Pinot Noir
+US,92,35,Oregon,Pinot Noir
+France,90,105,Burgundy,Pinot Noir
+France,94,65,Champagne,Chardonnay
+US,92,38,California,Cabernet Sauvignon
+US,86,29,California,Cabernet Sauvignon
+France,94,75,Burgundy,Chardonnay
+US,84,45,California,Chardonnay
+US,88,35,New York,Chardonnay
+US,84,18,California,Cabernet Sauvignon
+US,82,22,California,Pinot Noir
+US,91,25,California,Chardonnay
+US,85,50,California,Pinot Noir
+US,89,32,California,Pinot Noir
+US,90,48,California,Pinot Noir
+US,87,45,California,Cabernet Sauvignon
+US,92,60,California,Pinot Noir
+US,88,18,California,Chardonnay
+US,90,47,California,Chardonnay
+US,83,35,California,Chardonnay
+France,89,30,Provence,Rosé
+US,86,28,New York,Pinot Noir
+US,91,55,California,Chardonnay
+US,94,100,California,Cabernet Sauvignon
+US,86,25,California,Chardonnay
+Chile,87,40,Leyda Valley,Pinot Noir
+US,91,40,California,Chardonnay
+US,88,40,Washington,Cabernet Sauvignon
+US,88,75,California,Pinot Noir
+France,88,50,Alsace,Pinot Noir
+US,93,160,California,Cabernet Sauvignon
+France,93,39,Burgundy,Chardonnay
+US,88,15,Oregon,Chardonnay
+US,93,50,California,Pinot Noir
+Italy,89,55,Tuscany,Cabernet Sauvignon
+US,88,28,Oregon,Pinot Noir
+US,87,30,Oregon,Pinot Noir
+US,82,11,Washington,Pinot Noir
+US,84,30,California,Chardonnay
+US,88,25,Washington,Chardonnay
+US,89,14,California,Chardonnay
+France,93,65,Burgundy,Pinot Noir
+US,91,34,Oregon,Cabernet Sauvignon
+US,94,87,Washington,Cabernet Sauvignon
+US,88,60,California,Pinot Noir
+France,88,22,Provence,Rosé
+US,85,60,California,Pinot Noir
+US,87,11,Washington,Cabernet Sauvignon
+US,88,54,California,Cabernet Sauvignon
+France,93,70,Champagne,Pinot Noir
+US,88,40,California,Pinot Noir
+US,88,49,Oregon,Pinot Noir
+US,90,30,California,Chardonnay
+US,87,85,California,Cabernet Sauvignon
+US,83,18,Oregon,Chardonnay
+US,88,13,Washington,Cabernet Sauvignon
+US,88,35,Colorado,Chardonnay
+US,91,130,California,Cabernet Sauvignon
+US,95,85,Oregon,Pinot Noir
+Italy,87,35,Sicily & Sardinia,Chardonnay
+US,88,36,California,Pinot Noir
+US,81,11,California,Cabernet Sauvignon
+France,87,50,Burgundy,Chardonnay
+US,93,27,California,Chardonnay
+France,87,35,Burgundy,Pinot Noir
+France,88,46,Burgundy,Chardonnay
+France,88,14,Provence,Rosé
+US,93,55,California,Pinot Noir
+France,88,15,Provence,Rosé
+US,91,38,California,Chardonnay
+US,83,8,California,Cabernet Sauvignon
+US,90,15,California,Cabernet Sauvignon
+US,88,14,Washington,Chardonnay
+US,87,25,California,Cabernet Sauvignon
+France,85,16,Burgundy,Chardonnay
+US,94,105,California,Pinot Noir
+France,85,18,Languedoc-Roussillon,Chardonnay
+US,84,35,California,Pinot Noir
+US,92,25,California,Chardonnay
+US,86,20,California,Chardonnay
+Argentina,86,20,Mendoza Province,Cabernet Sauvignon
+US,89,35,California,Chardonnay
+Chile,85,13,Curicó Valley,Cabernet Sauvignon
+US,92,85,Oregon,Pinot Noir
+US,90,45,California,Chardonnay
+France,92,78,Burgundy,Chardonnay
+Chile,90,20,Maipo Valley,Cabernet Sauvignon
+US,92,66,Oregon,Pinot Noir
+US,90,42,California,Cabernet Sauvignon
+France,92,75,Burgundy,Chardonnay
+US,91,22,California,Pinot Noir
+France,93,128,Burgundy,Chardonnay
+US,92,49,California,Pinot Noir
+US,91,60,California,Chardonnay
+US,88,25,California,Chardonnay
+US,94,60,California,Pinot Noir
+US,86,13,California,Cabernet Sauvignon
+US,88,45,California,Pinot Noir
+US,93,51,California,Pinot Noir
+US,87,25,California,Cabernet Sauvignon
+US,86,26,California,Cabernet Sauvignon
+US,86,18,California,Pinot Noir
+US,90,125,California,Cabernet Sauvignon
+US,84,18,California,Chardonnay
+US,86,50,California,Chardonnay
+US,93,55,California,Pinot Noir
+France,89,50,Burgundy,Chardonnay
+US,90,25,California,Chardonnay
+US,90,36,California,Pinot Noir
+US,87,23,Washington,Cabernet Sauvignon
+US,90,45,California,Pinot Noir
+Chile,86,8,Central Valley,Chardonnay
+US,87,44,California,Pinot Noir
+France,91,115,Burgundy,Pinot Noir
+US,86,24,California,Pinot Noir
+US,87,18,California,Chardonnay
+US,82,24,Oregon,Cabernet Sauvignon
+US,93,40,California,Pinot Noir
+US,82,33,Washington,Cabernet Sauvignon
+US,85,18,Washington,Cabernet Sauvignon
+France,91,20,Provence,Rosé
+Italy,87,22,Tuscany,Rosé
+US,84,10,California,Cabernet Sauvignon
+US,86,36,California,Chardonnay
+US,86,23,California,Pinot Noir
+Chile,87,10,Central Valley,Cabernet Sauvignon
+US,92,50,California,Chardonnay
+US,92,38,California,Chardonnay
+US,86,40,California,Cabernet Sauvignon
+France,94,62,Champagne,Chardonnay
+France,85,23,Burgundy,Chardonnay
+US,83,10,California,Chardonnay
+France,92,80,Champagne,Chardonnay
+Chile,86,10,Curicó Valley,Cabernet Sauvignon
+US,86,28,California,Chardonnay
+US,86,55,California,Pinot Noir
+Chile,87,25,Maipo Valley,Cabernet Sauvignon
+US,82,15,California,Chardonnay
+US,92,50,California,Pinot Noir
+Argentina,89,15,Mendoza Province,Cabernet Sauvignon
+France,83,25,Burgundy,Chardonnay
+Chile,86,12,Casablanca Valley,Pinot Noir
+US,84,21,California,Rosé
+France,88,28,Burgundy,Chardonnay
+France,88,20,Provence,Rosé
+France,92,220,Burgundy,Chardonnay
+US,86,10,California,Chardonnay
+US,91,65,California,Cabernet Sauvignon
+France,85,17,France Other,Rosé
+US,87,18,Virginia,Cabernet Sauvignon
+US,85,22,Oregon,Pinot Noir
+US,87,22,Washington,Chardonnay
+Argentina,82,12,Mendoza Province,Rosé
+US,88,28,California,Chardonnay
+US,93,75,California,Cabernet Sauvignon
+US,93,34,California,Pinot Noir
+US,87,12,California,Cabernet Sauvignon
+US,95,70,California,Pinot Noir
+US,84,6,California,Chardonnay
+France,90,42,Burgundy,Pinot Noir
+US,92,65,California,Cabernet Sauvignon
+France,87,15,Bordeaux,Cabernet Sauvignon
+US,90,25,Washington,Cabernet Sauvignon
+France,88,65,Burgundy,Pinot Noir
+Argentina,84,13,Mendoza Province,Cabernet Sauvignon
+US,90,60,California,Cabernet Sauvignon
+US,89,55,California,Pinot Noir
+France,93,100,Burgundy,Pinot Noir
+US,90,45,California,Pinot Noir
+US,93,50,California,Chardonnay
+US,93,45,California,Chardonnay
+US,85,38,California,Pinot Noir
+US,82,39,Oregon,Pinot Noir
+France,83,16,Alsace,Pinot Noir
+US,87,13,California,Pinot Noir
+US,90,38,California,Chardonnay
+US,93,89,California,Cabernet Sauvignon
+France,87,26,Burgundy,Pinot Noir
+France,92,38,Burgundy,Chardonnay
+US,84,18,California,Chardonnay
+US,91,30,California,Pinot Noir
+US,93,95,California,Cabernet Sauvignon
+Chile,88,18,Maule Valley,Cabernet Sauvignon
+US,87,40,California,Cabernet Sauvignon
+Italy,84,16,Southern Italy,Chardonnay
+US,86,75,California,Cabernet Sauvignon
+US,89,65,California,Pinot Noir
+US,89,18,California,Pinot Noir
+US,95,50,California,Pinot Noir
+US,88,40,Oregon,Pinot Noir
+US,90,11,California,Pinot Noir
+US,90,60,California,Pinot Noir
+France,91,78,Burgundy,Pinot Noir
+US,85,22,New York,Pinot Noir
+US,91,58,California,Pinot Noir
+US,93,58,California,Pinot Noir
+US,90,30,California,Pinot Noir
+US,88,40,California,Chardonnay
+US,94,40,California,Chardonnay
+US,89,22,California,Pinot Noir
+US,93,50,California,Pinot Noir
+France,90,14,Provence,Rosé
+US,91,68,California,Pinot Noir
+US,87,60,California,Cabernet Sauvignon
+US,87,42,California,Pinot Noir
+US,84,19,California,Pinot Noir
+US,91,17,California,Chardonnay
+US,86,18,California,Chardonnay
+US,85,32,Virginia,Cabernet Sauvignon
+US,86,25,Virginia,Chardonnay
+US,85,26,Washington,Cabernet Sauvignon
+US,81,18,California,Cabernet Sauvignon
+US,87,13,Washington,Chardonnay
+US,90,85,California,Cabernet Sauvignon
+US,88,22,Oregon,Pinot Noir
+US,92,31,California,Pinot Noir
+France,85,17,Burgundy,Pinot Noir
+US,91,40,California,Pinot Noir
+US,89,25,California,Rosé
+US,91,22,California,Rosé
+US,91,18,California,Chardonnay
+US,93,125,California,Cabernet Sauvignon
+France,94,225,Burgundy,Chardonnay
+US,87,15,California,Chardonnay
+US,91,75,California,Pinot Noir
+US,88,45,California,Pinot Noir
+Chile,84,12,Maule Valley,Cabernet Sauvignon
+US,92,65,California,Cabernet Sauvignon
+Chile,85,15,Casablanca Valley,Pinot Noir
+US,93,65,Oregon,Pinot Noir
+France,90,33,Alsace,Pinot Noir
+US,81,10,California,Chardonnay
+US,87,18,Washington,Chardonnay
+US,92,65,Oregon,Chardonnay
+Argentina,83,13,Mendoza Province,Pinot Noir
+US,88,27,Oregon,Pinot Noir
+US,90,60,Oregon,Pinot Noir
+US,88,26,New York,Pinot Noir
+Argentina,85,13,Other,Cabernet Sauvignon
+US,88,30,California,Cabernet Sauvignon
+US,92,52,California,Pinot Noir
+US,87,45,California,Chardonnay
+France,87,12,Southwest France,Chardonnay
+US,92,30,California,Chardonnay
+US,92,80,California,Cabernet Sauvignon
+US,91,33,California,Chardonnay
+France,84,22,Burgundy,Pinot Noir
+US,91,48,California,Chardonnay
+Chile,89,20,Casablanca Valley,Pinot Noir
+US,83,25,California,Cabernet Sauvignon
+US,90,90,California,Cabernet Sauvignon
+US,93,70,California,Pinot Noir
+US,91,30,Washington,Cabernet Sauvignon
+US,91,95,California,Cabernet Sauvignon
+US,87,25,California,Pinot Noir
+France,94,460,Burgundy,Pinot Noir
+US,92,40,California,Cabernet Sauvignon
+US,91,55,Oregon,Pinot Noir
+US,92,24,California,Rosé
+US,87,35,California,Cabernet Sauvignon
+US,87,19,California,Rosé
+US,93,80,California,Cabernet Sauvignon
+US,92,65,California,Pinot Noir
+US,91,30,California,Rosé
+US,86,11,Washington,Chardonnay
+France,91,40,Burgundy,Chardonnay
+US,83,30,California,Chardonnay
+France,90,20,Provence,Rosé
+US,88,20,Oregon,Pinot Noir
+France,90,45,Burgundy,Pinot Noir
+US,90,25,California,Pinot Noir
+Argentina,83,11,Mendoza Province,Chardonnay
+US,88,30,Washington,Cabernet Sauvignon
+US,88,9,California,Cabernet Sauvignon
+France,90,65,Burgundy,Chardonnay
+US,89,32,California,Chardonnay
+US,91,30,California,Chardonnay
+US,91,95,California,Pinot Noir
+Chile,87,15,Casablanca Valley,Pinot Noir
+US,86,22,California,Chardonnay
+France,88,16,Burgundy,Chardonnay

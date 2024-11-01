@@ -1,0 +1,262 @@
+---
+title: "Week 8 Lab - inference on two proportions; inference on one mean"
+author: "Name"
+date: "Submission date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(You might want to knit the first time you read it to view the notation.)
+
+## Example (voters)
+Suppose that I polled a random sample of voters.  I found that there were 359 voters who voted by mail in the 2020 election, 192 of whom intend to vote by mail in 2024.  Further, there were 161 voters who did not vote by mail in 2020.  Of these, 38 intend to vote by mail in 2024.
+
+We will use this (fictional) data to infer whether 2020 voting method are predictive of their intentions to vote by mail in 2024.
+
+## Recap: descriptive summaries of two binary variables
+
+First, a little setup. The code below will create a table called mail_voting that holds the counts. A little bit of arithmetic will find the number who do not intend to vote by mail in each category.  
+
+ I use the `rbind` function to create a matrix of the counts.  I put the grouping variable as the "row variable" and the outcome variable as the "column" variable.  Then I set the row and column names to keep track of the values.
+```{r}
+voter_table <- as.table(rbind( c(192,359-192),c(38,161-38) ))
+rownames(voter_table) <- c("mail2020","not_mail2020")
+colnames(voter_table) <- c("mail2024","not_mail2024")
+voter_table
+```
+
+I'll look for evidence of association by comparing the row proportions. The table below shows that among those who voted by mail in 2020, 53.5% intend to vote by mail in 2024. This is higher than the proportion among those who didn't vote by mail in 2020, 23.6%.
+
+```{r}
+prop.table(voter_table,margin=1)
+```
+
+
+## Inference on two proportions in R
+
+Let's define $\pi_1$ to be the proportion of 2020 mail-in voters who plan to vote by mail in 2024. Then $\pi_2$ is the proportion of 2020 non-mail voters who plan to vote by mail in 2024. We will use inferential methods to investigate whether the difference $\pi_1-\pi_2$ is significantly greater than zero, which indicates that 2020 voting preference is associated with greater likelihood of mail voting in 2024.
+
+
+When using `prop.test()` function for inference on two proportions, the input can either be a `table` or vectors of successes and sample sizes. 
+
+### Input is a table
+If the input object is a `table`, make sure that the grouping variable is the row variable and the outcome variable is the column variable. 
+
+The code below makes a 90% confidence interval for $\pi_1-\pi_2$:
+```{r}
+prop.test(voter_table, conf.level=0.90)
+```
+
+We are 90\% confident that $\pi_1-\pi_2$ is between 0.2242593 and 0.3733289. Since all of the values in this interval are greater than zero, it seems that there is evidence that 2020 mail-in voters are more likely to vote by mail in 2024 than 2020 non-mail voters.
+
+### Input is a vector of counts
+We can also give `prop.test` a vector of successes and a vector of sample sizes, as shown in lecture. The code below will test the hypotheses $$H_0: \pi_1-\pi_2 = 0; H_A: \pi_1-\pi_2 > 0 $$
+with an $\alpha$ of 0.05.
+
+```{r}
+prop.test(x=c(192,38), n=c(359, 161), alternative='greater')
+```
+The p-value for the test is $2.09 \times 10^-10$. The squared test statistic ($z_0^2$) is 39.027. The absolute value of the test statistic is $\sqrt{39.027}$, or 6.247159. The sample proportions are about 6 standard errors apart.   
+
+
+Code to print $|z_0|$ and the p-value:
+```{r}
+test.result <- prop.test(x=c(192,38), n=c(359, 161), alternative='greater')
+abs.z0 <- sqrt(test.result$statistic)
+p.value <- test.result$p.value
+
+# print values in console
+abs.z0
+p.value
+```
+
+
+Remember that `prop.test` automatically applies a continuity correction, and so its results will not exactly match the large-sample methods seen in lecture.  Just for fun, let's calculate the z0 test statistic using the formula from lecture.
+```{r}
+n1 <- 359
+n2 <-161
+pihat1 <- 192/n1
+pihat2 <- 38/n2
+pihat_pool <- (192+38)/(n1 + n2)
+z0 <- (pihat1-pihat2)/sqrt(pihat_pool*(1-pihat_pool)/n1 + pihat_pool*(1-pihat_pool)/n2)
+z0
+```
+
+
+Try on your own: if you set "correct=FALSE" in the `prop.test` call, R will not use a continuity correction.  Under this setting, the test statistic will be equal to the absolute value of z0 as calculated using the formulas from lecture.
+
+
+# Inference on one mean in R
+
+Inference on one mean is very simple in R.  First, I'll generate some artificial data upon which to perform the t test and look at the data distribution.
+```{r}
+# generate 13 samples from a N(4,1^2) distribution
+set.seed(109202)
+n <- 13
+y <- rnorm(n, 4, 1)
+hist(y)
+summary(y)
+```
+
+The histogram above has a symmetric shape that looks approximately bell-shaped.  The observations range from about 2.6 to 6.4.   
+
+### t confidence interval and t test in R
+The `t.test` function can be use to perform the one-sample interval and test for $\mu$.  
+The first input value is a vector of numeric data.  By default, it will calculate a 95% confidence interval and test the hypotheses $$H_0: \mu=\mu_0; \quad H_A: \mu\neq \mu_0. $$
+
+The following code makes a 95\% confidence interval for the population mean. (Note that we generated data from a N(4,1^2) distribution, so the true $\mu$ value is 4.)
+```{r}
+t.test(y, conf.level=0.95)
+```
+Save the results in an object if you want to extract certain pieces.  Here is the confidence interval for $\mu$:
+
+```{r}
+results <- t.test(y, conf.level=0.95)
+results$conf.int
+```
+
+To test $$H_0: \mu=5; \quad H_A: \mu\neq 5, $$
+set the `mu` option to 5 in the function.
+
+
+```{r}
+results2 <- t.test(y, conf.level=0.95, mu=5, alternative='two.sided')
+results2$statistic
+results2$p.value
+```
+The test statistic is $t_0=-2.510169$, meaning that the observed y-bar is about 2.5 standard errors below 5. The p-value is $0.0274$. For an alpha of 0.05, the null hypothesis is rejected and we conclude that there is evidence that $\mu \neq 5$.
+
+Use the option "alternative" to change the direction of the alternative.
+
+```{r}
+# test H0: mu=5; HA: mu <5
+results3 <- t.test(y,mu=5,alternative="less")
+results3
+```
+
+Unlike those from `prop.test`, the outputs of `t.test` will exactly match the formulas given in lecture.
+
+### Checking assumptions
+
+Remember that the t test assumes that the data come from an approximately Normal distribution.  Let's circle back with a normal quantile plot to see if this is reasonable for our data.  
+
+```{r}
+qqnorm(y)
+qqline(y,col='red')
+```
+
+The pattern in this plot is close to a line and so normality seems to be a good assumption.  (Of course, I generated this data from a normal distribution, so it's definitely going to be normal.  But with real data, you never know what you might see!)
+
+
+
+
+
+# Exercises
+
+## Ex 1: Mushrooms
+
+Use the data in `mushrooms.csv`, posted in Canvas, for the following exercises.  You may choose whether to use `prop.test` with the default continuity corrections for this exercise or use the formulas from lecture.  
+
+a. Create a contingency table (two way table) summarizing the variables `edible` ("e" for edible and "p" for poisonous) and `bruises` ("t" for true, the species bruises and "f" for false, the species does not bruise.) What proportion of species that bruise are edible?
+
+**Answer: 84% of species that bruise are edible.**
+```{r 1a}
+mushrooms <- read.csv("mushrooms.csv")
+
+mush_table <- table(mushrooms$bruises, mushrooms$edible)
+mush_table
+
+prop.table(mush_table, 1)
+```
+
+
+b. Create an interpret a 90% confidence interval for the difference between the proportion of mushrooms that bruise that are edible (group 1) and the proportion of mushrooms that do not bruise that are edible.  "bruises" is the grouping variable and "edible" is the outcome variable.  
+
+
+**Answer: The 90% confidence interval for $\pi_{bruise}-\pi_{no bruise}$ is (0.4816, 0.6224). I am 90% confident that the proportion of edible mushrooms among those that bruise is between 0.4816 and 0.6224 greater than the proportion of edible mushrooms among those that do not bruise.**
+```{r 1b}
+prop.test(mush_table, conf.level = 0.90)
+```
+
+
+c. Now consider `gill.size` as a grouping variable.  Gill.size is equal to "b" for mushrooms with broad gills and "n" for mushrooms with narrow gills.  Conduct a hypothesis test, using $\alpha=0.05$, to assess whether the data provide strong evidence that that mushrooms with narrow gills are less likely to bruise than those with broad gills.  State the test statistic, p-value, and conclusion of your test.
+
+**Answer: There is some association between gill size and bruises; 54.2% of broad gilled mushrooms bruise, while only 13.9% of narrrow gilled mushrooms bruise. The test statistic is $|z_0|=7.783997$ with a p-value that is nearly zero, $3.5\times 10^{15}$. Thus we reject the null hypothesis and conclude that the data provide strong evidence that narrow-gilled mushrooms are less likely to bruise than those with broad gills.**
+```{r 1c}
+gill_table <- table(mushrooms$gill.size, mushrooms$bruises)
+gill_table
+
+prop.table(gill_table, 1)
+
+gill_test <- prop.test(gill_table, alternative = "less")
+
+sqrt(gill_test$statistic)
+gill_test$p.value
+```
+
+
+## Ex 2 (promotion)
+
+A political research group asked a random sample of 200 homeowners and asked if they plan to vote for Candidate A. 36\% of the volunteers planned to vote for A.  They then asked a random sample of 200 non-homeowners, and they found that 43\% planned to vote for Candidate A. 
+
+a. Think about the data collection in this scenario, and how it differs from the similar scenario discussed in lecture. Convince yourself that using the inference on two proportions procedures is reasonable in this case. (You don't need to write anything.)
+
+b. Is there a significant difference in levels of support for candidate A across the two groups? Perform a large sample test. Use $\alpha=0.05$. Report the test statistic, p-value, and conclusion. (Hint: if you use `prop.test`, you'll need to find the number of successes. The sample proportions and sample sizes will help.)
+
+**Answer: We find the test statistic is $|z_0|=1.329649$ and the p-value is 0.1836. The large p-value indicates very weak evidence in favor of the alternative, and for the choice of $\alpha=0.05$ we should fail to reject the null. We conclude that the evidence is insufficient to conclude that the two groups have different levels of support for the candidate.**
+```{r 2b}
+candidate_test <- prop.test(c(72,86), n = c(200,200), alternative = 'two.sided')
+candidate_test
+sqrt(candidate_test$statistic)
+```
+
+c. Find a large sample 95% confidence interval for the the difference in support for Candidate A across the groups. Does the interval contain 0? Is this consistent with your finding in part (b)?
+
+**Answer: The large sample interval for $\pi_1-\pi_2$ is printed in the output above: (-0.17056709,  0.03056709). We can be confident that the true difference in support for Candidate A between homeowners and non-owners is between -0.17056709 and 0.03056709. The interval contains 0, indicating that "no difference" is among the plausible true values. This is consistent with the test, which also found that we can cannot rule out the possibility of no difference between the groups.**
+
+
+
+## Ex 3 (prices)
+
+Use the Airbnb data from the file `airbnb_asheville.csv`.  These represent a simple random sample of active Airbnb listings in Asheville in 2022.
+
+a.  Find a 99% confidence interval for the average price of Airbnb listings in Asheville in 2022.
+
+**Answer: The code below find the confidence interval to be (\$151.13, \$190.66). We are 99% confident that the mean nightly price for Airbnbs in Asheville, winter 2022 is between \$151.13 and \$190.66.**
+```{r 3a}
+airbnb <- read.csv("airbnb_asheville.csv")
+
+t.test(airbnb$price, conf.level = 0.99)
+```
+
+b. Make a normal quantile plot of the data.  Does the sample appear to be approximately normal? Based on this answer and the sample size, are you concerned with the validity of your results?
+
+**Answer: The normal quantile plot below shows a high degree of curvature, which is probably due to the right-skew in the Price variable. The t test assumes that data are approximately normal; this violation of the assumption could lead to coverage probabilities and type 1 error probabilities that differ from their nominal level. However, the t-test is fairly robust to non-normality; since the sample size is not too small, we can trust that the procedure will still give results that provide useful information about the population.**
+```{r 3b}
+qqnorm(airbnb$price)
+```
+
+
+c. Take the natural log of price.  Use this transformed data to find a 95\% confidence interval for the log of the average Airbnb price.  
+
+**Answer: The code below calculates the CI. We are 95\% confident that the mean log Airbnb price is between \$4.85 and \$4.91. I can also exponentiate the lower and upper endpoints to get a CI on the original price scale. This interval, shown below, is (\$128.20, \$144.7633).**
+```{r 3c}
+t.test(log(airbnb$price), conf.level=0.95)
+
+print("95% CI on price scale:")
+c(exp(4.8536), exp(4.9751))
+```
+
+d. Make a normal quantile plot of the natural log of price.  Does the sample appear to be approximately normal?  
+
+**Answer: The log prices seem much closer to approximately normal than the prices do. There is some curvature in the upper right of the plot, indicating that the log samples are still somewhat right skewed, but this pattern indicates only a mild violation of the normality assumption.**
+```{r 3d}
+qqnorm(log(airbnb$price), main = 'log price')
+qqline(log(airbnb$price), col = 'red')
+```
+
+
