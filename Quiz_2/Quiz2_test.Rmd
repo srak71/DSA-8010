@@ -1,0 +1,221 @@
+---
+title: "Quiz2_test"
+author: "Saransh R"
+output: html_document
+date: "2024-11-03"
+---
+
+```{r q1}
+t_0 <- -1.87
+n <- 15
+alpha <- 0.05
+
+df <- n - 1
+
+p_value <- 2 * pt(t_0, df = df)
+round(p_value, 4)
+```
+
+
+```{r q2}
+t_0 <- 0.61
+n <- 21
+alpha <- 0.05
+
+df <- n - 1
+
+p_value <- 1 - pt(t_0, df = df)
+round(p_value, 4)
+```
+
+```{r q6}
+accept_A <- 1199
+total_A <- 1199 + 1492
+accept_B <- 897
+total_B <- 897 + 1278
+
+pi_A_hat <- accept_A / total_A
+pi_B_hat <- accept_B / total_B
+
+diff_pi_hat <- pi_A_hat - pi_B_hat
+
+std_error <- sqrt((pi_A_hat * (1 - pi_A_hat) / total_A) + (pi_B_hat * (1 - pi_B_hat) / total_B))
+
+z_star <- qnorm(1 - 0.05 / 2)
+
+lower_bound <- diff_pi_hat - z_star * std_error
+upper_bound <- diff_pi_hat + z_star * std_error
+
+round(upper_bound, 4)
+```
+
+```{r q7}
+opposed <- 541
+total <- 1000
+
+pi_hat <- opposed / total
+round(pi_hat, 4)
+```
+
+
+```{r q8}
+opposed <- 541
+total <- 1000
+
+result <- prop.test(opposed, total, conf.level = 0.99)
+
+upper_endpoint <- result$conf.int[2]
+round(upper_endpoint, 4)
+
+oppose <- 541
+total <- 1000
+
+results <- prop.test(oppose, total, 
+                     conf.level = 0.99,
+                     alternative = "two.sided")
+
+upper_endpoint <- results$conf.int[2]
+
+rounded_upper_endpoint <- round(upper_endpoint, 4)
+
+print(rounded_upper_endpoint)
+
+```
+
+```{r q9}
+test9 <- prop.test(x = 541, n = 1000, p = 0.5, alternative = "greater", correct = FALSE)
+z_0 = sqrt(test9$statistic)
+z_0
+```
+
+```{r q10}
+prop.test(x = 541, n = 1000, p = 0.5, alternative = "greater", correct = FALSE)
+```
+
+```{r q13}
+prop.test(x = c(94, 98), n = c(645, 558), alternative = "two.sided", correct = FALSE)
+```
+
+
+```{r q14}
+injuries_urban <- 94
+injuries_rural <- 98
+
+total_urban <- 645
+total_rural <- 558
+
+point_estimate <- (injuries_urban / total_urban) - (injuries_rural / total_rural)
+
+rounded_point_estimate <- round(point_estimate, 4)
+
+print(rounded_point_estimate)
+```
+
+```{r q16}
+n <- 18
+mean_time <- 141.6
+sd_time <- 15.4
+confidence_level <- 0.90
+
+df <- n - 1
+
+t_critical <- qt((1 + confidence_level) / 2, df)
+
+margin_of_error <- t_critical * (sd_time / sqrt(n))
+
+lower_endpoint <- mean_time - margin_of_error
+upper_endpoint <- mean_time + margin_of_error
+
+round(upper_endpoint, 4)
+```
+
+```{r q17}
+sample_mean <- 141.6
+hypothesized_mean <- 134.2
+sample_sd <- 15.4
+n <- 18
+
+t_0 <- (sample_mean - hypothesized_mean) / (sample_sd / sqrt(n))
+
+round(t_0, 4)
+```
+
+```{r q19}
+infant_data <- read.csv("infant_labs.csv")
+
+mean_age <- mean(infant_data$age_days)
+
+conf_interval_90 <- t.test(infant_data$age_days, mu = mean_age, conf.level = 0.90)
+conf_interval_90$conf.int[1]
+```
+
+```{r q20}
+infant_data <- read.csv("infant_labs.csv")
+
+mean_age <- mean(infant_data$age_days)
+
+t_test_result <- t.test(infant_data$age_days, mu = 11, alternative = "two.sided", conf.level = 0.95)
+
+test_statistic <- t_test_result$statistic
+
+rounded_test_statistic <- round(test_statistic, 4)
+
+print(rounded_test_statistic)
+
+```
+
+```{r q21}
+infant_data <- read.csv("infant_labs.csv")
+
+mean_age <- mean(infant_data$age_days)
+
+t_test_result <- t.test(infant_data$age_days, mu = 11, alternative = "two.sided", conf.level = 0.95)
+
+p_value <- t_test_result$p.value
+
+rounded_p_value <- round(p_value, 4)
+
+print(rounded_p_value)
+```
+
+```{r q22}
+infant_data <- read.csv("infant_labs.csv")
+
+well_appearing <- infant_data$ill_appearing == "well"
+ill_appearing <- infant_data$ill_appearing == "ill"
+
+infections_well <- sum(infant_data$infection[well_appearing])
+infections_ill <- sum(infant_data$infection[ill_appearing])
+
+n_well <- sum(well_appearing)
+n_ill <- sum(ill_appearing)
+
+test_result <- prop.test(c(infections_well, infections_ill), c(n_well, n_ill))
+
+point_estimate <- test_result$estimate
+point_estimate
+print(0.10679612 - 0.07792208)
+```
+
+```{r q23}
+infant_data <- read.csv("infant_labs.csv")
+
+well_appearing <- infant_data$ill_appearing == "well"
+ill_appearing <- infant_data$ill_appearing == "ill"
+
+infections_well <- sum(infant_data$infection[well_appearing])
+infections_ill <- sum(infant_data$infection[ill_appearing])
+
+n_well <- sum(well_appearing)
+n_ill <- sum(ill_appearing)
+
+test_result <- prop.test(c(infections_well, infections_ill), c(n_well, n_ill),
+                          alternative = "two.sided", conf.level = 0.95)
+
+conf_interval <- test_result$conf.int
+conf_interval
+```
+
+
+
+

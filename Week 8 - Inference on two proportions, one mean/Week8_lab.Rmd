@@ -166,8 +166,6 @@ The pattern in this plot is close to a line and so normality seems to be a good 
 
 
 
-
-
 # Exercises
 
 ## Ex 1: Mushrooms
