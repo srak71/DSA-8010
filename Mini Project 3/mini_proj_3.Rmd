@@ -1,0 +1,295 @@
+---
+title: "Mini Proj 3"
+author: "Saransh Rakshak"
+output: html_document
+date: "Due: 2024-11-19"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+
+ecig <- read.csv('data/ecigarette.csv')
+heifer <- read.csv('data/heifer_mod.csv')
+dating <- read.csv('data/dating_survey2.csv')
+```
+
+
+# Q1: E-Cigarettes
+
+A researcher is studying the efect of e-cigarettes as an aid to smoking cessation. In her study,
+n = 29 participants with an intention to quiz smoking were given free e-cigarettes and e-liquids for
+a total of six weeks. They reported their cigarettes smoked per day (CPD) at the beginning of the
+trial and on a weekly basis for the duration of the study. Some additional characteristics of the
+participants and their behaviors were also reported.
+
+The file *ecigarettes.csv* gives the cigarettes per day at baseline (CPD BL) and week 6 (CPD W6)
+for each study participant.
+
+<span style="color: red;">Key question: Do the data suggest that the participants' cigarettes per day decreased over the course of the study?</span>
+
+Use statistical methods to address the key question. **In your conclusion, include a brief discussion
+of this question in addition to other required components: based on the information provided, does
+this study design allow for effective evaluation of whether e-cigarette usage leads to decreased
+cigarettes per day? Why or why not?
+
+---
+
+#### Part 1. A brief descriptive summary of the data that addresses the key question. Include summary statistics and an appropriate plot or table. For full credit, make sure your calculations are integrated into the text. Give your description in paragraph form.
+
+
+```{r ecigsummary}
+ecig <- ecig %>%
+  mutate(CPD_diff = CPD_BL - CPD_W6)
+
+summary(ecig)
+
+summary_ecigs <- ecig %>%
+  summarise(
+    mean_CPD_BL = mean(CPD_BL),
+    sd_CPD_BL = sd(CPD_BL),
+    mean_CPD_W6 = mean(CPD_W6),
+    sd_CPD_W6 = sd(CPD_W6),
+    mean_diff = mean(CPD_diff),
+    sd_diff = sd(CPD_diff)
+  )
+
+summary_ecigs
+```
+
+
+
+```{r ecigplot}
+boxplot_data <- data.frame(
+  Time = rep(c("Baseline", "Week 6"), each = nrow(ecig)),
+  CPD = c(ecig$CPD_BL, ecig$CPD_W6)
+)
+
+ggplot(boxplot_data, aes(x = Time, y = CPD)) +
+  geom_boxplot() +
+  labs(title = "Cigarettes Per Day (Baseline vs Week 6)",
+       x = "Time",
+       y = "Cigarettes Per Day") +
+  theme_minimal()
+```
+
+The boxplot indicates a slight drop in the median number of cigarettes per day from baseline to week 6. This is confirmed by our summary table where our baseline mean *mean_CPD_BL* = 24.17241 is slightly higher than at 6 weeks later (23.17241). However, the variability (as seen from the spread of data) overlaps significantly between baseline and week 6 - suggesting that the observed decrease might not be strong or consistent across participants. Furthermore we can see that our dataset is very small (Length:29), adding to its unreliability. 
+
+---
+
+#### Part 2. An appropriate inferential analysis to address the key question. This may be a confidence interval, hypothesis test, or both. You may use the $\alpha$ value/confidence level of your choosing. If you perform a hypothesis test, state the hypotheses, test statistic, p-value, decision, and conclusion. If you create a confidence interval, state the confidence level and provide an interpretation of the interval.
+
+We will now perform a paired *t-test* to see if the mean difference in cigarettes per day (CPD) between baseline and week 6 is statistically significant.
+
+We will utilize a moderate alpha value of 0.05 ($\alpha = 0.05$), and establish our hypothesis as follows...
+
+- *Null Hypothesis*: There is no decrease in the mean number of cigarettes per day from baseline to week 6.
+
+$$H_0: \mu_C \geq 0$$ 
+
+- *Alternative Hypothesis*: There is a decrease in the mean number of cigarettes per day from baseline to week 6. 
+
+$$H_A: \mu_C < 0$$ 
+
+```{r ecigttest}
+# One-Tailed Test
+t.test(ecig$CPD_BL, ecig$CPD_W6, paired = TRUE, alternative = "less")
+```
+
+- <span style="color: blue;">t.test params</span>: alternative = "less" to see if decrease has occurred after 6 Weeks. Not specifying this param will result in calculating hypothesis that there is any change (increase or decrease) in consumption, not just decrease.
+
+- <span style="color: lime;">Test Statistic</span>: 2.3913
+    
+- <span style="color: purple;">P-Value</span>: 0.9881
+    
+- <span style="color: green;">Decision</span>: Fail to reject the null hypothesis. Data does not provide sufficient evidence to support a decrease in the mean number of cigarettes per day from baseline to week 6.
+
+- <span style="color: brown;">Reasoning</span>: The p-value of 0.9881 is much larger than our $\alpha$ of 0.05. The positive mean difference (+1) indicates that, on average, participants' cigarettes per day slightly increased rather than decreased over the study period. This is also supported by our test statistic being greater than 0. The 95% confidence interval ($-\infty$, 1.711) includes values greater than zero, indicating that a decrease in cigarettes per day is not statistically supported by the data.
+
+---
+
+#### Part 3. A thoughtful conclusion based on the information presented in items 1-3. The conclusion should summarize your findings with respect to the key question. You should also discuss any limitations or complications of your analysis.
+
+
+<span style="color: green;">Conclusion</span>: No, The data from the study do not provide sufficient evidence to suggest that participants' cigarettes per day decreased over the course of the study. Despite the slight visual decrease in the boxplot, the statistical analysis indicates no significant reduction, especially considering the high p-value from the one-tailed t-test (0.9881), which suggests a lack of evidence for a decrease and a small sample size (29 participants), which might not be enough to detect subtle differences or to make strong conclusions about the population. To improve the reliability of these findings, a larger sample size would be beneficial, potentially leading to more conclusive results on the impact of the intervention on cigarette consumption.
+
+Based on the information provided, the study design does not appear to be sufficiently robust to effectively evaluate whether e-cigarette usage leads to a decrease in cigarettes per day for the following reasons...
+
+    A. Sample Size: The study involved a relatively small sample of 29 participants, which can lead to high variability and limits the generalizability of the findings. A larger sample size would provide more statistical power, potentially allowing for the detection of smaller but meaningful differences.
+
+    B. Duration: The time frame for observation was from baseline to week 6. A longer study period might be necessary to capture long-term trends and more substantial changes in smoking behavior, especially if the impact of e-cigarette usage takes time to manifest. Extending the study duration would allow for observation of longer-term trends in smoking behavior.
+
+    C. Lack of Control Group: The study design did not mention the presence of a control group. A control group of participants who did not use e-cigarettes would provide a baseline for comparison to determine if observed changes are genuinely attributable to e-cigarette use or due to other factors.
+
+    D. Confounding Factors: The study did not appear to account for potential confounding factors (e.g., motivation to quit, social influences, or other smoking cessation aids) that might impact cigarette consumption independently of e-cigarette use. Without controlling for these factors, it’s challenging to attribute any changes in smoking behavior solely to e-cigarette use.
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+# Q2: Heifer Feed
+
+A team of animal science researchers want to investigate the effects of different supplemental feeding methods on young heifers. In this study, all cows in an experimental farm were randomly assigned to be given a feed supplement either from a shared trough with other cows (Treatment=Group) or from an automatic precision feeder that dispensed a pre-determined amount to each heifer as it approached the feeder (Treatment=Precision). The supplements were given at two levels, 0.5%
+and 1% of the cows' bodyweights.
+
+The cows' weights (lbs) were measured once a month for about 6 months. The weights and identifiers for each cow are found in the data set *heifer_mod.csv*. The researchers are interested in seeing how the total weight gain (tgain) differs across the two types of feeding methods.
+
+<span style="color: red;">Key question: On average, did cows using Group feeding have a different total weight gain than cows using the Precision feeding in the low feed level (level=0.5)? What about in the high feed level (level=1)?</span>
+    
+(Perform the descriptive and inferential analyses separately for the two levels.)
+
+
+
+
+---
+
+#### Part 1. A brief descriptive summary of the data that addresses the key question. Include summary statistics and an appropriate plot or table. For full credit, make sure your calculations are integrated into the text. Give your description in paragraph form.
+
+```{r cowprep}
+# Subset by feed level (0.5 or 1.0)
+level_05 <- heifer %>% filter(level == 0.5)
+level_1 <- heifer %>% filter(level == 1.0)
+
+# Subset by feed method (group or precision)
+group_05 <- level_05 %>% filter(Treatment == "GROUP") %>% select(tgain)
+precision_05 <- level_05 %>% filter(Treatment == "PRECISION") %>% select(tgain)
+
+group_1 <- level_1 %>% filter(Treatment == "GROUP") %>% select(tgain)
+precision_1 <- level_1 %>% filter(Treatment == "PRECISION") %>% select(tgain)
+```
+
+
+```{r cowsummary}
+# Summary stats for tgain
+summary_stats <- heifer %>%
+  group_by(level, Treatment) %>%
+  summarize(
+    Mean = mean(tgain, na.rm = TRUE),
+    Median = median(tgain, na.rm = TRUE),
+    SD = sd(tgain, na.rm = TRUE),
+    Min = min(tgain, na.rm = TRUE),
+    Max = max(tgain, na.rm = TRUE)
+  )
+
+summary_stats
+```
+
+```{r cowboxplot}
+# Boxplot of tgain
+ggplot(heifer, aes(x = Treatment, y = tgain, fill = factor(level))) +
+  geom_boxplot() +
+  labs(
+    title = "Total Weight Gain by Treatment and Feed Level",
+    x = "Feeding Method",
+    y = "Total Weight Gain (lbs)"
+  ) +
+  scale_fill_discrete(name = "Feed Level") +
+  theme_minimal()
+```
+
+
+Our boxplots reveal potential outliers, particularly for the Group feeding method at the high feed level (1%). While these outliers are not extreme enough to significantly alter the results (as shown by upcoming t-test outcomes), they may reflect unique conditions (such as dominant behavior in shared feeding scenarios). If these outliers are biologically meaningful, they could suggest variability in how individual cows respond to feeding methods. Alternatively, if they are measurement errors, their inclusion might artificially inflate variance and reduce the statistical power of the analysis. Repeating the t-tests without these outliers could help determine their impact on conclusions.
+
+
+
+
+---
+
+#### Part 2. An appropriate inferential analysis to address the key question. This may be a confidence interval, hypothesis test, or both. You may use the $\alpha$ value/confidence level of your choosing. If you perform a hypothesis test, state the hypotheses, test statistic, p-value, decision, and conclusion. If you create a confidence interval, state the confidence level and provide an interpretation of the interval.
+
+We will now use hypothesis testing to answer our Key Question. We will use a *t-test* for the following reasons:
+
+    A. The t-test directly assesses differences in means - what we are searching for.
+    
+    B. Total weight gain (tgain) is a continuous dependent variable.
+    
+    C. The feeding methods represent two independent groups.
+    
+    D. The sample sizes are moderately large, enough to support the assumption of approximate normality by CLT.
+
+
+We will establish our Null and Alternative Hypothesis for **both** feeding levels (0.5% or 1.0%) as follows...
+
+- *Null Hypothesis*: There is no difference in total weight gain between the Group and Precision feeding methods. 
+
+$$H_0: \mu_{Group} = \mu_{Precision}$$ 
+
+- *Alternative Hypothesis*:  There is a difference in total weight gain between the Group and Precision feeding methods.
+
+$$H_A: \mu_{Group} \neq \mu_{Precision}$$  
+
+**1. Low Feed Levels (0.05%)**
+
+```{r cowlowfeedttest}
+# Perform t-test for 0.5% feed level
+t.test(group_05, precision_05, var.equal = FALSE)
+```
+
+- <span style="color: lime;">Test Statistic</span>: 3.6074
+    
+- <span style="color: purple;">P-Value</span>: 0.001333
+
+- <span style="color: orange;">95% Confidence Interval</span>: [24.27326, 88.79674]
+    
+- <span style="color: blue;">Means</span>:
+  - Group feeding: 185.075
+  - Precision feeding: 128.540
+
+- <span style="color: green;">Decision</span>: We will reject the Null Hypothesis and conclude, on average, cows fed using the Group method had a statistically significantly higher total weight gain than those fed using the Precision method at the low 0.5% feed level.
+
+- <span style="color: brown;">Reasoning</span>: Since our P-Value of 0.001333 is lower than our $\alpha$ = 0.05, we reject the null hypothesis. Also the confidence interval [24.27326, 88.79674] not including 0, further supports that there is a statistically significant difference in total weight gain between the feeding methods at the low 0.5% feed level.
+
+
+**2. High Feed Levels (1.0%)**
+
+```{r cowhighfeedttest}
+# Perform t-test for 1% feed level
+t.test(group_1, precision_1, var.equal = FALSE)
+```
+
+- <span style="color: lime;">Test Statistic</span>: -1.6387
+    
+- <span style="color: purple;">P-Value</span>: 0.1117
+
+- <span style="color: orange;">95% Confidence Interval</span>: [-63.696632, 6.984132]
+    
+- <span style="color: blue;">Means</span>:
+  - Group feeding: 197.9062
+  - Precision feeding: 226.2625
+
+- <span style="color: green;">Decision</span>: We will fail to reject the Null Hypothesis and conclude, on average, cows fed using the Group method did not have a statistically significantly higher total weight gain than those fed using the Precision method at the high 1.0% feed level.
+
+- <span style="color: brown;">Reasoning</span>: Since our P-Value of 0.1117 is greater than our $\alpha$ = 0.05, we fail to reject the null hypothesis. Also the confidence interval [-63.696632, 6.984132] includes 0, indicating that the observed difference in means is not statistically significant. Thus we can conclude at the 1.0% feed level, there is no significant difference in total weight gain between cows using the Group and Precision feeding methods.
+
+
+
+---
+
+#### Part 3. A thoughtful conclusion based on the information presented in items 1-3. The conclusion should summarize your findings with respect to the key question. You should also discuss any limitations or complications of your analysis.
+
+
+<span style="color: green;">Conclusion</span>: For Low Feed Levels (0.5%) the Group feeding method is superior in terms of total weight gain. Cows using the Group feeding method gained significantly more weight than those using the Precision method. This result suggests that at lower feed levels, shared feeding may encourage greater intake or weight gain compared to individually dispensed feed.
+
+For High Feed Levels (1.0%) the choice of feeding method does not make a significant difference. There was no significant difference in total weight gain between the two feeding methods. At higher feed levels, the precision of the dispensing method may not substantially affect weight gain, potentially due to sufficient overall feed availability.
+
+One limitation of our analysis was the representativeness of the data from *heifer_mod.csv*, which consists of data from a single experimental farm. This brings issues for the generalizability of our findings. If the cows, feeding methods, and environmental conditions are not representative of a broader population of heifers or farms, the conclusions may not be widely applicable. Random assignment of cows to feeding methods helps mitigate bias, but any underlying systematic differences such as breed or health status not accounted for could affect the results.
+
+
+
+
+
+
+
+
+
+
+
