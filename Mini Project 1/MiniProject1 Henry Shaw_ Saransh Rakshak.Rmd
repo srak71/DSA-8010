@@ -1,6 +1,3 @@
-<<<<<<< HEAD:Mini Project 1/MiniProject1 Henry Shaw_ Saransh Rakshak.Rmd
-=======
-<<<<<<< HEAD
 ---
 title: "Analysis of Pierce County House Sales"
 author: "Henry Shaw & Saransh Rakshak"
@@ -19,7 +16,7 @@ library(scales)
 library(e1071) 
 
 # Load the data from the pierce_county_house_sales.csv
-data <- read_csv("pierce_co_house_sales.csv")
+data <- read_csv("pierce_county_house_sales.csv")
 
 
 # Convert sale_date to Date type for better handling for future analysis
@@ -38,7 +35,7 @@ over_1m <- data %>% filter(sale_price >= 1000000)
 Below is a breakdown of four variables selected within the Pierce County House Sales dataset provided.
 We decided to choose House Square Feet, Bedrooms, Bathrooms, and Year Built for our four fields to review.
 
-Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the four fields selected have a positive correlation to sales price. House Square Feet has a strong correlation, Bathrooms are moderate, while Bedrooms and Year Built is somewhat weaker. These can be seen below:
+Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the four fields selected have a positive correlation to sales price. House Square Feet has a strong correlation (r = 0.526), Bathrooms exhibit a moderate correlation (r = 0.205), while Bedrooms (r = 0.229) and Year Built (r = 0.409) show weaker correlations. These can be seen below:
 
 ```{R, echo=FALSE}
   # Select columns for correlation analysis
@@ -163,7 +160,7 @@ For our variable that shows the highest correlation to sales price, we decided t
       caption = "Additional Summary Statistics of House Square Feet under $1,000,000",
       align = "c")
 ```
-- The histogram for House Square Feet under $1,000,000 is positively or rightly skewed. This can be seen off in the visual and the summary statistics as well. With the median at 1,761, this square feet amount is closer to the min (200) than the max (5,700) which alights with the right skewness of the histogram. This is supported by the skewness value greater than 0. 
+- The histogram for House Square Feet under $1,000,000 is positively or rightly skewed. This can be seen off in the visual and the summary statistics as well. With the median at 1,761, this square feet amount is closer to the min (200) than the max (5,700) which alights with the right skewness of the histogram. This is supported by the skewness value being positive, confirming the right skewness observed in the histogram. 
 
 - Majority of the homes fall closer to the mean, which can be seen with more bars towards the left. The longer tail to the right shows multiple outliers of houses under $1,000,000 that have a higher total of square feet. 
 
@@ -214,8 +211,8 @@ For our variable that shows the highest correlation to sales price, we decided t
       caption = "Additional Summary Statistics of House Square Feet over $1,000,000",
       align = "c")
 ```
-- Similar to houses sold under $1M, there is a Right Skewed trend and a higher distribution sold for houses under 5000 square feet. However, the spread of data is not nearly as uniform as with the houses under $1M. Additionally, the skewness is slightly greater (0.64) vs (0.59) than that for houses under 1M.
 
+---
 
 ### Boxplot for Bedrooms with Sales Price under $1,000,000.
 ```{R, echo=FALSE} 
@@ -249,12 +246,13 @@ For our variable that shows the highest correlation to sales price, we decided t
       caption = "Summary Statistics for Sale Price by Number of Bedrooms under $1,000,000",
       align = "c")
 ```
-- For bedrooms, there are eleven total unique variables. The majority of the population falls between 1 to 5 bedrooms with 16,293 houses. 
+- For bedrooms, there are eleven total unique values. The majority of the population falls between 1 to 5 bedrooms with 16,293 houses. 
 
 - This boxplot shows that as the number of bedrooms increases, so does the average sales price of the household. This can be seen starting with 1-bedroom houses ($344,803) with a consistent increase in the mean to 8-bedroom houses ($649,038).
 
-- The 25-bedroom house is an outlier as the number of bedrooms increases by one until it jumps from 9 to 25
+- The 25-bedroom house is an outlier, as the number of bedrooms shows a sudden jump from 9 to 25, deviating significantly from the general trend.
 
+---
 
 ### Boxplot for Bedrooms with Sales Price over $1,000,000.
 ```{R, echo=FALSE} 
@@ -288,9 +286,8 @@ For our variable that shows the highest correlation to sales price, we decided t
       caption = "Summary Statistics for Sale Price by Number of Bedrooms over $1,000,000",
       align = "c")
 ```
-- Unlike with house_sales under \$1M, houses that sold for over \$1M showed the opposite trend, with sales price decreasing as the number of rooms increases. There is also an outliar for when number of bedrooms is equal to 0. This may be caused by the purchasing of land or an un-built houses which does not have any officially listed 'rooms', rather just a property of land.
 
-
+---
 
 ### Boxplot for Bathrooms with Sales Price under $1,000,000.
 ```{R, echo=FALSE}  
@@ -331,6 +328,7 @@ For our variable that shows the highest correlation to sales price, we decided t
 
 - The 8-bathroom house is an outlier as the number of bedrooms increases by one until it jumps from 6 to 8. Additionally, the 6-bathroom houses are outliers as they only contain two instances within the subset under $1,000,000.
 
+---
 
 ### Boxplot for Bathrooms with Sales Price over $1,000,000.
 ```{R, echo=FALSE}  
@@ -365,8 +363,8 @@ For our variable that shows the highest correlation to sales price, we decided t
       caption = "Summary Statistics for Sale Price by Number of Bathrooms over $1,000,000",
       align = "c")
 ```
-- Unlike houses that are sold for under \$1M, for sales over \$1M, there are an extremely small amount of purchases for properties with no bathrooms. This again can be explained by the client purchasing an undeveloped area of land which may have no bedrooms or bathrooms. Also, sales price stays relatively constant even with the addition of bathrooms, showing that the amount of bathrooms in a house may not be a big factors for home-seekers willing to pay over \$1M.
 
+---
 
 ### Histogram for Year Built with Sales Price under $1,000,000.
 ```{R, echo=FALSE}    
@@ -415,6 +413,7 @@ For our variable that shows the highest correlation to sales price, we decided t
 
 - Majority of the homes fall closer to the mean, which can be seen with more bars towards the right. The longer tail to the left shows multiple outliers of houses under $1,000,000 that have a lower date built. 
 
+---
 
 ### Histogram for Year Built with Sales Price over $1,000,000.
 ```{R, echo=FALSE}    
@@ -459,10 +458,33 @@ For our variable that shows the highest correlation to sales price, we decided t
           caption = "Additional Summary Statistics of Year Built over $1,000,000",
           align = "c")
 ```    
-- Similar to houses under \$1M, our distribution is left-skewed, showing that regardless of purchasing budgets, home-seekers prefer to purchase newly developed housing.
 
 
+---
 
+#### Summary
+
+Number of Bedrooms:
+
+- Houses under $1,000,000 show a consistent increase in mean sale price as the number of bedrooms increases from 1-bedroom ($344,803) to 5-bedroom ($532,524).
+
+- In the above $1,000,000 category, the mean sale price starts at $2,119,367 for 1-bedroom and decreases with additional bedrooms, showing a less consistent pattern.
+
+Number of Bathrooms:
+
+- Similar to bedrooms, houses under $1,000,000 display increasing mean sale prices as the number of bathrooms grows, peaking at $680,490 for 5-bathroom homes.
+
+- For houses priced above $1,000,000, a more complex correlation emerges, with higher variability and some outliers.
+
+House Square Feet:
+
+- For homes below $1,000,000, the mean square footage is 1,855, while homes over $1,000,000 have a significantly larger average of 3,027 square feet. Sale prices correlate strongly with square footage in both categories.
+
+
+In general, larger houses with more bedrooms and bathrooms tend to have higher mean prices in the under $1,000,000 group, whereas patterns in the over $1,000,000 group are more variable and influenced by additional factors.
+
+
+---
 
 #### Grid of all Plots under $1,000,000  
 ```{R, echo=FALSE}     
@@ -470,488 +492,10 @@ For our variable that shows the highest correlation to sales price, we decided t
     grid.arrange(house_square_feet, bedrooms, bathrooms, year_built, ncol = 2)
 ```
 
-#### Grid of all Plots over $1,000,000  
-```{R, echo=FALSE}     
-    # Arrange plots in a grid
-    grid.arrange(house_square_feet_A, bedrooms_A, bathrooms_A, year_built_A, ncol = 2)
-```
-=======
->>>>>>> c215c4ef0f2d4ebd0f63d846112e827c8c68fc53:MiniProject1 Henry Shaw_ Saransh Rakshak.Rmd
 ---
-title: "Analysis of Pierce County House Sales"
-author: "Henry Shaw & Saransh Rakshak"
-date: "Due: September 3rd, 2024"
-output: html_document
----
-```{r setup, include=FALSE}
-# Load necessary libraries for Analysis of Pierce County House Sales
-library(dplyr)
-library(ggplot2)
-library(knitr)
-library(summarytools)
-library(readr)
-library(gridExtra)
-library(scales)
-library(e1071) 
-
-# Load the data from the pierce_county_house_sales.csv
-data <- read_csv("./Dataset/pierce_county_house_sales.csv")
-
-
-# Convert sale_date to Date type for better handling for future analysis
-data$sale_date <- as.Date(data$sale_date, format="%m/%d/%Y")
-
-# Subset data for houses under $1,000,000 sales price
-under_1m <- data %>% filter(sale_price < 1000000)
-
-# Subset data for houses over $1,000,000 sales price
-over_1m <- data %>% filter(sale_price >= 1000000)
-
-
-```
-
-
-Below is a breakdown of four variables selected within the Pierce County House Sales dataset provided.
-We decided to choose House Square Feet, Bedrooms, Bathrooms, and Year Built for our four fields to review.
-
-Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the four fields selected have a positive correlation to sales price. House Square Feet has a strong correlation, Bathrooms are moderate, while Bedrooms and Year Built is somewhat weaker. These can be seen below:
-
-```{R, echo=FALSE}
-  # Select columns for correlation analysis
-  vars <- data %>% select(sale_price, house_square_feet, year_built, bedrooms, bathrooms)
-  
-  # Calculate correlation matrix
-  cor_matrix <- cor(vars, use = "complete.obs")
-  
-  # Print correlation with sale_price
-  cor_price <- cor_matrix["sale_price", ]
-  cor_price <- cor_price[order(abs(cor_price), decreasing = TRUE)]
-  
-  # Convert to data frame for kable
-  cor_price_df <- as.data.frame(t(cor_price))
-  colnames(cor_price_df) <- colnames(cor_matrix)  # Set column names
-  rownames(cor_price_df) <- "Correlation"
-  
-  # Display with kable
-  kable(cor_price_df, 
-        caption = "Correlation of Variables with Sale Price - Entire Dataset",
-        col.names = colnames(cor_price_df),
-        align = "c", 
-        format = "markdown")
-```
-
-- When we break down the correlation analysis to just the houses under $1,000,000 subset, we can see all four variables increase in their correlation to sales price. This can be seen below:
-```{R, echo=FALSE}
-  # Select columns for correlation analysis (House Square Feet, Bedrooms, Bathrooms, and Year Built)
-  vars_under <- under_1m %>% select(sale_price, house_square_feet, year_built, bedrooms, bathrooms)
-  
-  # Calculate correlation matrix
-  cor_matrix_under <- cor(vars_under, use = "complete.obs")
-  
-  # Print correlation with sale_price value
-  cor_price_under <- cor_matrix_under["sale_price", ]
-  cor_price_under <- cor_price_under[order(abs(cor_price_under), decreasing = TRUE)]
-  
-  # Convert to data frame for kable for table printing
-  cor_price_df_under <- as.data.frame(t(cor_price_under))
-  colnames(cor_price_df_under) <- colnames(cor_matrix_under)  # Set column names
-  rownames(cor_price_df_under) <- "Correlation"
-  
-  # Display correlation table with kable format
-  kable(cor_price_df_under, 
-        caption = "Correlation of Variables with Sale Price - Under $1,000,000",
-        col.names = colnames(cor_price_df_under),
-        align = "c", 
-        format = "markdown")
-```
-
-- When we break down the correlation analysis to just the houses over $1,000,000 subset, we can see the chosen variables decrease in their correlation to sales price. House Square Feet and Bathrooms have a negative correlation now. This can be seen below:
-```{R, echo=FALSE}
-  # Select columns for correlation analysis (House Square Feet, Bedrooms, Bathrooms, and Year Built)
-  vars_over <- over_1m %>% select(sale_price, house_square_feet, year_built, bedrooms, bathrooms)
-  
-  # Calculate correlation matrix
-  cor_matrix_over <- cor(vars_over, use = "complete.obs")
-  
-  # Print correlation with sale_price value
-  cor_price_over <- cor_matrix_over["sale_price", ]
-  cor_price_over <- cor_price_over[order(abs(cor_price_over), decreasing = TRUE)]
-  
-  # Convert to data frame for kable for table printing
-  cor_price_df_over <- as.data.frame(t(cor_price_over))
-  colnames(cor_price_df_over) <- colnames(cor_matrix_over)  # Set column names
-  rownames(cor_price_df_over) <- "Correlation"
-  
-  # Display correlation table with kable format
-  kable(cor_price_df_over, 
-        caption = "Correlation of Variables with Sale Price - Over $1,000,000",
-        col.names = colnames(cor_price_df_over),
-        align = "c", 
-        format = "markdown")
-```
-
-
-### Histogram for House Square Feet with Sales Price under $1,000,000.
-
-For our variable that shows the highest correlation to sales price, we decided to plot a histogram for House Square Feet.
-
-```{R, echo=FALSE}
-
-  # Plot distribution of house square feet for houses under $1,000,000
-    house_square_feet <- ggplot(under_1m, aes(x = house_square_feet)) +
-      geom_histogram(binwidth = 100, fill = "green", color = "black") +
-      labs(title = "Distribution of House Square Feet under $1,000,000", x = "Square Feet", y = "Frequency")
- 
-    # Show the plot House Square Feet under $1,000,000
-    house_square_feet  
-    
-    # Summary statistics for House Square Feet under $1,000,000
-    house_square_feet_summary <- under_1m %>%
-      summarize(
-        mean_square_feet = comma(mean(house_square_feet, na.rm = TRUE)),
-        median_square_feet = comma(median(house_square_feet, na.rm = TRUE)),
-        sd_square_feet = comma(sd(house_square_feet, na.rm = TRUE)),
-        min_square_feet = comma(min(house_square_feet, na.rm = TRUE)),
-        max_square_feet = comma(max(house_square_feet, na.rm = TRUE))
-      )
-    
-    # Summary 2 statistics for House Square Feet under $1,000,000
-    house_square_feet_summary2 <- under_1m %>%
-      summarize(
-       sd_square_feet = formatC(sd(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          range_square_feet = formatC(max(house_square_feet, na.rm = TRUE) - min(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          iqr_square_feet = formatC(IQR(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          skewness_square_feet = formatC(e1071::skewness(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          kurtosis_square_feet = formatC(e1071::kurtosis(house_square_feet, na.rm = TRUE), format = "f", digits = 2)
-      )
-
-    # Display the summary statistics in a table format for House Square Feet under $1,000,000
-    kable(house_square_feet_summary, 
-      col.names = c("Mean Square Feet", "Median Square Feet", 
-                    "SD of Square Feet", "Min Square Feet", "Max Square Feet"),
-      caption = "Summary Statistics of House Square Feet under $1,000,000",
-      align = "c")
-    
-    # Display the additional summary statistics in a table format for House Square Feet under $1,000,000
-    kable(house_square_feet_summary2, 
-      col.names = c("SD of Square Feet", "Range", "IQR", 
-                    "Skewness", "Kurtosis"),
-      caption = "Additional Summary Statistics of House Square Feet under $1,000,000",
-      align = "c")
-```
-- The histogram for House Square Feet under $1,000,000 is positively or rightly skewed. This can be seen off in the visual and the summary statistics as well. With the median at 1,761, this square feet amount is closer to the min (200) than the max (5,700) which alights with the right skewness of the histogram. This is supported by the skewness value greater than 0. 
-
-- Majority of the homes fall closer to the mean, which can be seen with more bars towards the left. The longer tail to the right shows multiple outliers of houses under $1,000,000 that have a higher total of square feet. 
-
-  
-### Histogram for House Square Feet with Sales Price over $1,000,000.
-
-```{R, echo=FALSE}
-
-  # Plot distribution of house square feet for houses over $1,000,000
-    house_square_feet_A <- ggplot(over_1m, aes(x = house_square_feet)) +
-      geom_histogram(binwidth = 100, fill = "green", color = "black") +
-      labs(title = "Distribution of House Square Feet over $1,000,000", x = "Square Feet", y = "Frequency")
- 
-    # Show the plot House Square Feet over $1,000,000
-    house_square_feet_A  
-    
-    # Summary statistics for House Square Feet over $1,000,000
-    house_square_feet_summary <- over_1m %>%
-      summarize(
-        mean_square_feet = comma(mean(house_square_feet, na.rm = TRUE)),
-        median_square_feet = comma(median(house_square_feet, na.rm = TRUE)),
-        sd_square_feet = comma(sd(house_square_feet, na.rm = TRUE)),
-        min_square_feet = comma(min(house_square_feet, na.rm = TRUE)),
-        max_square_feet = comma(max(house_square_feet, na.rm = TRUE))
-      )
-    
-    # Summary 2 statistics for House Square Feet over $1,000,000
-    house_square_feet_summary2 <- over_1m %>%
-      summarize(
-       sd_square_feet = formatC(sd(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          range_square_feet = formatC(max(house_square_feet, na.rm = TRUE) - min(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          iqr_square_feet = formatC(IQR(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          skewness_square_feet = formatC(e1071::skewness(house_square_feet, na.rm = TRUE), format = "f", digits = 2),
-          kurtosis_square_feet = formatC(e1071::kurtosis(house_square_feet, na.rm = TRUE), format = "f", digits = 2)
-      )
-
-    # Display the summary statistics in a table format for House Square Feet over $1,000,000
-    kable(house_square_feet_summary, 
-      col.names = c("Mean Square Feet", "Median Square Feet", 
-                    "SD of Square Feet", "Min Square Feet", "Max Square Feet"),
-      caption = "Summary Statistics of House Square Feet over $1,000,000",
-      align = "c")
-    
-    # Display the additional summary statistics in a table format for House Square Feet over $1,000,000
-    kable(house_square_feet_summary2, 
-      col.names = c("SD of Square Feet", "Range", "IQR", 
-                    "Skewness", "Kurtosis"),
-      caption = "Additional Summary Statistics of House Square Feet over $1,000,000",
-      align = "c")
-```
-- Similar to houses sold under $1M, there is a Right Skewed trend and a higher distribution sold for houses under 5000 square feet. However, the spread of data is not nearly as uniform as with the houses under $1M. Additionally, the skewness is slightly greater (0.64) vs (0.59) than that for houses under 1M.
-
-
-### Boxplot for Bedrooms with Sales Price under $1,000,000.
-```{R, echo=FALSE} 
-  # Plot boxplot of Bedrooms for houses under $1,000,000
-    bedrooms <- ggplot(under_1m, aes(x = factor(bedrooms), y = sale_price)) +
-      geom_boxplot(fill = "orange", color = "black") +
-      labs(title = "Boxplot of Sale Price by Number of Bedrooms under $1,000,000", 
-           x = "Number of Bedrooms", 
-           y = "Sale Price") +
-      scale_y_continuous(labels = scales::comma)
-  
-    # Show the boxplot for Bedrooms under $1,000,000
-    bedrooms
- 
-    # Summary statistics for Bedrooms under $1,000,000
-        bedroom_summary <- under_1m %>%
-        group_by(bedrooms) %>%
-        summarize(
-          count = n(),
-          mean_sale_price = comma(mean(sale_price, na.rm = TRUE)),
-          median_sale_price = comma(median(sale_price, na.rm = TRUE)),
-          sd_sale_price = comma(sd(sale_price, na.rm = TRUE)),
-          min_sale_price = comma(min(sale_price, na.rm = TRUE)),
-          max_sale_price = comma(max(sale_price, na.rm = TRUE))
-        )
-
-    # Display the summary statistics in a table format for Bedrooms under $1,000,000
-    kable(bedroom_summary, 
-      col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
-                    "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-      caption = "Summary Statistics for Sale Price by Number of Bedrooms under $1,000,000",
-      align = "c")
-```
-- For bedrooms, there are eleven total unique variables. The majority of the population falls between 1 to 5 bedrooms with 16,293 houses. 
-
-- This boxplot shows that as the number of bedrooms increases, so does the average sales price of the household. This can be seen starting with 1-bedroom houses ($344,803) with a consistent increase in the mean to 8-bedroom houses ($649,038).
-
-- The 25-bedroom house is an outlier as the number of bedrooms increases by one until it jumps from 9 to 25
-
-
-### Boxplot for Bedrooms with Sales Price over $1,000,000.
-```{R, echo=FALSE} 
-  # Plot boxplot of Bedrooms for houses over $1,000,000
-    bedrooms_A <- ggplot(over_1m, aes(x = factor(bedrooms), y = sale_price)) +
-      geom_boxplot(fill = "orange", color = "black") +
-      labs(title = "Boxplot of Sale Price by Number of Bedrooms over $1,000,000", 
-           x = "Number of Bedrooms", 
-           y = "Sale Price") +
-      scale_y_continuous(labels = scales::comma)
-  
-    # Show the boxplot for Bedrooms over $1,000,000
-    bedrooms_A
- 
-    # Summary statistics for Bedrooms over $1,000,000
-        bedroom_summary <- over_1m %>%
-        group_by(bedrooms) %>%
-        summarize(
-          count = n(),
-          mean_sale_price = comma(mean(sale_price, na.rm = TRUE)),
-          median_sale_price = comma(median(sale_price, na.rm = TRUE)),
-          sd_sale_price = comma(sd(sale_price, na.rm = TRUE)),
-          min_sale_price = comma(min(sale_price, na.rm = TRUE)),
-          max_sale_price = comma(max(sale_price, na.rm = TRUE))
-        )
-
-    # Display the summary statistics in a table format for Bedrooms over $1,000,000
-    kable(bedroom_summary, 
-      col.names = c("Bedrooms", "Count", "Mean Sale Price", "Median Sale Price", 
-                    "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-      caption = "Summary Statistics for Sale Price by Number of Bedrooms over $1,000,000",
-      align = "c")
-```
-- Unlike with house_sales under \$1M, houses that sold for over \$1M showed the opposite trend, with sales price decreasing as the number of rooms increases. There is also an outliar for when number of bedrooms is equal to 0. This may be caused by the purchasing of land or an un-built houses which does not have any officially listed 'rooms', rather just a property of land.
-
-
-
-### Boxplot for Bathrooms with Sales Price under $1,000,000.
-```{R, echo=FALSE}  
-  # Plot boxplot of Bathrooms for houses under $1,000,000
-    bathrooms <- ggplot(under_1m, aes(x = factor(bathrooms), y = sale_price)) +
-      geom_boxplot(fill = "blue", color = "black") +
-      labs(
-        title = "Boxplot of Sale Price by Number of Bathrooms under $1,000,000",
-        x = "Number of Bathrooms",
-        y = "Sale Price"
-        )
- 
-   # Show the boxplot of Bathrooms for houses under $1,000,000
-      bathrooms
-
-    # Summary statistics for Bathrooms for houses under $1,000,000
-      bathroom_summary <- under_1m %>%
-        group_by(bathrooms) %>%
-        summarize(
-          count = n(),
-          mean_sale_price = comma(mean(sale_price, na.rm = TRUE)),
-          median_sale_price = comma(median(sale_price, na.rm = TRUE)),
-          sd_sale_price = comma(sd(sale_price, na.rm = TRUE)),
-          min_sale_price = comma(min(sale_price, na.rm = TRUE)),
-          max_sale_price = comma(max(sale_price, na.rm = TRUE))
-        )
-
-    # Display the summary statistics in a table format for Bathrooms for houses under $1,000,000
-    kable(bathroom_summary, 
-      col.names = c("Bathrooms", "Count", "Mean Sale Price", "Median Sale Price", 
-                    "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-      caption = "Summary Statistics for Sale Price by Number of Bathrooms under $1,000,000",
-      align = "c")
-```
-- For bathrooms, there are eight total unique variables. The majority of the population falls between 1 to 4 bathrooms with 16,379 houses. 
-
-- This boxplot shows that as the number of bathrooms increases, so does the average sales price of the household. This can be seen starting with 1-bathroom houses ($314,366) with a consistent increase in the mean to 5-bathroom houses ($680,490).
-
-- The 8-bathroom house is an outlier as the number of bedrooms increases by one until it jumps from 6 to 8. Additionally, the 6-bathroom houses are outliers as they only contain two instances within the subset under $1,000,000.
-
-
-### Boxplot for Bathrooms with Sales Price over $1,000,000.
-```{R, echo=FALSE}  
-  # Plot boxplot of Bathrooms for houses over $1,000,000
-    bathrooms_A <- ggplot(over_1m, aes(x = factor(bathrooms), y = sale_price)) +
-      geom_boxplot(fill = "blue", color = "black") +
-      labs(
-        title = "Boxplot of Sale Price by Number of Bathrooms over $1,000,000",
-        x = "Number of Bathrooms",
-        y = "Sale Price"
-        )
- 
-   # Show the boxplot of Bathrooms for houses over $1,000,000
-      bathrooms_A
-
-    # Summary statistics for Bathrooms for houses over $1,000,000
-      bathroom_summary <- over_1m %>%
-        group_by(bathrooms) %>%
-        summarize(
-          count = n(),
-          mean_sale_price = comma(mean(sale_price, na.rm = TRUE)),
-          median_sale_price = comma(median(sale_price, na.rm = TRUE)),
-          sd_sale_price = comma(sd(sale_price, na.rm = TRUE)),
-          min_sale_price = comma(min(sale_price, na.rm = TRUE)),
-          max_sale_price = comma(max(sale_price, na.rm = TRUE))
-        )
-
-    # Display the summary statistics in a table format for Bathrooms for houses over $1,000,000
-    kable(bathroom_summary, 
-      col.names = c("Bathrooms", "Count", "Mean Sale Price", "Median Sale Price", 
-                    "SD of Sale Price", "Min Sale Price", "Max Sale Price"),
-      caption = "Summary Statistics for Sale Price by Number of Bathrooms over $1,000,000",
-      align = "c")
-```
-- Unlike houses that are sold for under \$1M, for sales over \$1M, there are an extremely small amount of purchases for properties with no bathrooms. This again can be explained by the client purchasing an undeveloped area of land which may have no bedrooms or bathrooms. Also, sales price stays relatively constant even with the addition of bathrooms, showing that the amount of bathrooms in a house may not be a big factors for home-seekers willing to pay over \$1M.
-
-
-### Histogram for Year Built with Sales Price under $1,000,000.
-```{R, echo=FALSE}    
-  # Plot distribution of Year Built for houses under $1,000,000
-    year_built <- ggplot(under_1m, aes(x = year_built)) +
-      geom_histogram(binwidth = 10, fill = "purple", color = "black") +
-      labs(title = "Distribution of Year Built under $1,000,000", x = "Year Built", y = "Frequency")
-
-    # Show the plot for Year Built for houses under $1,000,000
-    year_built
-    
-    # Summary statistics for Year Built for houses under $1,000,000
-    year_built_summary <- under_1m %>%
-      summarize(
-        mean_year_built = mean(year_built, na.rm = TRUE),
-        median_year_built = median(year_built, na.rm = TRUE),
-        min_year_built = min(year_built, na.rm = TRUE),
-        max_year_built = max(year_built, na.rm = TRUE)
-      )
-    
-    # Additional summary statistics for Year Built for houses under $1,000,000
-    year_built_summary2 <- under_1m %>%
-      summarize(
-        sd_year_built = formatC(sd(year_built, na.rm = TRUE), format = "f", digits = 2),
-        range_year_built = formatC(max(year_built, na.rm = TRUE) - min(year_built, na.rm = TRUE), format = "f", digits = 2),
-        iqr_year_built = formatC(IQR(year_built, na.rm = TRUE), format = "f", digits = 2),
-        skewness_year_built = formatC(e1071::skewness(year_built, na.rm = TRUE), format = "f", digits = 2),
-        kurtosis_year_built = formatC(e1071::kurtosis(year_built, na.rm = TRUE), format = "f", digits = 2)
-      )
-    
-    # Display the summary statistics in a table format for Year Built for houses under $1,000,000
-    kable(year_built_summary, 
-          col.names = c("Mean Year Built", "Median Year Built", 
-                        "Min Year Built", "Max Year Built"),
-          caption = "Summary Statistics of Year Built under $1,000,000",
-          align = "c")
-    
-    # Display the additional summary statistics in a table format for Year Built for houses under $1,000,000
-    kable(year_built_summary2, 
-          col.names = c("SD of Year Built", "Range", "IQR", 
-                        "Skewness", "Kurtosis"),
-          caption = "Additional Summary Statistics of Year Built under $1,000,000",
-          align = "c")
-```    
-- The histogram for Year Built under $1,000,000 is negatively or left skewed. This can be seen off in the visual and the summary statistics as well. With the median year of 1990, this year is closer to the max (2021) than the min (1880) which aligns with the left skewness of the histogram. This is supported by the skewness value less than 0 of -0.77. 
-
-- Majority of the homes fall closer to the mean, which can be seen with more bars towards the right. The longer tail to the left shows multiple outliers of houses under $1,000,000 that have a lower date built. 
-
-
-### Histogram for Year Built with Sales Price over $1,000,000.
-```{R, echo=FALSE}    
-  # Plot distribution of Year Built for houses over $1,000,000
-    year_built_A <- ggplot(over_1m, aes(x = year_built)) +
-      geom_histogram(binwidth = 10, fill = "purple", color = "black") +
-      labs(title = "Distribution of Year Built over $1,000,000", x = "Year Built", y = "Frequency")
-
-    # Show the plot of Year Built for houses over $1,000,000
-    year_built_A
-    
-    # Summary statistics for Year Built for houses over $1,000,000
-    year_built_summary <- over_1m %>%
-      summarize(
-        mean_year_built = mean(year_built, na.rm = TRUE),
-        median_year_built = median(year_built, na.rm = TRUE),
-        min_year_built = min(year_built, na.rm = TRUE),
-        max_year_built = max(year_built, na.rm = TRUE)
-      )
-    
-    # Additional summary statistics for Year Built for houses over $1,000,000
-    year_built_summary2 <- over_1m %>%
-      summarize(
-        sd_year_built = formatC(sd(year_built, na.rm = TRUE), format = "f", digits = 2),
-        range_year_built = formatC(max(year_built, na.rm = TRUE) - min(year_built, na.rm = TRUE), format = "f", digits = 2),
-        iqr_year_built = formatC(IQR(year_built, na.rm = TRUE), format = "f", digits = 2),
-        skewness_year_built = formatC(e1071::skewness(year_built, na.rm = TRUE), format = "f", digits = 2),
-        kurtosis_year_built = formatC(e1071::kurtosis(year_built, na.rm = TRUE), format = "f", digits = 2)
-      )
-    
-    # Display the summary statistics in a table format for Year Built for houses over $1,000,000
-    kable(year_built_summary, 
-          col.names = c("Mean Year Built", "Median Year Built", 
-                        "Min Year Built", "Max Year Built"),
-          caption = "Summary Statistics of Year Built over $1,000,000",
-          align = "c")
-    
-    # Display the additional summary statistics in a table format for Year Built for houses over $1,000,000
-    kable(year_built_summary2, 
-          col.names = c("SD of Year Built", "Range", "IQR", 
-                        "Skewness", "Kurtosis"),
-          caption = "Additional Summary Statistics of Year Built over $1,000,000",
-          align = "c")
-```    
-- Similar to houses under \$1M, our distribution is left-skewed, showing that regardless of purchasing budgets, home-seekers prefer to purchase newly developed housing.
-
-
-
-
-#### Grid of all Plots under $1,000,000  
-```{R, echo=FALSE}     
-    # Arrange plots in a grid
-    grid.arrange(house_square_feet, bedrooms, bathrooms, year_built, ncol = 2)
-```
 
 #### Grid of all Plots over $1,000,000  
 ```{R, echo=FALSE}     
     # Arrange plots in a grid
     grid.arrange(house_square_feet_A, bedrooms_A, bathrooms_A, year_built_A, ncol = 2)
 ```
-<<<<<<< HEAD:Mini Project 1/MiniProject1 Henry Shaw_ Saransh Rakshak.Rmd
-=======
->>>>>>> aba34876063a828c6aee6e7f97a9d50614ea4cf4
->>>>>>> c215c4ef0f2d4ebd0f63d846112e827c8c68fc53:MiniProject1 Henry Shaw_ Saransh Rakshak.Rmd

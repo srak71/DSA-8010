@@ -69,6 +69,12 @@ of these features and describe the impact that they may have on your analysis.
 
 - Initially, we ran a correlation analysis to see which variables have stronger relationships with sales price. This correlation analysis showed that the three fields selected have a positive correlation to sales price. House Square Feet has a strong correlation, Year Built is moderate, while Bedrooms is somewhat weaker.
 
+- From the correlation matrix, we observe the following:
+    - The strongest linear correlation is between `sale_price` and `house_square_feet`. This indicates a direct linear relationship between these variables.
+    - However, other potential associations, such as those involving binary variables (`has_view_quality`), are not captured here. For such cases, alternative methods (e.g., logistic regression or proportions analysis) are more appropriate.
+    - The correlation matrix quantifies the linear relationships between numeric variables. As it only captures linear dependencies, it may not fully describe associations involving categorical or binary variables.
+
+
 <br>
 
 ### A) Sale Price and House Square Footage
@@ -151,7 +157,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 ```
 
-```{R, echo=FALSE}
+```{R, include=FALSE}
   # Display the summary statistics in a table format for House Square Feet
   kable(sq_ft_summary, 
     col.names = c("House Square Feet (in thousands)", "Count", "Mean Sale Price", "Median Sale Price", 
@@ -161,6 +167,8 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 
 ```
 
+
+
 - From our graph {A3}, we can see that sale price has a moderately high correlation to house square feet (Pearson Correlation ~ 0.53). We can also observe from our graph in {A2} that sale price does not have a large range of distribution for homes with 0.6 thousand to 4.1 thousand square feet. This is because there is a greater count of instances (house sales) within that range. As a result, we can conclude that house square feet does have a general association with sale price, with sale price growing as house square feet increases, as reflected in {A3}.
 
 - Outliers can be seen in the mean distribution in Graph {A1}, and their specific values can be found using Table {A4} at 6.0 thousand square feet. This outlier is based on a single point (i.e., a single house sale) whose mean sale price of $6,090,000 is far greater than those with slightly greater or smaller house square feet. The presence of this outlier reduces our Pearson Correlation Coefficient and thus weakens the association between house square feet and sale price.
@@ -168,6 +176,7 @@ ggscatter(housing, x = "house_square_feet", y = "sale_price",
 - Other high-value sales over $6 million, such as those in the 0.5, 1.4, and 4.2 thousand square foot categories, can also be considered outliers. However, unlike the outlier at 6.0 thousand square feet, these outliers have multiple other values in their bin, so they do not greatly affect our overall analysis between house square feet and sale price. The exact reasoning for these outliers cannot be deduced from the information at hand. However, we can speculate that these sales may have involved special circumstances, such as the house being located in a high-value area, being furnished with modern amenities, or some other factor that significantly increased their value.
 
 - The exact reasoning for any of these outliers cannot be deducted from the information at hand, however, we can predict these sales were special situations where the house may be located geographically in a high value area or the house could be furnished with modern amenities, or some other reason that increases their value far greater than expected.
+
 
 <br>
 
@@ -358,11 +367,11 @@ kable(bedroom_summary,
 
 Based on the data from graphs A - C, sale price can be predicted to a certain extent using variables such as house square footage, year built, and number of bedrooms.
 
-    House Square Footage: There is a moderate correlation (Pearson correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally rises, although there are outliers, particularly at higher square footage values—that slightly reduce this correlation.
+    House Square Footage: There is a moderate association (Pearson correlation ~0.53) between house square footage and sale price. As square footage increases, the sale price generally rises, although there are outliers, particularly at higher square footage values—that slightly reduce this correlation.
 
-    Year Built: The correlation between year built and sale price is weaker (Pearson correlation ~0.23). However, certain years (such as homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may also influence prices.
+    Year Built: The association between year built and sale price is weaker (Pearson correlation ~0.23). However, certain years (such as homes built in the 1880s and 1930s) tend to have higher sale prices compared to other periods. This suggests that while newer homes may have some impact, specific historical periods or architectural styles may also influence prices.
 
-    Number of Bedrooms: There is a weak correlation between the number of bedrooms and sale price (Pearson correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or a very high number of bedrooms, which distort the trend.
+    Number of Bedrooms: There is a weak association between the number of bedrooms and sale price (Pearson correlation ~0.21). While more bedrooms generally correlate with a higher price, there are notable outliers, such as homes with 0 or a very high number of bedrooms, which distort the trend.
 
 Thus, while it is possible to predict sale price based on these factors, outliers and additional variables (e.g., location, historical significance, or amenities) likely play a significant role in the final sale price.
 
@@ -399,7 +408,6 @@ kable(cor_view_df,
       align = "c", 
       format = "markdown")
 ```
-
 
 
 <br>
@@ -449,20 +457,44 @@ ggplot(data = price_view_summary, aes(x=factor(has_view_quality), y=mean_sale_pr
   ) +
   scale_x_discrete(labels = c("0" = "No", "1" = "Yes"))
 
-# Plot distribution of sale_price
-ggplot(housing, aes(x = factor(has_view_quality), y = sale_price)) +
-  geom_boxplot(fill = "green", color = "black") +
-  labs(
-    title = "{D3} Sale Price Distribution by presence of View Quality description",
-    x = "Has View Quality",
-    y = "Sale Price"
-  ) +
-  scale_y_continuous(labels = scales::dollar_format()) +
-  scale_x_discrete(labels = c("0" = "No", "1" = "Yes"))
-
 ```
 
+
+```{R, echo=FALSE, message=FALSE}
+# row and col propotions
+housing <- housing %>%
+  mutate(price_bins = cut(sale_price, breaks = 5))
+
+cont_table_d <- table(housing$has_view_quality, housing$price_bins)
+
+row_props_d <- prop.table(cont_table_d, margin = 1)
+col_props_d <- prop.table(cont_table_d, margin = 2)
+
+kable(row_props_d, caption = "{D3} Row Proportions of Sale Price by View Quality")
+kable(col_props_d, caption = "{D4} Column Proportions of View Quality by Sale Price")
+```
+
+
+```{R fig.align="center", fig.width = 14, echo=FALSE, message=FALSE}
+cont_df_d <- as.data.frame(as.table(cont_table_d))
+names(cont_df_d) <- c("ViewQuality", "PriceBin", "Count")
+
+cont_df_d <- cont_df_d %>%
+  group_by(PriceBin) %>%
+  mutate(RowProp = Count / sum(Count))
+
+ggplot(cont_df_d, aes(x = PriceBin, y = RowProp, fill = as.factor(ViewQuality))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "{D5} Row Proportions of Sale Price by View Quality",
+       x = "Sale Price (Binned)",
+       y = "Proportion",
+       fill = "View Quality")
+```
+
+
 - The summary statistics {D1} show that the mean sale price for homes with a view quality is $696,077, which is 1.55 times greater than the mean sale price of $447,655 for those without. The difference in median sale price is even more substantial, with homes having a view quality achieving a median of $665,000 compared to $410,000 for those without. This suggests that a view quality description is a premium feature that can increase the value of a property, as confirmed by our Pearson Correlation Coefficient, calculated to be 0.2391971.
+
+- Row proportions {D5} show how sale price is distributed across different levels of view quality.
 
 - Outliers can be seen in graph {D3} for homes without view quality, as some sale prices exceeded $6 million. However, due to the existence of 8,960 other housing sales without view quality, the mean sale price remains at a much lower value and does not skew our overall analysis.
 
@@ -528,7 +560,42 @@ ggplot(housing, aes(x = factor(has_view_quality), y = house_square_feet)) +
 
 ```
 
+```{R, echo=FALSE, message=FALSE}
+# row and col propotions
+housing <- housing %>%
+  mutate(sq_ft_bins = cut(sq_ft_thousand, breaks = 10))
+
+cont_table_d <- table(housing$has_view_quality, housing$sq_ft_bins)
+
+row_props_d <- prop.table(cont_table_d, margin = 1)
+col_props_d <- prop.table(cont_table_d, margin = 2)
+
+kable(row_props_d, caption = "{E4} Row Proportions of Square Footage (in thousands) by View Quality")
+kable(col_props_d, caption = "{E5} Column Proportions of View Quality by Square Footage (in thousands)")
+```
+
+
+```{R fig.align="center", fig.width = 14, echo=FALSE, message=FALSE}
+cont_df <- as.data.frame(as.table(cont_table_d))
+names(cont_df) <- c("ViewQuality", "SqFtBin", "Count")
+
+cont_df <- cont_df %>%
+  group_by(ViewQuality) %>%
+  mutate(RowProp = Count / sum(Count))
+
+ggplot(cont_df, aes(x = SqFtBin, y = RowProp, fill = as.factor(ViewQuality))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "{E6} Row Proportions of Square Footage by View Quality",
+       x = "Square Footage (Binned)",
+       y = "Proportion",
+       fill = "View Quality")
+```
+
+
+
 - From our graph {E2}, we can observe a very slight correlation between the presence of view quality and square footage, with homes containing view quality data being approximately 1.24 times larger than those without a view quality description. This is reflected in our Pearson Correlation Coefficient, calculated to be 0.1353988.
+
+- The bar plot {E6} illustrates the row proportions of square footage bins within each category of `has_view_quality`. This approach provides a clearer view of association, as it shows how the numeric variable is distributed relative to the binary variable. It does not quantify linear dependence but highlights patterns in proportions that would be missed by correlation metrics.
 
 - Outliers can be detected in the data. For homes without view quality data, the mean square footage is 1,855 sqft; however, this group also contains properties as large as 9,510 sqft {E1}. Similarly, outliers are present in the group of homes with view quality data, which has a mean size of 2,308 sqft but includes values as low as 1 sqft {E1}. Both of these outliers affect our analysis by lowering the Pearson Correlation Coefficient; however, due to the size of both groups, these outliers are less impactful.
 
@@ -551,21 +618,34 @@ kable(waterfront_view_freq,
 
 ```
 
+```{R, echo=FALSE}
+cont_table_e <- table(housing$has_view_quality, housing$has_waterfront)
 
-```{R, echo=FALSE, message=FALSE}
+row_props_e <- prop.table(cont_table_e, margin = 1)
+col_props_e <- prop.table(cont_table_e, margin = 2)
 
-ggplot(waterfront_view_freq, aes(x = has_view_quality, y = has_waterfront, size = n, color=n)) +
-  geom_point() +
-  geom_text(aes(label=n, hjust = c(-0.5, -0.5, 1, 1), vjust = c(-1, 1, -1, 1.5)), size=3.5) +
-  labs(
-    title = "{F2} Has View Quality and Has Waterfront, by frequency",
-    x = "Has View Quality (0=no, 1=yes)",
-    y = "Has Waterfront (0=no, 1=yes)",
-    color = "Frequency",
-    size = "Frequency"
-  ) 
-
+kable(row_props_e, caption = "{F2} Row Proportions of Waterfront by View Quality")
+kable(col_props_e, caption = "{F3} Column Proportions of View Quality by Waterfront")
 ```
+
+
+```{R, echo=FALSE}
+cont_df_e <- as.data.frame(as.table(cont_table_e))
+names(cont_df_e) <- c("ViewQuality", "Waterfront", "Count")
+
+cont_df_e <- cont_df_e %>%
+  group_by(ViewQuality) %>%
+  mutate(RowProp = Count / sum(Count))
+
+ggplot(cont_df_e, aes(x = Waterfront, y = RowProp, fill = as.factor(ViewQuality))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "{F4} Row Proportions of Waterfront by View Quality",
+       x = "Waterfront",
+       y = "Proportion",
+       fill = "View Quality")
+```
+
+
 
 - The association between the presence of view quality and waterfront is minimal. From table {F1}, we see that the vast majority of homes without waterfront access also lack a view quality designation (15,349 homes). Only a small number of properties have both waterfront and view quality (7 homes). This suggests that while there is some overlap, view quality and waterfront presence are largely independent features. This is further confirmed by our Pearson Correlation Coefficient of -0.0340727.
 
