@@ -1,0 +1,144 @@
+---
+title: "Final_8010"
+output: html_document
+date: "2024-12-04"
+---
+
+## Q2
+
+```{r}
+# Load the data
+ecigarette <- read.csv("data/ecigarette.csv")
+
+# Split the data into two groups based on adherence
+adhered <- ecigarette$CPD_W6[ecigarette$adherence == 1]
+not_adhered <- ecigarette$CPD_W6[ecigarette$adherence == 0]
+
+# Perform the two-sample t-test
+t_test_result <- t.test(adhered, not_adhered, var.equal = TRUE)
+
+# Display the test statistic rounded to four decimal places
+round(t_test_result$statistic, 4)
+
+```
+
+
+## Q3
+
+```{r}
+# Split the data into two groups based on adherence
+adhered <- ecigarette$CPD_W6[ecigarette$adherence == 1]
+not_adhered <- ecigarette$CPD_W6[ecigarette$adherence == 0]
+
+# Perform the two-sample t-test with equal variances
+t_test_result <- t.test(adhered, not_adhered, var.equal = TRUE, conf.level = 0.90)
+
+# Extract the upper endpoint of the confidence interval
+upper_endpoint <- round(t_test_result$conf.int[2], 4)
+upper_endpoint
+```
+
+
+## Q4
+
+```{r}
+adhered <- ecigarette$CPD_W6[ecigarette$adherence == 1]
+not_adhered <- ecigarette$CPD_W6[ecigarette$adherence == 0]
+
+# Perform the two-sample t-test assuming unequal variances with a 95% confidence level
+t_test_result <- t.test(adhered, not_adhered, var.equal = FALSE, conf.level = 0.95)
+
+# Extract the upper endpoint of the confidence interval
+upper_endpoint <- round(t_test_result$conf.int[2], 4)
+upper_endpoint
+
+```
+
+## Q18
+```{r}
+
+# Filter the data for the 55+ age group and calculate the mean of CPD_BL
+mean_CPD_BL_55plus <- mean(ecigarette$CPD_BL[ecigarette$age == "55+"], na.rm = TRUE)
+
+# Print the result
+mean_CPD_BL_55plus
+```
+
+
+
+## Q19
+```{r}
+# Load the data
+data <- read.csv("data/ecigarette.csv")
+
+# Perform one-way ANOVA
+anova_result <- aov(CPD_BL ~ age, data = data)
+
+# Display the summary of the ANOVA test
+summary(anova_result)
+
+data$age <- as.factor(data$age)
+
+# Perform ANOVA test
+model <- aov(CPD_BL ~ age, data = data)
+summary(model)
+```
+
+```{r}
+
+adherent_group <- subset(data, adherence == 1, select = CPD_W6)
+non_adherent_group <- subset(data, adherence == 0, select = CPD_W6)
+mu_1 <- mean(adherent_group$CPD_W6)
+mu_2 <- mean(non_adherent_group$CPD_W6)
+difference <- round(mu_1 - mu_2, 4)
+print(difference)
+```
+
+
+```{r}
+
+# Separate the groups based on adherence
+group_1 <- subset(data, adherence == 1)
+group_0 <- subset(data, adherence == 0)
+
+# Compute means for each group
+mu_1 <- mean(group_1$CPD_W6)
+mu_2 <- mean(group_0$CPD_W6)
+
+# Compute the test statistic
+t_statistic = (mu_1 - mu_2) / sqrt(var(group_1$CPD_W6)/nrow(group_1) + var(group_0$CPD_W6)/nrow(group_0))
+
+# Round the answer to four decimal places
+t_statistic <- round(t_statistic, 4)
+
+print(t_statistic)
+
+```
+
+
+
+
+
+```{r}
+
+# Convert 'age' column into factor if it isn't already
+data$age <- as.factor(data$age)
+
+# Perform Chi-square test of independence
+chi_square_test <- chisq.test(table(data$CPD_BL, data$age))
+
+# Extract and round the chi-squared statistic to three decimal places
+test_statistic <- round(chi_square_test$statistic, 3)
+print(test_statistic)
+
+```
+
+
+
+
+
+
+
+
+
+
