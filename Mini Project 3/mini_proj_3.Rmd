@@ -11,7 +11,6 @@ library(ggplot2)
 
 ecig <- read.csv('data/ecigarette.csv')
 heifer <- read.csv('data/heifer_mod.csv')
-dating <- read.csv('data/dating_survey2.csv')
 ```
 
 
@@ -80,19 +79,18 @@ The boxplot indicates a slight drop in the median number of cigarettes per day f
 #### Part 2. An appropriate inferential analysis to address the key question. This may be a confidence interval, hypothesis test, or both. You may use the $\alpha$ value/confidence level of your choosing. If you perform a hypothesis test, state the hypotheses, test statistic, p-value, decision, and conclusion. If you create a confidence interval, state the confidence level and provide an interpretation of the interval.
 
 We will now perform a paired *t-test* to see if the mean difference in cigarettes per day (CPD) between baseline and week 6 is statistically significant.
-
 We will utilize a moderate alpha value of 0.05 ($\alpha = 0.05$), and establish our hypothesis as follows...
 
-- *Null Hypothesis*: There is no decrease in the mean number of cigarettes per day from baseline to week 6.
+- *Null Hypothesis*: There is no decrease in the mean number of cigarettes per day from baseline to week 6. (CPD_BL - CPD_W6 <= 0).
 
-$$H_0: \mu_C \geq 0$$ 
+$$H_0: \mu_C = 0$$ 
 
-- *Alternative Hypothesis*: There is a decrease in the mean number of cigarettes per day from baseline to week 6. 
+- *Alternative Hypothesis*: There is a decrease in the mean number of cigarettes per day from baseline to week 6. (CPD_BL - CPD_W6 > 0).
 
-$$H_A: \mu_C < 0$$ 
+$$H_A: \mu_C > 0$$ 
 
 ```{r ecigttest}
-# One-Tailed Test
+# One-tailed t Test
 t.test(ecig$CPD_BL, ecig$CPD_W6, paired = TRUE, alternative = "less")
 ```
 
@@ -105,6 +103,7 @@ t.test(ecig$CPD_BL, ecig$CPD_W6, paired = TRUE, alternative = "less")
 - <span style="color: green;">Decision</span>: Fail to reject the null hypothesis. Data does not provide sufficient evidence to support a decrease in the mean number of cigarettes per day from baseline to week 6.
 
 - <span style="color: brown;">Reasoning</span>: The p-value of 0.9881 is much larger than our $\alpha$ of 0.05. The positive mean difference (+1) indicates that, on average, participants' cigarettes per day slightly increased rather than decreased over the study period. This is also supported by our test statistic being greater than 0. The 95% confidence interval ($-\infty$, 1.711) includes values greater than zero, indicating that a decrease in cigarettes per day is not statistically supported by the data.
+
 
 ---
 
@@ -122,15 +121,34 @@ Based on the information provided, the study design does not appear to be suffic
     C. Lack of Control Group: The study design did not mention the presence of a control group. A control group of participants who did not use e-cigarettes would provide a baseline for comparison to determine if observed changes are genuinely attributable to e-cigarette use or due to other factors.
 
     D. Confounding Factors: The study did not appear to account for potential confounding factors (e.g., motivation to quit, social influences, or other smoking cessation aids) that might impact cigarette consumption independently of e-cigarette use. Without controlling for these factors, it’s challenging to attribute any changes in smoking behavior solely to e-cigarette use.
+    
+```{r normalityofdiff}
+ecig$difference <- ecig$CPD_BL - ecig$CPD_W6
 
+hist(
+  ecig$difference,
+  main = "Histogram of Differences",
+  xlab = "Differences",
+  col = "lightblue",
+  border = "black",
+  freq = FALSE # plot density
+)
 
+lines(density(ecig$difference), col = "red", lwd = 2)
+```
 
+```{r normdiffqqplot}
+qqnorm(ecig$difference, main = "QQ Plot of Differences")
+qqline(ecig$difference, col = "red", lwd = 2) # Add a reference line
+```
 
+Based on our histogram, the differences do not visually appear to follow a normal distribution as it does not appear to be symmetric or bell-shaped.
+Instead, it shows:
 
+    - A noticeable concentration of values around 0.
+    - A potential skewness (as the distribution seems slightly unbalanced).
 
-
-
-
+The differences Normal quantile plot roughly follows the qq-line but has a lot of identical values resulting in a stair-step pattern. The plot pattern indicates that the differences violate the normality assumption, especially where points are more flat. A more crucial factor to consider is the data gathering approach: the prices that are considered are only representative of two locations at a point in time. If these places or times are unlike “average” stores in price, the analysis might not hold at the population level.
 
 
 
@@ -146,8 +164,6 @@ The cows' weights (lbs) were measured once a month for about 6 months. The weigh
 <span style="color: red;">Key question: On average, did cows using Group feeding have a different total weight gain than cows using the Precision feeding in the low feed level (level=0.5)? What about in the high feed level (level=1)?</span>
     
 (Perform the descriptive and inferential analyses separately for the two levels.)
-
-
 
 
 ---
@@ -177,29 +193,28 @@ summary_stats <- heifer %>%
     Median = median(tgain, na.rm = TRUE),
     SD = sd(tgain, na.rm = TRUE),
     Min = min(tgain, na.rm = TRUE),
-    Max = max(tgain, na.rm = TRUE)
+    Max = max(tgain, na.rm = TRUE),
+    .groups = "drop"
   )
 
 summary_stats
 ```
 
-```{r cowboxplot}
-# Boxplot of tgain
-ggplot(heifer, aes(x = Treatment, y = tgain, fill = factor(level))) +
+
+```{r cowboxplottreatment}
+ggplot(heifer, aes(x = factor(level), y = tgain, fill = Treatment)) +
   geom_boxplot() +
   labs(
-    title = "Total Weight Gain by Treatment and Feed Level",
-    x = "Feeding Method",
+    title = "Total Weight Gain for Feed Level by Treatment",
+    x = "Feed Level",
     y = "Total Weight Gain (lbs)"
   ) +
-  scale_fill_discrete(name = "Feed Level") +
+  scale_fill_discrete(name = "Feeding Method (Treatment)") +
   theme_minimal()
 ```
 
 
-Our boxplots reveal potential outliers, particularly for the Group feeding method at the high feed level (1%). While these outliers are not extreme enough to significantly alter the results (as shown by upcoming t-test outcomes), they may reflect unique conditions (such as dominant behavior in shared feeding scenarios). If these outliers are biologically meaningful, they could suggest variability in how individual cows respond to feeding methods. Alternatively, if they are measurement errors, their inclusion might artificially inflate variance and reduce the statistical power of the analysis. Repeating the t-tests without these outliers could help determine their impact on conclusions.
-
-
+The boxplot indicates potential outliers but particularly in the Group feeding method at elevated feed level (1%). Even with these extreme values, they do not seem to have a large influence on the overall results, as shown in the t-tests in the above summary table. The presence of such values may reflect biological variability (for example, dominance behavior among cows in groups when feeding), measurement error, or something else. If the outliers are biologically meaningful, they indicate personal differences in response to feeding. But if they are artifacts of the data collection, including them could cause that variance to inflate and reduce the power of our analysis. It could be worth checking what happens if we rerun the analysis without these points and see what happens.
 
 
 ---
@@ -271,7 +286,6 @@ t.test(group_1, precision_1, var.equal = FALSE)
 - <span style="color: brown;">Reasoning</span>: Since our P-Value of 0.1117 is greater than our $\alpha$ = 0.05, we fail to reject the null hypothesis. Also the confidence interval [-63.696632, 6.984132] includes 0, indicating that the observed difference in means is not statistically significant. Thus we can conclude at the 1.0% feed level, there is no significant difference in total weight gain between cows using the Group and Precision feeding methods.
 
 
-
 ---
 
 #### Part 3. A thoughtful conclusion based on the information presented in items 1-3. The conclusion should summarize your findings with respect to the key question. You should also discuss any limitations or complications of your analysis.
@@ -283,7 +297,23 @@ For High Feed Levels (1.0%) the choice of feeding method does not make a signifi
 
 One limitation of our analysis was the representativeness of the data from *heifer_mod.csv*, which consists of data from a single experimental farm. This brings issues for the generalizability of our findings. If the cows, feeding methods, and environmental conditions are not representative of a broader population of heifers or farms, the conclusions may not be widely applicable. Random assignment of cows to feeding methods helps mitigate bias, but any underlying systematic differences such as breed or health status not accounted for could affect the results.
 
+```{r q2check, fig.dim=c(7,5),echo=FALSE}
+heifer.low <- subset(heifer, level==0.5)
+heifer.high <- subset(heifer, level==1)
 
+par(mfrow=c(2,2), oma=c(0,0,1,0),mar=c(3.1,4.1,1,.5)) # change plot margins to fit more
+qqnorm(heifer.low$tgain[which(heifer.low$Treatment=='GROUP')], main='Group feed (low)')
+qqline(heifer.low$tgain[which(heifer.low$Treatment=='GROUP')], col = "red", lwd = 2)
+qqnorm(heifer.low$tgain[which(heifer.low$Treatment=='PRECISION')], main='Precision feed (low)')
+qqline(heifer.low$tgain[which(heifer.low$Treatment=='PRECISION')], col = "blue", lwd = 2)
+
+qqnorm(heifer.high$tgain[which(heifer.high$Treatment=='GROUP')], main='Group feed (high)')
+qqline(heifer.high$tgain[which(heifer.high$Treatment=='GROUP')], col = "red", lwd = 2)
+qqnorm(heifer.high$tgain[which(heifer.high$Treatment=='PRECISION')], main='Precision feed (high)')
+qqline(heifer.high$tgain[which(heifer.high$Treatment=='PRECISION')], col = "blue", lwd = 2)
+```
+
+To check if the data is approximately normal (to satisfy the two sample t test requirements) the normal quantile plots are shown below. In the level 0.5 data (top row), it is clear that the points are linear and thus generally normal, except for two large outlier points in each group. The points in level-1 data (bottom row) form a more “S”-shaped curve when the data are more skewed or heavy-tailed than a Normal with the same mean and variance. Since Normality is only slightly violated in the level 1 case, the p-value should be regarded as an approximation, and the actual probability of type 1 error in our test may exceed $\alpha$ = 0.05 or fall below it.
 
 
 

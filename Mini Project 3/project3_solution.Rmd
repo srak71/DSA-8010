@@ -1,0 +1,165 @@
+---
+title: "Project 3 suggested solution"
+author: "DK"
+date: '2024-11-20'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r data, include=FALSE}
+ecig <- read.csv('data/ecigarette.csv',header=T)
+cows <- read.csv("data/heifer_mod.csv")
+dating <- read.csv("data/dating_survey2.csv")
+
+```
+
+## Q1
+
+```{r q1descriptive, fig.dim = c(7, 5), fig.cap="Boxplot of WinCo - Walmart price (left) and prices for the .", echo=FALSE}
+# add differences
+ecig$cpd_diff <- ecig$CPD_BL - ecig$CPD_W6
+
+ms <- round(apply(ecig[,c(2:3,6)],2,mean),2)
+ss <-round(apply(ecig[,c(2:3,6)],2,sd),2)
+```
+
+### Into and descriptive summary.
+A nicotine research group conducted a study among 29 smokers. Each participant's cigarette usage was measured twice, resulting in paired data. At baseline, the mean cigarettes per day was `r ms[1]`, and at week 6 the mean cigarettes per day was `r ms[2]`. The difference between the cigarettes per day at baseline (CPD_BL) and the cigarettes per day at week 6 (CPD_BL) was calculated to create a new variable called ''CPD_decrease." The boxplot below shows the distribution of the CPD_decrease among the 29 participants: most differences appear to be positive, indicating a tendency of cigarettes per day to decrease over the course of the study. Further, the mean difference is `r ms[3]` and the standard deviation of the differences  `r ss[3]`, further suggesting a decrease overall. The largest difference (in magnitude) is seen in participants 22 and 23, who both saw decreases of 5 cigarettes per day over the course of the study.
+
+```{r q1plot, fig.dim = c(7, 6), fig.cap="Boxplot of CPD decrease (left) and raw cigarettes per day (right panel)", echo=FALSE}
+par(mfrow=c(1,2))
+boxplot(ecig$cpd_diff, main='CPD decrease (Baseline - Week 6)',ylab='CPD_BL-CPD_W6',cex.main=.8)
+boxplot(ecig[,c(2:3)], main='cigarettes per day', ylab='count',cex.main=.8,
+        xaxt='n')
+axis(1, at=1:2, labels=c('baseline','week 6'))
+```
+```{r q1inferential, echo=FALSE}
+paired <- t.test(ecig$cpd_diff,alternative = 'greater')
+```
+## Inferential analysis
+To investigate whether the differences in the sample indicate a statistically significant decrease in cigarettes per day, I performed a paired t test. Letting $\mu_1$ denote the mean CPD at baseline and $\mu_2$ denote the mean CPD at week 6, the hypotheses are $H_0: \mu_1 -\mu_2=0$ and $H_A: \mu_1-\mu_2 > 0$. The test statistic is $t_0=$ `r round(paired$statistic,3)` and the p-value is `r round(paired$p.value,4)`. At an alpha level of 0.05, the null hypothesis can be rejected: there is evidence that the mean cigarettes per day is higher at baseline than at week 6.
+
+
+### Conclusion and limitations
+
+The inferential methods suggest that there is a statistically significant decrease in cigarettes per day during this study. Some possible limitations of the study need to be considered: First,
+the paired t test relies on an assumption that the differences are approximately Normal. Below, the Normal quantile plot of the differences shows a pattern that approximately corresponds to the qq-line, but with quite a few identical values that create a stair-step pattern. This pattern in the plot indicates the the differences violate the normality assumption, particularly in those areas where the points are more flat. A more important consideration is the data collection method: the prices collected are only representative of two geographic locations at one time point. If these locations or times are not representative of typical stores in terms of prices, the results of the analysis may not hold at the population level.
+
+```{r q1checking, echo=FALSE, fig.dim=c(4,3)}
+qqnorm(ecig$cpd_diff,main='Normal quantile plot \n CPD decrease')
+qqline(ecig$cpd_diff)
+```
+
+
+```{r q2descriptive, echo=FALSE}
+# level 0.5:
+cows.low <- subset(cows, level==0.5)
+means.l <- round(tapply(cows.low$tgain,cows.low$Treatment,mean),1)
+medians.l <- round(tapply(cows.low$tgain,cows.low$Treatment,median),1)
+sds.l <- round(tapply(cows.low$tgain,cows.low$Treatment,sd),1)
+
+# level 1:
+cows.high <- subset(cows, level==1)
+means.h <- round(tapply(cows.high$tgain,cows.high$Treatment,mean),1)
+medians.h <- round(tapply(cows.high$tgain,cows.high$Treatment,median),1)
+sds.h <- round(tapply(cows.high$tgain,cows.high$Treatment,sd),1)
+
+```
+
+## Q2 - Heifers
+The experiment described in the project document resulted in n=32 heifers in the Group feed treatment and n=31 under the Precision feed treatment. These heifers were evenly split between the low supplement level (0.5) and the high supplement level (1). 
+
+# Low supplement level. 
+In the low level group, the distribution of total gain appears substantially different between the two treatment groups. The boxplots show total gain for both groups, and they reveal that often, the total gain was considerably lower under Precision feed than under Group feed. There is not much overlap between the middle 50\% of values in the two groups. The variability also appears to be lower in the Group feed group. The mean and median gain in Group feed are `r means.l[1]` and `r medians.l[1]`, respectively, with a standard deviation of `r sds.l[1]`. In the Precision feed, the means and medians are both lower, at `r means.l[2]` and `r medians.l[2]`, respectively, with a standard deviation `r sds.l[2]`. 
+
+# High supplement level. 
+The boxplot above shows the total gain for the two treatments at the high supplement level (right panel). At the high supplement level, the medians are similar across the two treatments (`r medians.h[1]` and `r medians.h[1]` in the Group and Precision, respectively), but the shape of the distributions are different. The Precision group is right-skewed, with several cows gaining far more than the median, while the Group group is left-skewed, with several cows gaining far less than the median. The means of the two groups reflect this: the mean gain is `r means.h[1]` in the Group treatment and much higher at `r means.h[2]` in the Precision group.  The standard deviation are similar across the treatments, at `r sds.h[1]` and  `r sds.h[2]` in Group and Precision, respectively. 
+
+```{r q2plot, fig.dim=c(8,3.75),echo=FALSE}
+# descriptive plots
+par(mfrow=c(1,2))
+# level 0.5:
+boxplot(cows.low$tgain~cows.low$Treatment, main='total gain by treatment: level = 0.5', cex.main=.8, ylab='total gain',
+        xlab='treatment')
+
+# level =1
+boxplot(cows.high$tgain~cows.high$Treatment, main='total gain by treatment: level = 1', cex.main=.8, ylab='total gain', xlab='treatment')
+```
+
+
+```{r q2inf, echo=FALSE}
+# inferential analysis - heifers
+ttest.l <- t.test(cows.low$tgain~cows.low$Treatment, var.equal=FALSE)
+ttest.h <- t.test(cows.high$tgain~cows.high$Treatment, var.equal=FALSE)
+```
+
+## Inferential analysis
+
+Two sample t tests were performed within each supplement level to see if there were statistically significant differences in mean gain across the treatments. For both levels, the null and alternative hypotheses are $H_0: \mu_1 = \mu_2$ and $H_A: \mu_1 \neq \mu_2$, where $\mu_1$ denotes the mean gain in the Group feed treatment and $\mu_2$ denotes the mean gain in the Precision feed treatment. The significance level is $\alpha=0.05$ for both tests.
+
+For level 0.5, the test statistic is `r round(ttest.l$statistic,2)` and the p-value is `r round(ttest.l$p.value,4)`. The null hypothesis is rejected: there is strong evidence of a difference in mean weight gain under the two feed types.
+
+For level 1, the test statistic is `r round(ttest.h$statistic,2)` and the p-value is `r round(ttest.h$p.value,4)`. There is insufficient evidence based on this sample to conclude that the the average weight gain is different between the feed types.
+
+
+## Conclusion and limitations
+The results of the statistical analysis indicate that the feed type is associated with significant differences in average gain at the 0.5 level, but not at the 1 level.  The two sample t test assumes that the data are approximately normal within both treatment groups. To check this, Normal quantile plots are shown below. In the level 0.5 data (top panel), the points are linear, suggesting approximate normality except for two large outliers in both groups. In the level 1 data (bottom panel), the points are more "S"-shaped, which occurs when the data are more skewed or heavy-tailed than a Normal distribution. Because Normality is violated somewhat in the level 1 case, the p-value should be considered approximate and the true probability of type 1 error in our test may be larger or smaller than $\alpha=0.05$. Further, in an experimental study, the generalizability of results depend on whether the experimental units are homogeneous and important sources of variability are controlled. If the farms in which the feed types are implemented differ in the types of cows or conditions, this could be a limitation of the study.
+
+
+```{r q2check, fig.dim=c(7,5),echo=FALSE}
+# check model assumptions: normality within each group
+par(mfrow=c(2,2), oma=c(0,0,1,0),mar=c(3.1,4.1,1,.5)) # change plot margins to fit more
+qqnorm(cows.low$tgain[which(cows.low$Treatment=='GROUP')], main='Group feed (low)')
+qqline(cows.low$tgain[which(cows.low$Treatment=='GROUP')])
+qqnorm(cows.low$tgain[which(cows.low$Treatment=='PRECISION')], main='precision feed (low)')
+qqline(cows.low$tgain[which(cows.low$Treatment=='PRECISION')])
+
+qqnorm(cows.high$tgain[which(cows.high$Treatment=='GROUP')], main='Group feed (high)')
+qqline(cows.high$tgain[which(cows.high$Treatment=='GROUP')])
+qqnorm(cows.high$tgain[which(cows.high$Treatment=='PRECISION')], main='precision feed (high)')
+qqline(cows.high$tgain[which(cows.high$Treatment=='PRECISION')])
+```
+
+```{r q3descriptive, echo=FALSE}
+dating$lost <- is.na(dating$grade12)
+mated.miss <- sum(is.na(dating$maternal_ed))
+counts <- table(dating$lost)
+counts.mated <- table(dating$maternal_ed, dating$lost)
+
+prop.mated <- prop.table(counts.mated,1) # proportion lost to follow up in each group
+percent.mated <- round(prop.mated,3)*100
+
+# if I reverse the columns of the table, we define "success" to be lost to follow up
+tt2 <- counts.mated[,c(2,1)]
+proptest.mated <- prop.test((tt2))
+
+# save the confidence interval
+ci <- round(proptest.mated$conf.int,4)
+```
+
+## Q3 - teen dating violence
+
+The dating violence survey was administered to 580 teenagers in the state. A student is considered lost to follow-up if the "grade 12" data is unavailable for that student. In the sample, there were `r counts[2]` teens who were lost to follow up. Of these, `r counts.mated[1,1]` had mothers who did not complete high school ("Group 1") and `r counts.mated[1,2]` had mothers who completed a high school diploma or higher ("Group 2"). A total of `r mated.miss` students have no recorded value of maternal education; these are omitted from the subsequent analysis.
+
+In Group 1, `r percent.mated[1,2]`% were lost to follow-up, compared to a lower percentage of `r percent.mated[2,2]`% in Group 2. The students in Group 2 may be slightly less likely to be lost to follow-up, but the difference is small.
+
+## Inferential analysis
+To assess whether there is a significant difference in the proportion of students who are lost to follow-up between Group 1 and Group 2, a 95% confidence interval was made for $\pi_1 - \pi_2$, where $\pi_1$ and $\pi_2$ represent the population-level proportion of students lost to follow up in Groups 1 and 2, respectively. The confidence interval using default continuity corrections is (`r ci[1]`, `r ci[2]`). Since the confidence interval includes zero, we cannot conclude that we have evidence that the proportions are significantly different. There is not evidence, therefore, of association between maternal education as measured in the study with probability of completing the study.
+
+### Another approach
+Another inferential analysis that could be done is a hypothesis test. The null and alternative hypotheses are $H_0: \pi_1 = \pi_2$ and $H_A: \pi_1 \neq \pi_2$, and I will use $\alpha=0.05$ as the significance level. Using a z-test for two proportions, the test statistic is $|z_0|=$ `r sqrt(proptest.mated$statistic)` and the p-value is `r proptest.mated$p.value`. The null hypothesis is not rejected; there is not sufficient evidence to conclude that the proportion of participants lost to follow-up differs across the two groups.
+
+Below, I show the output if the default continuity corrections are not used. These numbers are also acceptable.
+
+```{r q3-otherp, echo=FALSE}
+proptest.mated.no.cc <- prop.test((tt2))
+proptest.mated.no.cc
+```
+
+## Conclusions
+The analysis has shown no significant difference in the proportions lost to follow-up in the two groups; in other words, there is no strong evidence supporting an association between maternal education and being lost to follow-up. There are some assumptions and potential limitations to this analysis. To check the model assumptions for the test for proportions, I have confirmed that there are at least 5 successes and 5 failures per group, which justifies the use of the Normal distribution for calculation of p-values. 
+
+A limitation of this analysis is the limited categories used to measure maternal education. A different measurement scale may be better suited to elucidate association between maternal education and retention in the study. There are also a few students whose maternal education was not reported: this can be a source of non-response bias. With only 5 values missing, it is reasonable to expect that these values will not have a strong influence on the conclusions.
