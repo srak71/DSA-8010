@@ -1,0 +1,381 @@
+---
+title: "Final Project DSA-8010"
+author: "Saransh Rakshak"
+output: html_document
+date: "Due: December 10, 2024"
+---
+
+```{R setup, message=FALSE}
+# Loading libraries for analysis
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+```
+
+
+Give your answer as a short report that answers the key question and supports your answer using the data. Descriptive and inferential methods should be used. Make sure that every statistic, plot, or table that is included is also described in the text.
+
+# 1. Fuji Apples
+
+## Introduction
+
+An agricultural research team in Idaho investigated the effect of Fuji apple trees' branch configuration on the fruit produced by the trees. They planted 24 trees in an experimental orchard in three rows. Each row was treated to promote one of three branch configurations: 
+
+<i><center><span style="color: blue;">overlapped_arm</span></center></i>
+<i><center><span style="color: blue;">tipped_arm</span></center></i>
+<i><center><span style="color: blue;">tall_spindle</span></center></i>
+
+Each of the treatments (configurations) was applied to eight trees.
+
+In the 2012 growing season, the trees' fruit was harvested and the average weight per apple (grams) was recorded for each tree. The data are found in the file **fuji_apples.csv**. We will establish a significance level of $\alpha = 0.05$ for this analysis.
+
+> <span style="color: red;">Key question: Do the data suggest that the branch configuration affects the fruit weights?</span>
+
+```{R LoadData}
+# Loading provided raw data
+apples <- read.csv('data/fuji_apples.csv')
+
+# Cleaning raw data
+colnames(apples) <- c("index", "weight", "configuration")
+apples$index <- apples$index - 1
+rownames(apples) <- apples$index
+apples <- subset(apples, select = -index)
+
+# Explore dataframe
+head(apples)
+summary(apples)
+```
+
+## Descriptive Statistics
+
+
+To answer this question, we will first establish our null and alternative hypothesis. Our hypothesis will be as follows:
+
+- *Null Hypothesis*: There is no difference in the mean fruit weights among the three branch configurations. 
+
+$$H_0: \mu_{1} = \mu_{2} = \mu_{3}$$ 
+
+- *Alternative Hypothesis*: At least one of the mean fruit weights differs from the others. 
+
+<center>$H_A:$ At least one $\mu_{i}$ is different from the others, where $\mu_{i}$ represents the mean fruit weight for each configuration group.</center>
+
+```{R Q1Table}
+# Descriptive statistics
+descriptive_stats <- apples %>%
+  group_by(configuration) %>%
+  summarise(
+    mean_weight = mean(weight, na.rm = TRUE),
+    sd_weight = sd(weight, na.rm = TRUE),
+    min_weight = min(weight, na.rm = TRUE),
+    max_weight = max(weight, na.rm = TRUE)
+  )
+print(descriptive_stats)
+```
+
+1. Overlapped Arm
+
+    - Mean Weight: The average fruit weight for the <span style="color: blue;">overlapped_arm</span> treatment is 181.79 grams, which is the lowest among the three treatments.
+    - Standard Deviation: The standard deviation is 28.23 grams, indicating moderate variability in the fruit weights for this treatment.
+    - Range: The minimum fruit weight is 141.66 grams, and the maximum is 218.28 grams, giving a range of 76.62 grams. This range suggests that there is some variability in the fruit sizes but within a relatively narrower band compared to the other treatments.
+    
+2. Tall Spindle
+
+    - Mean Weight: The <span style="color: blue;">tall_spindle</span> treatment shows the highest average fruit weight at 276.73 grams. This suggests that this branch configuration results in the largest fruit on average.
+    - Standard Deviation: The standard deviation is 65.53 grams, the highest among the three treatments. This higher variability indicates that fruit weights are more spread out in this treatment, with some trees likely producing significantly larger or smaller fruits than others
+    - Range: The minimum weight for this treatment is 183.96 grams, and the maximum is 360.45 grams, giving a range of 176.49 grams. The larger range further confirms the higher variability in fruit weights for this treatment.
+    
+3. Tipped Arm
+
+    - Mean Weight: The average fruit weight for the <span style="color: blue;">tipped_arm</span> treatment is 239.98 grams, which is intermediate between the other two treatments.
+    - The standard deviation is 41.52 grams, indicating moderate variability in the fruit weights, although less than the <span style="color: blue;">tall_spindle</span> treatment.
+    - The minimum fruit weight is 175.63 grams, and the maximum is 291.81 grams, resulting in a range of 116.18 grams, which is larger than the <span style="color: blue;">overlapped_arm</span> range but smaller than the <span style="color: blue;">tall_spindle</span> range.
+
+```{R Q1Boxplot}
+ggplot(apples, aes(x = configuration, y = weight, fill = configuration)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(
+    title = "Distribution of Fruit Weights by Branch Configuration",
+    x = "Branch Configuration",
+    y = "Weight per Fruit (grams)"
+  ) +
+  theme_minimal()
+```
+
+Plot Findings:
+
+  - The <span style="color: blue;">tall_spindle</span> treatment results in the largest average fruit weight but also shows the highest variability in fruit sizes, indicating that the fruit size can vary considerably within this treatment.
+
+  - The <span style="color: blue;">overlapped_arm</span> treatment yields the smallest fruit on average, with the least variability, suggesting more consistency in fruit size.
+
+  - The <span style="color: blue;">tipped_arm</span> treatment falls between the other two in terms of both average fruit weight and variability, with a moderate range of fruit sizes.
+    
+Our boxplot suggest that branch configuration does affect fruit weights, with the <span style="color: blue;">tall_spindle</span> configuration leading to the largest fruit on average, albeit with more variability. The <span style="color: blue;">overlapped_arm</span> configuration results in smaller but more consistent fruit. The <span style="color: blue;">tipped_arm</span> treatment provides a balance between the two extremes. These differences in mean fruit weight, variability, and range across the treatments suggest that branch configuration plays a significant role in determining the size of the fruit produced.
+
+
+## Inferential Analysis
+
+We will now use a ANOVA test to evaluate whether any differences in means are statistically significant across the configurations. First, we must make sure our data matches the assumptions made by the ANOVA Test.
+
+Requirements of ANOVA Test:
+
+```{R Q1modelassumptions}
+model <- lm(weight ~ configuration, data = apples)
+
+# independence - residual plot
+plot(model$residuals)
+
+# normality - histogram, QQ plot, shapiro-Wilk
+hist(model$residuals)
+qqnorm(model$residuals)
+qqline(model$residuals, col = "red", lwd = 2)
+shapiro.test(model$residuals)
+```
+
+
+The histogram of residuals appears approximately symmetric. The Q-Q plot indicates that the residuals closely follow a straight line, suggesting normality. The Shapiro-Wilk test has a p-value of 0.6632, which is greater than the typical alpha level of 0.05. This means we fail to reject the null hypothesis, supporting the assumption that the residuals are normally distributed. The residual plot against the index does not show any clear pattern, confirming the residuals are independent.
+
+
+```{R Q1ANOVA}
+anova_result <- aov(weight ~ configuration, data = apples)
+summary(anova_result)
+```
+
+The ANOVA test evaluates whether any differences in means are statistically significant across the groups. The ANOVA results show an F-value = 8.071 and p-value = 0.00251, which is less than the significance level ($\alpha$ = 0.05). This indicates a significant difference in fruit weights among the branch configurations. Since the null hypothesis (no difference in group means) is rejected, we will perform a post-hoc Tukey test to identify which specific configurations differ from one another.
+
+```{R Q1ANOVAResults}
+post_hoc <- TukeyHSD(anova_result)
+print(post_hoc)
+```
+
+The columns for our post-hoc Tukey test are as follows:
+
+-   [*diff*]{style="color: green;"} : The difference in means between the two configurations being compared.
+-   [*lwr*, *upr*]{style="color: green;"} : The lower and upper bounds of the 95% confidence interval for the difference in means.
+-   [*p adj*]{style="color: green;"} : The adjusted p-value, which accounts for multiple comparisons. This tells you whether the difference is statistically significant after adjusting for the fact that multiple comparisons are being made.
+
+
+## Conclusion
+
+[*tall_spindle*]{style="color: blue;"} vs. [*overlapped_arm*]{style="color: blue;"}
+
+- Difference in means: 94.94 grams.
+- Confidence interval: The confidence interval for the difference is between 34.87 and 155.01 grams. Since this interval does not include 0, it suggests **there is significant difference** between the two configurations.
+- Adjusted p-value: 0.00187, which is less than 0.05, indicating **there is significant difference** between the means of tall spindle and overlapped arm.
+
+[*tipped_arm*]{style="color: blue;"} vs. [*overlapped_arm*]{style="color: blue;"}
+
+- Difference in means: 58.20 grams.
+- Confidence interval: The confidence interval for the difference is between −1.87 and 118.26 grams. Since 0 is within this interval, this suggests that the **difference is not statistically significant**.
+- Adjusted p-value: 0.0587, which is just above 0.05, suggesting the **difference is not statistically significant** at the 5% significance level.
+
+[*tipped_arm*]{style="color: blue;"} vs. [*tall_spindle*]{style="color: blue;"}
+
+- Difference in means: −36.74 grams.
+- Confidence interval: The confidence interval for the difference is between −96.81 and 23.32 grams. Since 0 is within this interval, this suggests that the **difference is not statistically significant**.
+- Adjusted p-value: 0.2924, which is greater than 0.05, indicating that the **difference is not statistically significant**.
+
+**Thus we can conclude that...**
+
+> ✴️ Branch configuration plays a significant role in determining the size of the fruit produced.
+
+> ✴️ There is a significant difference in the mean fruit weights between the [*tall_spindle*]{style="color: blue;"} and [*overlapped_arm*]{style="color: blue;"} configurations.
+
+> ✴️ There is no significant difference between [*tipped_arm*]{style="color: blue;"} and [*overlapped_arm*]{style="color: blue;"}, and between [*tipped_arm*]{style="color: blue;"} and [*tall_spindle*]{style="color: blue;"}.
+
+Our analysis using this dataset is flawed for the following reasons:
+
+    - Limited Sample Size: With only 24 trees, the sample size may be too small to generalize the results to a larger population of Fuji apple trees or to account for variability in tree growth and fruit production.
+    
+    - Lack of Randomization: If the three rows were not randomized or if the rows are inherently different (e.g., due to soil quality, sunlight exposure, or irrigation patterns), this could introduce bias into the results. Row effects might confound the observed effects of the branch configurations.
+    
+    - Variability in Tree Growth: The trees' growth might vary due to genetic differences or differences in initial planting conditions, which are unrelated to the branch configuration treatment. Environmental factors like soil fertility, water availability, or pest pressure could vary across the rows, influencing apple weight independently of branch configuration. This variability could introduce noise into the data, making it harder to detect treatment effects.
+    
+    - Statistical Inconsistancies: The analysis focuses solely on average apple weight. Other important factors, such as total yield per tree, fruit quality, or marketability, are not considered, thus the overall effect on productivity or profitability might not be fully captured. The proximity of the trees within rows could lead to spatial autocorrelation (e.g., nearby trees experiencing similar conditions), violating the assumption of independence in many statistical analyses. This could inflate Type I error rates or bias the estimation of treatment effects.
+
+These could be mitigated by doing the following:
+
+    - Increase the Sample Size: Include more trees to improve statistical power.
+    
+    - Randomize Treatments: Randomly assign branch configurations within and across rows.
+    
+    - Control for Confounders: Measure and account for environmental factors like soil quality or sunlight exposure.
+    
+    - Repeat Over Multiple Seasons: Extend the study to observe consistency across years.
+    
+    - Measure Additional Outcomes: Consider total yield, fruit quality, or profitability to complement average weight analysis.
+
+---
+
+# 2. Maryland Crashes
+
+
+## Introduction
+
+The dataset **crash_maryland.csv** contains records of vehicle crashes in Montgomery County, Maryland for which police reports were filed between 2015 and 2023. The posted data reflects a subset of all crashes: those that occurred during rain, snow, or sleet.
+
+A team of government officials is looking to better understand conditions under which serious traffic accidents occur. One question they are interested in is whether the type of precipitation is related to increased chance of injury. This question is related to the variables [*Weather*]{style="color: blue;"} and [*Injury.Severity*]{style="color: blue;"}. We will establish a significance level of $\alpha = 0.05$ for this analysis.
+
+> <span style="color: red;">Key question: Do the data suggest that the [*Weather*]{style="color: blue;"} condition is associated with [*Injury.Severity*]{style="color: blue;"}? Under which condition(s) are crashes more likely to occur?</span>
+
+```{R LoadData2}
+# Loading provided raw data
+crash <- read.csv('data/maryland_crash.csv')
+
+# Cleaning provided raw data
+crash <- crash[!duplicated(crash), ] # remove duplicate rows
+
+# Explore dataframe
+head(crash)
+```
+
+
+
+## Descriptive Statistics
+
+To answer this question, we will first establish our null and alternative hypothesis. Our hypothesis for answering the question "Do the data suggest that the [*Weather*]{style="color: blue;"} condition is associated with [*Injury.Severity*]{style="color: blue;"}?" will be as follows:
+
+- *Null Hypothesis*: The [*Weather*]{style="color: blue;"} condition is not associated with [*Injury.Severity*]{style="color: blue;"}. 
+
+$$H_0: P(Injury.Severity ∣ Weather) = P(Injury.Severity)$$ 
+
+- *Alternative Hypothesis*: There is an association between [*Weather*]{style="color: blue;"} condition and [*Injury.Severity*]{style="color: blue;"}. 
+
+$$H_A: P(Injury.Severity ∣ Weather)\neq P(Injury.Severity)$$ 
+
+We would also like to know "Under which condition(s) are crashes more likely to occur?". To find this, we can analyze crash frequencies across [*Weather*]{style="color: blue;"} conditions using descriptive statistics and visualization. For example:
+
+<center>$P(Crash | Rain) > P(Crash | Other Weather Conditions)$</center>
+
+could be tested using pairwise comparisons of crash frequencies.
+
+```{R Q2Table}
+# Descriptive analysis
+contingency_table <- table(crash$Weather, crash$Injury.Severity)
+print(contingency_table)
+
+prop_table <- prop.table(contingency_table, margin = 1)
+print(round(prop_table, 2))
+```
+
+The frequency of crashes by [*Weather*]{style="color: blue;"} condition revealed that rainy conditions accounted for the majority, followed by snowy and sleet conditions. [*Injury.Severity*]{style="color: blue;"} was classified into categories such as minor injury, serious injury, and fatal injury. A contingency table shows the distribution of [*Injury.Severity*]{style="color: blue;"} across [*Weather*]{style="color: blue;"} types.
+
+1. Raining
+
+    - 81% (461 of 568) of crashes resulted in no apparent injury, while 19% (107 of 568) resulted in suspected injuries.
+    - This indicates a relatively higher likelihood of suspected injuries compared to other <span style="color: blue;">Weather</span> conditions.
+    
+2. Sleet
+
+    - 72% (21 of 29) of crashes resulted in no apparent injury, while 28% (8 of 29) resulted in suspected injuries.
+    - Sleet appears to have the highest proportion of suspected injuries compared to other <span style="color: blue;">Weather</span> conditions, despite the lower overall crash count.
+    
+3. Snow
+
+    - 88% (37 out of 42) of crashes resulted in no apparent injury, while only 12% (5 out of 42) resulted in suspected injuries.
+    - Snow has the lowest proportion of suspected injuries, suggesting a comparatively lower <span style="color: blue;">Injury.Severity</span> for crashes under this condition.
+
+The distribution of [*Injury.Severity*]{style="color: blue;"} differs across [*Weather*]{style="color: blue;"} conditions, suggesting a potential association between [*Weather*]{style="color: blue;"} and [*Injury.Severity*]{style="color: blue;"}. For instance, crashes in sleet conditions are proportionally more likely to result in suspected injuries (28%) compared to crashes in rain (19%) or snow (12%). Raining accounts for the highest number of crashes overall, indicating that it is the most common [*Weather*]{style="color: blue;"} condition for crashes in this dataset. Sleet, while less frequent, shows the highest severity rate relative to other conditions.
+
+The data indicate that [*Weather*]{style="color: blue;"} conditions are associated with [*Injury.Severity*]{style="color: blue;"}. While crashes are most common during rain, sleet conditions appear to be the most hazardous in terms of injury severity proportion. These findings support the need for targeted safety measures during rainy and sleet conditions. Further inferential testing, such as a chi-squared test, can confirm whether this observed association is statistically significant.
+
+```{R}
+crash_table <- data.frame(
+  Weather = rep(c("RAINING", "SLEET", "SNOW"), each = 2),
+  Injury.Severity = rep(c("NO APPARENT INJURY", "SUSPECTED INJURY"), times = 3),
+  Count = c(461, 107, 21, 8, 37, 5)
+)
+
+ggplot(crash_table, aes(x = Weather, y = Count, fill = Injury.Severity)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Crash Counts by Weather Condition and Injury Severity",
+    x = "Weather Condition",
+    y = "Count of Crashes",
+    fill = "Injury Severity"
+  ) +
+  theme_minimal()
+```
+
+Based on the analysis of the bar graph, RAINING is the condition under which crashes are most likely to occur, with 88.9% of all crashes happening in rainy weather. This is consistent with the expectation that rain creates slippery conditions, poor visibility, and potentially dangerous driving situations, leading to a higher frequency of accidents.
+
+SLEET and SNOW conditions, while contributing to hazardous driving, lead to far fewer crashes, accounting for only 4.5% and 6.6% of total crashes, respectively. This suggests that while winter weather conditions like snow and sleet do contribute to accidents, they are less common than rainy conditions.
+
+In summary, rain is the most significant factor contributing to vehicle crashes in the dataset, making it the condition under which crashes are most likely to occur.
+
+
+
+## Inferential Analysis
+
+We would like to analyse the relation between [*Weather*]{style="color: blue;"} and [*Injury.Severity*]{style="color: blue;"}. Since both of these are categorical variables, we will use a Chi-Squared Test to evaluate whether the distribution of one categorical variable differs significantly across the levels of another. The chi-squared test does not rely on assumptions about the data's distribution (like normality), making it suitable for categorical data. The test will also determine if the two variables are independent (null hypothesis) or if there is an association (alternative hypothesis). 
+
+  - If the variables are independent, the proportion of <span style="color: blue;">Injury.Severity</span> categories should be similar across all <span style="color: blue;">Weather</span> conditions.
+
+  - If the variables are associated, the proportions of <span style="color: blue;">Injury.Severity</span> will differ based on the <span style="color: blue;">Weather</span> condition.
+
+The p-value from the chi-squared test helps determine if the association is statistically significant:
+
+  - If the p-value is small (<0.05), it suggests that the observed differences are unlikely to be due to chance, indicating an association between <span style="color: blue;">Weather</span> and <span style="color: blue;">Injury.Severity</span>.
+  
+  - If the p-value is large (>0.05), it suggests insufficient evidence to claim an association.
+
+Correlation tests (like Pearson's) are inappropriate because they require numerical data, and T-tests or ANOVA are unsuitable as they are used for comparing means of continuous variables. 
+
+```{R chitest}
+chi_sq_result <- chisq.test(contingency_table)
+print(chi_sq_result)
+```
+
+Requirements of Chi-Squared Test:
+
+1. Independence of Observations: Satisfied
+
+```{R IndpndtTest}
+any(duplicated(crash))
+```
+
+2. Adequate Sample Size: Satisfied, each cell in the contingency table has an expected frequency of at least 5.
+
+```{R NSizeCheck}
+chi_sq_result$expected
+```
+
+## Conclusion
+
+Results of our Chi-Squared test allow us to make the following analysis:
+
+**Test Statistic (X-squared)**: 
+
+The chi-squared statistic ($X^{2} = 2.7773$) measures the discrepancy between the observed and expected frequencies in the contingency table. The higher the value of the chi-squared statistic, the greater the difference between the observed and expected values, which would suggest a stronger relationship between the variables. In this case, the value of $X^{2} = 2.7773$ indicates a relatively small difference between the observed and expected frequencies, which suggests a weak or no association between [*Weather*]{style="color: blue;"} and [*Injury.Severity*]{style="color: blue;"}.
+
+
+**p-value**:
+
+The p-value of 0.2494 is a measure of the probability of obtaining the observed results, or something more extreme, assuming the null hypothesis is true. In other words, it tells us how likely it is to observe the data if [*Weather*]{style="color: blue;"} and [*Injury.Severity*]{style="color: blue;"} are independent. A p-value of 0.2494 is greater than our established significance level of $\alpha = 0.05$. This means that the evidence against the null hypothesis is not strong enough to reject it. In simpler terms, the result suggests that there is **no statistically significant association** between the [*Weather*]{style="color: blue;"} conditions and [*Injury.Severity*]{style="color: blue;"} at the 5% significance level.
+
+**Thus we conclude that...**
+
+> ✴️ We fail to reject the null hypothesis ($H_0$), indicating that based on this analysis, there is no significant evidence to suggest that [*Weather*]{style="color: blue;"} conditions are associated with [*Injury.Severity*]{style="color: blue;"} in crashes. This implies that, based on this dataset, the [*Weather*]{style="color: blue;"} conditions (RAINING, SLEET, SNOW) do not appear to significantly influence the likelihood of [*Injury.Severity*]{style="color: blue;"} (NO APPARENT INJURY or SUSPECTED INJURY).
+
+> ✴️ Rain is the most significant factor contributing to vehicle crashes in the dataset, making it the condition under which crashes are most likely to occur.
+
+Issues with our data analysis due to our given data set arise as follows:
+
+    - Correlation (Not Causality): The analysis might identify correlations between certain weather conditions and injury severity, but this does not imply causality. Even if a significant relationship is found, other confounding factors (like speed, road conditions, driver behavior) could also be influencing the results. Weather conditions may interact with other variables in complex ways. For example, the combination of rain and poor road maintenance may be more dangerous than rain alone, but the dataset may not fully capture this interaction.
+    
+    - Bias of Weather Condition: The dataset only includes crashes that occurred in specific weather conditions (rain, snow, or sleet), so it does not represent all traffic crashes, meaning any findings will only apply to these specific weather conditions. This introduces a bias because the majority of traffic accidents that happen in dry or clear conditions are excluded. This can lead to an overestimate of the relationship between precipitation and injury severity because only weather-impacted crashes are considered. rashes that happen in dry or clear weather are excluded from the analysis, and these might have different injury patterns. The absence of these data could lead to a skewed understanding of the actual impact of weather on injury severity.
+    
+    - Environmental Factors: Crashes may be more or less severe depending on geographic location (such as urban versus rural areas). In Montgomery County, certain areas might have more traffic congestion, which could influence the likelihood of crashes during bad weather. Without accounting for location, the analysis may not fully capture how precipitation interacts with local traffic conditions and road infrastructure.
+    
+    - Limited Data for Some Weather Conditions: Crashes involving snow or sleet are relatively less common compared to rain, especially in Montgomery County. This could result in a small sample size for these weather conditions, making it difficult to generalize findings or draw reliable conclusions about the impact of snow or sleet on injury severity. If crashes under snow or sleet conditions are significantly fewer than those under rain conditions, any observed patterns may be statistically insignificant or less reliable. For example, with only 42 crashes in snow, the sample size may not provide a clear picture of injury severity in snowy conditions.
+    
+    - Injury Severity Reporting: The classification of injury severity (ex. NO APPARENT INJURY versus SUSPECTED INJURY) might not be consistently reported across all cases. Some injuries might be underreported, or individuals might not seek medical attention immediately, leading to discrepancies in how injury severity is recorded. Depending on the police report system, there could be variability in how injury severity is assessed or categorized across different incidents. In some cases, the injury severity may be determined based on the initial report or an officer's assessment, which may not always reflect the actual severity of the injuries.
+    
+    - Possible Confounding Variables: The dataset doesn't specify details about the road conditions (e.g., wet, icy, snow-covered) beyond the weather conditions. Road factors, such as road quality or maintenance (e.g., salting or plowing during snow), could significantly affect crash severity but are not captured in this dataset. This leaves open the possibility that factors other than weather (such as road maintenance or traffic volume) are influencing injury severity. The dataset does not account for potential driver behaviors such as speeding, distracted driving, or driving under the influence, which could influence the severity of crashes. The severity of accidents may be influenced more by driver actions than by weather conditions alone. Weather conditions often coincide with changes in visibility or driving conditions that vary throughout the day (night driving, fog, or poor lighting), but the dataset does not specify the time of day, which could be a significant factor affecting injury severity.
+
+
+
+
+
+
+

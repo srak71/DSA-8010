@@ -1,0 +1,245 @@
+---
+title: "Final MC Questions DSA-8010"
+author: "Saransh Rakshak"
+output: html_document
+date: "Due: December 11, 2024"
+---
+
+```{R setup, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{R LoadData}
+immo_data <- read.csv('data/immo3.csv')
+chicago <- read.csv('data/Chicago_HS.csv')
+```
+
+```{R Q1}
+service_charge_sd <- sd(immo_data$serviceCharge, na.rm = TRUE)
+round(service_charge_sd, 5)
+```
+
+```{R Q2}
+# Remove missing values
+service_charge <- na.omit(immo_data$serviceCharge)
+
+# Calculate the mean and standard error
+mean_service_charge <- mean(service_charge)
+se_service_charge <- sd(service_charge) / sqrt(length(service_charge))
+
+# Calculate the margin of error for 95% confidence
+margin_of_error <- qt(0.975, df = length(service_charge) - 1) * se_service_charge
+
+# Calculate the lower endpoint
+lower_endpoint <- mean_service_charge - margin_of_error
+
+# Round the lower endpoint to 4 decimal places
+round(lower_endpoint, 4)
+```
+
+
+
+
+
+
+```{r q3}
+# Fit a linear regression model
+model <- lm(totalRent ~ livingSpace, data = immo_data)
+
+# Extract the estimated slope
+slope <- coef(model)["livingSpace"]
+
+# Round the slope to 4 decimal places
+round(slope, 4)
+
+```
+```{r q4}
+# Get the confidence interval for the slope
+conf_int <- confint(model, level = 0.95)
+
+# Extract the upper endpoint for the slope of livingSpace
+upper_endpoint <- conf_int["livingSpace", 2]
+
+# Round the upper endpoint to 4 decimal places
+round(upper_endpoint, 4)
+
+```
+
+```{r q5}
+
+# Filter data by dress code and compute the mean
+mean_no_dress_code <- mean(chicago$Student_Count_Total[chicago$Dress_Code == "N"], na.rm = TRUE)
+round(mean_no_dress_code, 4)
+
+```
+
+```{r q67}
+# Perform a t-test assuming unequal variances
+t_test_result <- t.test(
+  Student_Count_Total ~ Dress_Code,
+  data = chicago,
+  var.equal = FALSE
+)
+
+# Extract the test statistic and p-value
+test_statistic <- t_test_result$statistic
+p_value <- t_test_result$p.value
+
+# Round results to 4 decimal places
+round(test_statistic, 4)
+round(p_value, 4)
+
+```
+
+
+
+```{r q9}
+# Calculate the proportion of listings with a balcony
+proportion_balcony <- mean(immo_data$balcony, na.rm = TRUE)
+
+# Round to 4 decimal places
+round(proportion_balcony, 4)
+
+```
+
+```{r q10}
+# Subset the data for listings in Bayern
+bayern_data <- subset(immo_data, regio1 == "Bayern")
+
+# Calculate the proportion of listings with a balcony in Bayern
+proportion_bayern_balcony <- mean(bayern_data$balcony, na.rm = TRUE)
+
+# Round to 4 decimal places
+round(proportion_bayern_balcony, 4)
+
+```
+
+```{r q11}
+# Create a contingency table
+contingency_table <- table(immo_data$regio1, immo_data$balcony)
+
+# Perform the chi-squared test
+chi_test <- chisq.test(contingency_table)
+
+# Extract the test statistic
+test_statistic <- chi_test$statistic
+
+# Round the test statistic to 4 decimal places
+round(test_statistic, 4)
+
+```
+
+```{r q12}
+# Data
+accept_A <- 1059
+reject_A <- 1292
+accept_B <- 797
+reject_B <- 1278
+
+# Sample sizes
+n_A <- accept_A + reject_A
+n_B <- accept_B + reject_B
+
+# Proportions
+pi_A_hat <- accept_A / n_A
+pi_B_hat <- accept_B / n_B
+
+# Difference in proportions
+diff_hat <- pi_A_hat - pi_B_hat
+
+# Standard error
+SE <- sqrt((pi_A_hat * (1 - pi_A_hat)) / n_A + (pi_B_hat * (1 - pi_B_hat)) / n_B)
+
+# Critical value for 90% confidence interval (z* = 1.645)
+z_star <- 1.645
+
+# Upper endpoint of the confidence interval
+upper_endpoint <- diff_hat + z_star * SE
+
+# Output the result
+upper_endpoint
+
+```
+```{r q14}
+# Define the values of Y and their corresponding probabilities
+Y <- c(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2)
+P_Y <- c(0.10, 0.25, 0.25, 0.20, 0.08, 0.05, 0.03, 0.02, 0.02)
+
+# Define events A (Y > 1) and B (0.75 < Y < 2, not inclusive)
+A <- Y > 1
+B <- Y > 0.75 & Y < 2
+
+# Find the intersection (A & B)
+A_intersect_B <- A & B
+
+# Compute P(A ∩ B)
+P_A_intersect_B <- sum(P_Y[A_intersect_B])
+
+# Print the result
+P_A_intersect_B
+
+```
+
+```{r q15}
+# Given data
+SS_adhesive <- 402  # Sum of squares for adhesives
+SS_residuals <- 1328  # Sum of squares for residuals
+df_adhesive <- 4  # Degrees of freedom for adhesives (5 - 1)
+df_residuals <- 25  # Degrees of freedom for residuals (30 - 5)
+
+# Calculate Mean Squares (MS)
+MS_adhesive <- SS_adhesive / df_adhesive
+MS_residuals <- SS_residuals / df_residuals
+
+# Calculate F-statistic
+F_statistic <- MS_adhesive / MS_residuals
+
+# Output the F-statistic
+round(F_statistic, 5)
+
+```
+
+```{r q16}
+# Given values
+F_statistic <- 1.65
+df1 <- 4  # Degrees of freedom for adhesives
+df2 <- 25  # Degrees of freedom for residuals
+
+# Calculate the p-value
+p_value <- 1 - pf(F_statistic, df1, df2)
+
+# Output the p-value
+round(p_value, 5)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
