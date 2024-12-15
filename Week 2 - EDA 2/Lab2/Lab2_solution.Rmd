@@ -1,0 +1,195 @@
+---
+title: "Lab 2"
+author: "Possible solution"
+date: "Submission date"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+
+# Exercises
+
+
+## Exercise 1: Explore associations in Airbnb data
+
+Use the Airbnb data from last week, found in the file `airbnb_asheville.csv`. 
+
+The following R functions will help in answering the questions below: mean, median, quantile, boxplot, subset, table, prop.table. 
+
+a. Calculate the mean, median, and standard deviation of the variable `price` among only listings for which `room_type` is `Entire home/apt`.  Then calculate the mean, median, and standard deviation of the variable `price` among only listings for which `room_type` is `private room`.    (You did this already last week. Try using `tapply` this time!)
+
+**Answer:**
+For the entire homes, the mean price is \$181.48, the median price is \$139, and the standard deviation is \$155.95.
+For the private rooms, the mean price is \$108.45, the median price is \$70.5, and the standard deviation is \$134.12.
+```{r}
+airbnb <- read.csv("Data/airbnb_asheville.csv")
+airbnb$room_type <- as.factor(airbnb$room_type)
+tapply(airbnb$price,airbnb$room_type,mean)
+tapply(airbnb$price,airbnb$room_type,median)
+tapply(airbnb$price,airbnb$room_type,sd)
+```
+
+
+
+b. Use boxplots or histograms to display the distribution of `price` grouped by `room_type`.  Based on the results in parts a and b, is price associated with room type?
+There is a code chunk below that gives an example of syntax to make grouped boxplots.
+
+**Answer:**
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(price~room_type, data=airbnb, main='price by room type')
+boxplot(log(price)~room_type, data=airbnb, main ='log price by room type')
+```
+Grouped boxplots of price and log price by room type are seen above. In both plots, the "box" portion of the Entire home/apartment prices is clearly higher than the "box" portion of the Private room prices. This indicates some moderate association, with Entire homes being more expensive than private rooms. 
+
+The prices for Hotel rooms seem similar to those of Entire home/apartment, while the prices for shared room seem to be less expensive than any other group. However, it is important to remember that there is only one shared room and only three hotel rooms in the data set. The boxplots are not very helpful for these groups and may in fact be misleading, because they do not communicate how little information is available about those groups. 
+
+Tidyverse code:
+
+```{r, fig.show="hold", out.width="50%"}
+ggplot(airbnb, mapping=aes(y=price, x=room_type)) + geom_boxplot() + labs(title='Price by room type')
+
+ggplot(airbnb, mapping=aes(y=log(price), x=room_type)) + geom_boxplot() + labs(title='Log price by room type')
+```
+
+b. Calculate Pearson's correlation between `price` and `number_of_reviews`.  Use the `cor()` function. What does this suggest about the relationship between the variables? Make a scatterplot of `number_of_reviews` and `price`. Does their relationship look linear?
+
+**Answer:**
+The sample correlation between `price` and `number_of_reviews` is r=-0.198, which indicates a weak, negative linear relationship. It is difficult to detect a linear relationship from the scatterplot, however, particularly because the extreme right-skew of both of the variables.
+```{r}
+plot(airbnb$price, airbnb$number_of_reviews, xlab='price',
+     ylab='number of reviews')
+cor(airbnb$price, airbnb$number_of_reviews)
+
+```
+
+
+
+c. Now apply a log transformation to `price` using the `log()` function. The log transformation is often used for highly skewed variables such as Price. Again make a scatterplot of  log(`number_of_reviews`+1) and log(`price`). Calculate Pearson's correlation between the two log-transformed variables. What do these two calculations suggest about the association between price and the number of reviews?
+
+
+**Answer:**
+On the log scale, the sample correlation is r=-0.1751, which suggests a weak negative linear relationship. The scatterplot shows that the log transformations have helped with the skew of both of the variables. It is easier now to see the pattern of the plot, which does not appear to be a strong linear pattern. There does appear to be some tendency for the number of reviews to decrease as the log-price increases past 5.5 or so.
+
+```{r}
+plot(log(airbnb$price),log(airbnb$number_of_reviews+1))
+cor(log(airbnb$price),log(airbnb$number_of_reviews+1))
+```
+ggplots for b and c:
+```{r, fig.show='hold', out.width="50%"}
+ggplot(airbnb, mapping=aes(x=price, y=number_of_reviews)) + geom_point() + labs(x='price',
+     y='number of reviews', title='Scatterplot on original scale')
+ggplot(airbnb, mapping=aes(x=log(price), y=log(number_of_reviews+1))) + geom_point() + labs(x='log price',
+     y='log number of reviews', title='Scatterplot on log scale')
+```
+
+d. Divide the data into two subsets:  those listings with 50 or more reviews and those with less than 50 reviews.  Use boxplots or histograms to compare the distribution of `price` among the two subsets.  What do these plots suggest about the association between price and the number of reviews?
+
+**Answer:**
+
+This code chunk uses the `subset` function. Answers using the categorical variable from part (e) would also be effective!
+
+```{r}
+airbnb_under50 <- subset(airbnb, number_of_reviews < 50)
+airbnb_over50 <- subset(airbnb, number_of_reviews >= 50)
+par(mfrow=c(1,2))
+boxplot(airbnb_under50$price, airbnb_over50$price,main='price by reviews',
+        ylim=range(airbnb$price))
+axis(1,at=1:2,labels=c("under 50","over 50"))
+boxplot(log(airbnb_under50$price), log(airbnb_over50$price),main='log(price) by reviews', ylim=range(log(airbnb$price)))
+axis(1,at=1:2,labels=c("under 50","over 50"))
+
+
+```
+The left boxplot above shows price on the original scale, grouped by number of reviews. There are more high outliers in the "under 50" group, and the box portion appears to cover a wider range. 
+
+The right panel shows log(price) grouped by "under/over 50". The log prices make it a little easier to compare the distributions with less influence of the very high prices. This plot more clearly shows that the two groups have similar median log(prices).  There may be a slight tendency for higher prices in the under-50 group; however, relative to the variability among prices, this association appears to be weak.
+
+tidyverse code:
+```{r, fig.show='hold', out.width="50%"}
+airbnb$high.listings <- as.factor(airbnb$number_of_reviews >= 50)
+
+ggplot(airbnb, mapping=aes(y=price, fill=high.listings)) + geom_boxplot() + labs(title='price by reviews')
+ggplot(airbnb, mapping=aes(y=log(price), fill=high.listings)) + geom_boxplot() + labs(title='log(price) by reviews')
+```
+
+e. Create a new categorical variable in your data set that takes one value if the listing has 50+ reviews and a different value if the listing has less than 50 reviews. Call the new variable `high_listings`. Convert the `high_listings` variable to a factor using the `as.factor` function.  (The example code below may help.)   
+
+Then create a frequency table that shows the counts for your new variable and the `room_type`. Use row or column proportions to investigate whether `room_type` is associated with `high_listings`. Give your answer about whether the variables are associated and support it with the relevant proportions that you calculated.
+
+**Answer:**
+
+```{r}
+airbnb$high_listings <- as.factor(airbnb$number_of_reviews > 50)
+```
+
+Frequency tables (univariate) for `high_listings` and `Room_type`:
+```{r}
+table(airbnb$high_listings)
+table(airbnb$room_type)
+```
+Two-way frequency table with `Room_Type` as row variable:
+```{r}
+roomtype_hlistings_table <- table(airbnb$room_type, airbnb$high_listings)
+roomtype_hlistings_table
+```
+Now I'll find row proportions to look for associations.
+```{r}
+prop.table(roomtype_hlistings_table, margin=1)
+```
+The table shows that 49.9% of Entire home/apts, 50.0% of hotel rooms, and 43.3% of private rooms have more than 50 reviews. Since a lower proportion of private rooms fall into the 'high listings' group, there is at least some association. However, since these proportions are fairly similar, it's not clear whether this association is strong or meaningful.
+
+
+## Exercise 3
+There is a data set called `iris` in the MASS R package. Load the MASS library and the iris data. Use `?iris` to view the documentation for the data set.
+
+
+a. Create four boxplots showing `Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width `grouped by `Species`. Use `par(mfrow)` to display them with a single plot with four panels.
+
+**Answer:**
+
+Here is my code. I added the "mar" and "oma" options to remove some of the whitespace--see documentation or experiment if you are interested in these options. 
+```{r}
+library(MASS)
+data(iris)
+par(mfrow=c(2,2), mar=c(3.1,4.1,1,.5),
+    oma=c(0,0,1,0))
+boxplot(iris$Petal.Length~iris$Species,xlab='species',ylab='petal length')
+boxplot(iris$Sepal.Length~iris$Species,xlab='species',ylab='sepal length')
+boxplot(iris$Petal.Width~iris$Species,xlab='species',ylab='petal width')
+boxplot(iris$Sepal.Width~iris$Species,xlab='species',ylab='sepal width')
+```
+This is a good scenario to use ggplots.  See the ggplot code below.
+```{r, fig.show="hold",out.width="25%"}
+library(MASS)
+data(iris)
+ggplot(iris, mapping=aes(y=Sepal.Length, fill=Species)) + geom_boxplot()
+ggplot(iris, mapping=aes(y=Sepal.Width, fill=Species)) + geom_boxplot()
+ggplot(iris, mapping=aes(y=Petal.Length, fill=Species)) + geom_boxplot()
+ggplot(iris, mapping=aes(y=Petal.Width, fill=Species)) + geom_boxplot()
+
+```
+
+b. Suppose you were given these measurements of an iris at random: `Sepal.Length`=6, `Sepal.Width`=2.7, `Petal.Length`=6, `Petal.Width `=1.6. Which species do you think it would belong to? Are any of its measurements surprising?
+
+**Possible Answer:**
+The sepal length and sepal width are very typical of the versicolor species, so my best guess would be that the iris is a verisicolor. The petal length of 6, however, is surprising for this species, and the petal width is a little higher than that of most versicolors in the dataset.
+
+The measurements could also belong to virginica, but it is unlikely that it is a setosa.
+
+
+c. Use some plots and summary statistics to continue exploring the data. Propose a simple rule for classifying iris species based on their petal and sepal measurements. (Your rule might look something like this: if petal.width > 5 and 2< sepal.width < 4, classify as "virginica")
+
+**Possible Answer:**
+Here is possible rule: 
+
+1. If petal.length <2 and petal.width < 1, classify as "setosa".
+2. Else, if petal.length <4.75 and petal.width < 1.75, classify as "versicolor."
+3. Else, classify as "virginica."

@@ -1,0 +1,197 @@
+---
+title: "Lab 8"
+author: "key"
+date: "date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Ex 1 (diabetes) 
+National Institute of Diabetes and Digestive and Kidney Diseases conducted a study on diabetes. A population of several hundred Pima Indian women living near Phoenix, Arizona were tested for diabetes. Other information was gathered from these women at the time of testing, including number of pregnancies, glucose level, blood pressure, skin fold thickness, body mass index, diabetes pedigree and age. A random sample (n=44) of the data from this study are contained in the file `diabetes_sm.csv`.
+
+a. Compare the ages of women who tested negative for diabetes and those who tested positive by making side-by-side boxplots of ages in the two groups.  Also compare the mean, median, and standard deviation of "age" across the two groups.  Use the variables "age" and "diabetes." Based on these descriptive summaries, does age appear to be associated with result of the diabetes test?
+
+**Answer.**
+
+
+The mean age among those who tested positive is 38.38 with a standard deviation of 10.40 years.  The mean age among those who tested negative is 28.45 with a standard deviation of 9.80 years.  The boxplot shows that the middle 50% of non-diabetic women had ages between around 22 and 31, while the middle 50% of diabetic women had ages between around 28 and 46.
+Based on these summaries, there does appear to be an association.  Older participants in the study were more likely to test positive for diabetes.
+
+
+Here is the code I used.
+```{r}
+diabetes <- read.csv("Data/diabetes_sm.csv")
+boxplot(age~diabetes, data=diabetes)
+```
+
+```{r}
+mean(diabetes$age[diabetes$diabetes=='Yes'])
+sd(diabetes$age[diabetes$diabetes=='Yes'])
+
+mean(diabetes$age[diabetes$diabetes=='No'])
+sd(diabetes$age[diabetes$diabetes=='No'])
+```
+
+b.  Let $\mu_1$ represent the mean age among women who tested positive for diabetes and let $\mu_2$ represent the mean age among women who tested negative.  Find a 95% confidence interval for $\mu_1 - \mu_2$.  
+
+**Answer.**
+The data for the two groups are two independent samples. I decided to use the unequal variances model because it is possible that at the population level, the variability in ages differs between those who have the disease and those who do not.  The R code and output are below.  I see that the mean for group "No" is listed first, meaning that R is calling 'no diabetes' group 1.  I want the diabetes group to be group 1, so I change the order and the sign of the endpoints of the CI.  My CI for the difference between the mean age in diabetic group and the non-diabetic group comes out to be (2.92, 16.95).
+
+I am 95% confident that the mean age for diabetic women is between 2.92 and 16.95 years more than the mean age for women who are not diabetic.
+
+```{r}
+t.test(age~diabetes,data=diabetes, var.equal=FALSE, conf.level=0.95)
+```
+
+c.  Using the same definitions of $\mu_1$ and $\mu_2$ as in part (b), test the hypotheses
+$H_0: \mu_1-\mu_2 = 0; H_A: \mu_1 - \mu_2 \neq 0.$  Use $\alpha=0.05$.
+
+(Before you perform the test, use the confidence interval in part (b) to predict in your mind whether $H_0$ will be rejected.)
+Report the test statistic, p-value, and conclusion.
+
+**Answer.**
+The CI does not contain zero, so I know already that the full hypothesis will be rejected.  The same output from part (b) shows that the test statistic is t0=-2.9399 with a p-value of 0.007715.  Reject the null and conclude that there is strong evidence that the average age differs across the two groups.
+
+
+
+# Ex 2: (tomato plants)
+
+The file `tomato.csv` contains data on the heights of ten tomato plants (in cm), grown under a variety of soil pH conditions and randomly sampled from their respective plots. Each plant was measured twice. During the first measurement, each plant’s height was recorded and a reading of soil pH was taken. During the second measurement only plant height was measured, because it is assumed that pH levels did not vary much from measurement to measurement.
+
+A researcher wants to learn how much the plants grew on average between the first and second measurements.  
+
+a. Provide a short descriptive analysis that addresses the researcher's question. (Make a relevant plot and calculate a few relevant summary statistics.)
+
+**Answer.**
+These data contain paired measurements.  I calculated the difference between the fist and second measurements and made a boxplot of these differences. The boxplot shows that the typical differences are between -4.3 and -3.6 and that the distribution is somewhat right-skewed.  The differences are all negative, telling us (unsurprisingly) that all plants grew longer between the two measurements.  The average growth was 3.991 cm with a standard deviation of 0.38cm.
+
+```{r}
+tomato <- read.csv("Data/tomato.csv",header=T)
+tomato$diff <- tomato$height1 - tomato$height2
+boxplot(tomato$diff, main='Differences between measurements 1 and 2')
+mean(tomato$diff)
+sd(tomato$diff)
+```
+
+b. Find a 90% confidence interval for the average growth between the first and second measurements.
+
+**Answer.**
+The CI, given below, is (-4.212689, -3.769311). I am 90% confident that the average growth from measurement 1 to measurement 2 is between 3.77 and 4.21 cm.  
+
+(In the sentence above, I switched the signs so that I could interpret the negative differences as growth. I could have also said "I am 90% confident that the average difference between measurement 1 and measurement 2 is between -4.21 and -3.77.")
+
+Code:
+```{r}
+t.test(tomato$diff,conf.level=0.90)
+```
+
+c. Check the assumptions of the statistical model using a normal quantile plot.  Write a sentence stating whether the model seems to be a good approximation for the data.
+
+**Answer.**
+The t test assumes that the differences are i.i.d and approximately normal.  The normal quantile plot, shown below, has an approximately straight line pattern.  It seems reasonable to assume that the differences are approximately normal.  Further, the measurements were randomly sampled, so it is reasonable to assume that the observations are independent. 
+
+Code:
+```{r}
+qqnorm(tomato$diff)
+qqline(tomato$diff)
+```
+
+# Ex 3 (oxygen)
+
+The Department of Natural Resources received a complaint from recreational fisherman that a community was releasing sewage into the river where they fish.  These types of releases lower the level of dissolved oxygen in the river and hence cause damage to the fish residing in the river.  An inspector from the DNR collective fifteen water samples from locations on the river upstream from the community and fifteen samples are selected from locations downstream from the community.  The dissolved oxygen readings in parts per million (ppm) were recorded at each location. 
+
+The R code below reads the measurements into two objects, "upstream" and "downstream".  Use these for the exercise.  
+
+```{r}
+upstream <- c(5.2, 4.8, 5.1, 5,4.9, 4.8,5,4.7, 4.7, 5,4.6,5.2,5,4.9,4.7)
+downstream <- c(3.2,3.4,3.7,3.9,3.6,3.8,3.9,3.6,4.1,3.3,4.5,3.7,3.9,3.8, 4.5)
+```
+a. Are the upstream and downstream measurements paired or independent samples? 
+
+**Answer.**
+The data are from two independent samples.
+
+b. Make a plot to visually investigate whether the dissolved oxygen readings tend to be lower in the downstream or upstream locations.
+
+**Answer.**
+Two side-by-sde boxplots are shown below.  There is clearly a lower level of dissolved oxygen downstream compared to upstream.
+```{r}
+boxplot(upstream, downstream)
+```
+
+c. The DNR will intervene if the average dissolved oxygen levels upstream is more than 0.5ppm greater than the average dissolved oxygen levels upstream.  Do the data provide strong evidence that the difference in means is greater than 0.5?  Report the hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+The hypotheses are $$H_0: \mu_1-\mu_2 = 0.5; \; H_A: \mu_1 - \mu_2 > 0.5,$$ where $\mu_1$ is the mean dissolved oxygen upstream and $\mu_2$ is the mean dissolved oxygen downstream.  I am going to assume the equal variances model based on the data: the sample variability seems to be similar across the two groups.  
+
+The code below runs the two-sample t test and shows that the test statistic is t0 = 5.6683; i.e., the sample averages are about 5.7 standard errors apart. The p-value is nearly zero (2.242x10^-6). Reject the null and conclude that there is strong evidence that the dissolved oxygen is more than 0.5 greater upstream compared to downstream.
+```{r}
+t.test(upstream,downstream,var.equal=TRUE, mu=.5,alternative="greater")
+```
+
+d.  Check the normality assumptions of the statistical model using quantile plots. Write a sentence stating whether the model seems to be a good approximation for the data.
+
+
+**Answer.**
+I will make two normal quantile plots: one for each group.  There are some points that appear in a stair-step type of pattern.  This tells me that some of the measurements are exactly equal.  This doesn't happen in a true normal distribution, but in real data sometimes the precision of measurement is limited and this occurs.  This is a mild violation of the normality assumption, although the points in both plots seem to follow the line, suggesting that there is not much skewness nor many outliers.
+```{r}
+par(mfrow=c(1,2))
+qqnorm(upstream)
+qqline(upstream)
+qqnorm(downstream)
+qqline(downstream)
+```
+
+
+# Ex 4 (more tomatos)
+
+Revisit the tomato data in Ex 2.  
+
+a. Find a 95\% confidence interval for the mean pH level for the population of tomatoes.
+
+**Answer.**
+A one-sample t confidence interval for $\mu$, the mean pH level for the tomato population, is (3.471481, 5.526519). The code for the calculation is below.
+
+```{r}
+t.test(tomato$ph, conf.level=0.95)
+```
+
+# Ex 5 (more diabetes)
+
+Revisit the diabetes data.  
+
+
+a. Provide a descriptive plot and summary statistic that describes the relationship between glucose (glu) and diastolic blood pressure (bp).  Does there appear to be a strong association between the two variables?
+
+**Answer.**
+There does not appear to be a strong pattern in the scatterplot. The slight uphill pattern suggests that there might be some positive association between glucose and blood pressure.  The sample correlation is 0.322, indicating a weak positive association between the variables.
+```{r}
+plot(diabetes$glu, diabetes$bp, xlab='glucose',ylab='blood pressure (diastolic)')
+cor(diabetes$glu, diabetes$bp)
+```
+
+b. Create a binary variable that indicates whether an observation has `npreg` (number of pregnancies) greater than 3. Is there an association between this new variable and `diabetes`? Use descriptive methods and/or inferential methods from last week to answer the question.
+
+**Answer.**
+The code below creates the variable `threepreg` and summarizes `threepreg` and `diabetes` using frequency table and row proportions. Among those with 3 or fewer pregnancies, 18.5\% had diabetes. Among those with more than three pregnancies, 47.1\% had diabetes. These differences do suggest an association.
+
+```{r}
+diabetes$threepreg <- as.factor(diabetes$npreg > 3)
+diabetes.t <- table(diabetes$threepreg, diabetes$diabetes)
+diabetes.t
+
+prop.table(diabetes.t, margin=1)
+```
+
+To follow up, I will let $\pi_1$ be the rate of diabetes among those with $<3$ pregnancies and $\pi_2$ be the rate of diabetes in those with $>=$ pregnancies. A 90\% large-sample confidence interval for $\pi_1-\pi_2$ is given by (-0.567362977,-0.003443123) (see the code below). This is a wide confidence interval but it just barely excludes zero. We can say with 90\% confidence that the rate of diabetes is between -0.57 and -0.003 lower for the low pregnancy group than for the high pregnancy group. I should notice that the sample sizes in each group are small, however, which raises concerns about the use of the large-sample procedure for these data. Practically, when the large-sample approximation is poor, the nominal confidence level might not hold.
+
+```{r}
+prop.test(x=c(5,8),n=c(27,17),conf.level=0.90)
+```
+
+

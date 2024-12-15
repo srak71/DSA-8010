@@ -1,0 +1,213 @@
+---
+title: "Week 11 and 12 solution"
+author: "Key "
+date: "Submission date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(You might want to knit to pdf the first time you read it to view the notation.)
+
+
+# Ex 1 (NFL weights) 
+
+The file `NLF_weights.csv`, posted on Canvas, contains weights of NFL players from several teams.  
+
+a. Is there evidence that the average weight differs across teams? State your hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+The code below runs the one-way ANOVA.  The null hypothesis is $H_0: \mu_1=\ldots=\mu_5$, where $\mu_i$ is the average weight of players in team $i$. The alternative is $H_A:$ not all of the $\mu_i$ are equal.  The ANOVA table shows taht the test statistic is $f_0=1.575$ with a p-value of 0.189.  We fail to reject $H_0$ and conclude that there is insufficient evidence to conclude that the group means differ significantly.
+```{r}
+nfl <- read.csv("Data/NFL_weights.csv")
+lm_nfl <- lm(weight~team,data=nfl)
+anova(lm_nfl)
+```
+
+b. Create a Normal quantile plot of the residuals.  Does it seem reasonable to assume that the residuals are Normal?
+
+**Answer.**
+There is some departure from normality in the plot, which almost looks like a breakpoint in the middle of the plot.  If we make a histogram of the residuals, we see that they have an unusual shape with two peaks (bimodal), which explains that break in the plot. 
+
+```{r}
+nfl_resid <- residuals(lm_nfl)
+par(mfrow=c(1,2))
+qqnorm(nfl_resid)
+qqline(nfl_resid, col='tomato')
+hist(nfl_resid)
+```
+
+c. Create a plot of residuals by group. Does it seem reasonable to assume that the groups have equal variances? 
+
+**Answer.**
+The variability among the residuals seems mostly comparable across the groups.  Some seem to be a little more compressed, such as the Cowboys, compared to the Broncos or Forty Niners, but this is a pretty mild pattern and nothing to be too concerned about.
+```{r}
+stripchart(nfl_resid~nfl$team,vertical=TRUE, ylab='residuals')
+```
+
+# Ex 2 (Red40)
+
+An experiment was conducted in which three groups of laboratory mice were given dosages of the dye Red40 (low, medium, or high) and one control group received no treatment.  The file `Red40_dosage.csv` contains the age at death (in weeks) of all mice in the study.  
+
+a. Does the data provide evidence that the mean age at death differs significantly across dosages?  State the hypotheses, test statistic, the p-value, decision, and your conclusion in the context of the problem. Use $\alpha=0.05$.  
+
+**Answer.**
+```{r}
+red <- read.csv("Data/Red40_dosage.csv",header=T)
+table(red$dosage_red40)
+
+lm_red <- lm(age_at_death_weeks~dosage_red40,data=red)
+anova(lm_red)
+```
+
+The code chunk above reads in the data and displays how many mice received each of the dosages.  It also performs the analysis of variance test.  To assess whether the mean age at death differs, let $\mu_1$ be the mean age at death of the control group and let $\mu_2$, $\mu_3$, and $\mu_4$ be the mean age at death for the low, medium, and high dosages.  The null hypothesis is $$H_0:\mu_1 = \ldots = \mu_4 $$ and the alternative is $$H_a: $$ not all means are equal. 
+
+Reading from the ANOVA table printed above, the test statistic is f_0 = 3.5496 with a p-value of 0.02447.  The p-value suggests some evidence against the null; with an alpha level of 0.05 the null hypothesis will be rejected.  There is evidence that the mean age of death does differ across the dosages.
+
+b. Make a normal quantile plot and plot of residuals by group.  Do the assumptions of normality and equal variances seem reasonable?
+
+**Answer.**
+The plots below show that the residuals follow a nearly straight line pattern in the normal quantile plot, suggesting that the normal distribution is a good approximation.  The residuals shown by group exhibit an increasing amount of variability for the medium and high dosage group.  The assumption of equal variances appears to be somewhat violated.
+
+```{r}
+red_resid <- residuals(lm_red)
+par(mfrow=c(1,2))
+qqnorm(red_resid)
+qqline(red_resid, col='navy')
+stripchart(red_resid~red$dosage_red40,vertical=TRUE, ylab='residuals')
+```
+
+c. Which treatment groups have statistically significant differences?   Use Tukey's method with $\alpha_E = 0.05$.  
+
+**Answer.**
+The code chunk below calculates the CIs and p-values adjusted for multiple comparisons.  At an experimentwise alpha level of 0.05, only the p-value for the High - Control group is less than 0.05.  We can conclude that there is sufficient evidence that the mean age of death differs between the high dosage and control groups, with the age at death being higher in the control group.  (Note that the confidence interval is quite wide, meaning that the difference in mean ages could be as little as 1.6 weeks or as much as 50 weeks.)
+
+```{r}
+red_tukey <- TukeyHSD(aov(lm_red),conf.level=.95)
+red_tukey
+```
+
+
+# Ex 3 (mushroooms)
+
+Revisit the mushroom data in `mushrooms.csv`.  For this question, consider the variables `edible` (e=edible, p=poisonous) and `population`, which describes how abundant the species is (abundant=a,clustered=c,numerous=n, scattered=s,several=v,solitary=y).
+
+a. Make a contingency table  with `population` as the row variable and `edible` as the column variable. Do certain population types appear to be more likely to be poisonous?
+
+**Answer.**
+The table is printed below.  It does appear that "scattered" and "several" mushrooms are the ones to watch out for!
+```{r}
+mushrooms <- read.csv('Data/mushrooms.csv')
+
+mush_table1 <- table(mushrooms$population,mushrooms$edible)
+mush_table1
+```
+
+b.  Perform a chi-square test using $\alpha=0.01$ to assess whether the data provide strong evidence of an association.  Report the hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+The null hypothesis is that there is no association between population type and edibility of mushrooms.  The alternative is that there is some association; that is, some population types are more likely to be edible.  The test statistic is $X_0^2 = 87.148$ with a p-value of nearly zero, indicating strong evidence against the null.  For any reasonable $\alpha$ level we would reject the null and conclude that there is evidence that population type is associated with edibility.
+
+```{r}
+mushroom_results <- chisq.test(mush_table1)
+mushroom_results
+```
+
+c. What is the expected number of mushrooms that are edible and scattered?  What is the expected number of mushrooms that are poisonous and abundant?
+
+**Answer.**
+The expected number of mushrooms that are edible and scattered: 28.34
+The expected number of mushrooms that are poisonous and abundant: 10.66.
+
+The table of all expected counts is shown below.
+```{r}
+mushroom_results$expected
+```
+
+# Ex 4 (wines)
+The data in the file `wines_big.csv` give ratings scraped from the web of a large number of wines. (The `wines_c.csv` data seen earlier in the semester was a random sample from this set.) The variables for each wine include an expert's subjective rating on a scale of 0 to 100, the price of the wine, the variety, and its country of origin.  Use these data to answer the following questions.
+
+a. Make a contingency table in which the country of origin is the row variable and the variety is the column variable.
+
+**Answer.**
+The table is printed below.
+```{r}
+wines <- read.csv("Data/wines_big.csv")
+wines_table <- table(wines$country,wines$variety)
+wines_table
+```
+
+b.  Make a proportion table that displays, for each country, the proportion of wines of each variety (row proportions).
+
+**Answer.**
+The proportion table is printed below.  It certainly appears like there is some association between country and variety: for example, about 50% of wines from Argentina are Cabernet with very few Rieslings; in contrast, the wines from France are predominantly Chardonnay (61.49%)  with about 15.64% Riesling.  The US wines are most likely to be Cabernet (36.11\%) or Chardonnay (33.23\%).
+```{r}
+prop.table(wines_table,margin=1)
+```
+
+c. Perform a hypothesis test using $\alpha=0.01$ to see if the data provide evidence that the type of wine produced will vary significantly by country.  Report the test statistic, p-value, and conclusion.
+
+**Answer.**
+The chi-square test will test the hypotheses $H_0:$ there is no association between country and variety against $H_A:$ there is association between country and variety.  The code below finds the test statistic to be $X_0^2=852.2$ with a p-value of nearly 0.  We should reject the null and conclude that there is strong evidence for an association.
+
+```{r}
+chisq.test(wines_table)
+```
+
+
+# Ex 5 (Insurance)
+
+The insurance data in the file  `insurance.csv` contain several variables measured on insured individuals who are clients of a particular provider.   Use these data to answer the following questions about associations between variables.  You might want to think back to previous sections for some of them!
+
+
+a. Is there a statistically significant association between whether a client is a smoker and which geographic region they come from?  Use the variables `smoker` and `region`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+```{r}
+insurance <- read.csv("Data/insurance.csv")
+```
+
+Smoker and region are categorical variables, so a chi-square test should be used to assess whether there is evidence of association.  The hypotheses are 
+$H_0:$ no association between the variables and $H_A:$ there is an association between smoker and region.  We will use $\alpha=0.05$ for the test.
+
+The code below shows the contingency table, which has relatively small counts in each cell.  Upon performing the chi-square test, we see a warning about the low expected cell counts, so we might take the test result with some skepticism about whether the type 1 error is truly controlled for the test.  The test statistic is $X_0^2=2.9446$ with a p-value of $0.4002$.  The null hypothesis will not be rejected; there is insufficient evidence to conclude that the region is associated with smoking status.
+
+```{r}
+smoker_table <- table(insurance$smoker,insurance$region)
+smoker_table
+chisq.test(smoker_table)
+```
+
+
+b. Is there a statistically significant difference in the mean claim amount across the four geographic regions?  Use the variables `expenses` and `region`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion. 
+
+**Answer.**
+The variables expenses and region are numeric and categorical, respectively. Since region has four categories, a one-way ANOVA can be used to test for association.  Let $\mu_i$ be the mean claim expense value in region $i$.  The hypotheses are $H_0:\mu_1=\ldots=\mu_4$ and the alternative is $H_A:$ not all regions have equal mean expenses.
+
+The table below shows that the test statistic is $f_0=$ with a p-value of $0.09343$.  At the $\alpha=0.05$ level, the null hypothesis is not rejected. There is insufficient evidence to show that the mean expenses differ across regions; in other words, there is not strong evidence of an association between expenses and region.
+
+Looking at the boxplot, we see quite a bit more variability in the Southeast region than in the northwest or southwest regions.  The assumption of equal variances appears to be violated for these data.
+```{r}
+par(mfrow=c(1,2))
+boxplot(insurance$expenses~insurance$region)
+stripchart(insurance$expenses~insurance$region, vertical=TRUE)
+anova_expenses <- lm(expenses~region, data=insurance)
+anova(anova_expenses)
+```
+
+c. Is there evidence that the mean age differs between smokers and non-smokers?  Use the variables `age` and `smoker`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion. 
+
+**Answer.**
+Age is a numeric variable and smoker is binary, so we can use a two sample t test to compare the mean age across the two groups.  The data are two independent samples and I have no reason to believe that the variability of the ages will be equal among the smokers and non-smokers, so I will use the two sample t test with unequal variances.  I will use a two-sided test because I have no reason to believe ahead of time that one group will have a higher mean age.
+
+The hypotheses are $$H_0: \mu_1-\mu_2=0; H_A:\mu_1-\mu_2\neq =0,$$
+with $\mu_1$ being the mean age in the non-smoking group and $\mu_2$ being the mean age in the smoking group.  Looking at the boxplots we do see a higher median age among the non-smokers, but the boxes overlap quite a bit.  Further, using the table function, we see that there are not many smokers in the data. The test result below shows a test statistic of $t_0=0.80251$ with a p-value of 0.437.  There is not much evidence that the mean age differs across the groups and the null is not rejected.
+
+```{r}
+boxplot(insurance$age~insurance$smoker)
+table(insurance$smoker)
+t.test(insurance$age~insurance$smoker, var.equal=FALSE)
+```

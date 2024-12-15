@@ -1,0 +1,141 @@
+---
+title: "Week 10 Lab"
+author: "name"
+date: "date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(You might want to knit the document the first time you read it to view the notation.)
+
+
+
+## Temporarily excluding observations
+Sometimes when assessing influence of outliers on an analysis, you'll want to perform an analysis that temporarily excludes one or more observation.  Here is a recap of how to do that.
+
+First, I create a data frame of simulated data to work with.  I'm interested in using regression to predict `y` using `x`.
+```{r}
+# simulate a data frame with 12 observations
+my_data <- data.frame(x=rnorm(12),y=rnorm(12,3,0.65))
+```
+
+Suppose I want to investigate the influence of the observation in row 9.  The syntax `[-i,]` will exclude the ith row from a data frame.  I can use this syntax in the `lm` function to exclude row 9 from the regression without creating a new data frame.
+
+The code below finds the simple linear regression line with the full data and again with row 9 excluded.
+
+```{r}
+lm_full_data <- lm(y~x, data=my_data)
+lm_no_row9 <- lm(y~x, data=my_data[-9,])
+```
+
+
+# Exercises
+
+# Ex 1 (tomatoes)
+
+Revisit the tomato data from Lab 8.  
+
+a. Find a simple linear regression line that can predict the tomato height at measurement 2 (height2) using the pH measurement.  Report the slope and intercept of the regression line.
+
+**Answer.**
+
+
+b. Use your answer from part (a) to predict the height at measurement 2 for a tomato plant whose soil pH is 5.1.
+
+**Answer.**
+
+c. Find a 95\% confidence interval for the slope of the regression line.
+
+**Answer.**
+
+## Ex 2: (Expenditures)
+
+ The data set `2015_revenue_expenditures.csv`  contains records of government revenue and expenditures for 150 of the largest cities in the U.S in 2015.  Among the variables measured are `Intergovt revenue`, which records the total revenue in the cities coming from state and federal government, and expenditures in various spending categories. 
+
+a. Find the simple linear regression equation to predict expenditures in education services (`Education Services Expend`.) from  `Intergovt revenue`.  Give the estimated regression equation.  
+
+**Answer.**
+
+b. Perform a test of the hypotheses 
+
+$$H_0: \beta_1 = 0; \quad H_A: \beta_1 > 0.$$
+
+Use $\alpha=0.01$. Report the test statistic, p-value, decision, and conclusion in the context of the problem. 
+
+**Answer.**
+
+c. Create a plot of the x variable vs residuals.  Also create a Normal quantile plot of the residuals.  Write a sentence explaining whether the modeling assumptions of normality and equal variances appear to be reasonable for these data.
+
+**Answer.**
+
+
+d. Find the observation in the data set for VA: Chesapeake.  What is the observed value of $y_i$, the response variable, for this observation?  
+
+**Answer.**
+
+
+e.  What value does the estimated regression line from part (a) predict for this observation? 
+
+**Answer.**
+
+
+f. Calculate its residual by subtracting the predicted value from the observed value. ($\widehat{\epsilon}_i = y_i - \widehat{y}_i$.)  You can compare this to the value automatically calculated by R using the `residuals` function to check your answer.
+
+**Answer.**
+
+
+
+## Ex 3: (body fat)
+
+The data set `BodyFat.csv` on Canvas contains body fat percentage and several other measurements for a sample of 253 men.  Direct measurement body fat percentage can be a cumbersome process, so it might be useful to find a different measurement that is an accurate predictor of body fat.   
+
+a. Find a regression line that predicts `BODYFAT` from `WEIGHT`.  Write the estimated regression equation and the $R^2$ for this model.
+
+**Answer.**
+
+
+b. Now find a regression line that predicts `BODYFAT` from `ABDOMEN` (the abdomen circumference).  Write the estimated regression equation and the $R^2$ for this model.
+
+**Answer.**
+
+
+c. Based on the $R^2$ values, is weight or abdomen circumference a stronger predictor of of body fat?  (Which variable accounts for a greater proportion of the variability in body fat measurements?)
+
+**Answer.**
+
+
+
+
+# Ex 4 (more diabetes)
+
+Revisit the diabetes data from Lab 8.  
+
+
+a. Provide a descriptive plot and summary statistic that describes the relationship between glucose (glu) and diastolic blood pressure (bp).  Does there appear to be a strong association between the two variables?
+
+**Answer.**
+
+
+b. Fit a simple linear regression line to predict glucose (glu) using blood pressure (bp). Report the slope and intercept of the estimate regression line. Give a one-sentence interpretation of the value of the slope.
+
+**Answer.**
+
+
+c. Make 90% confidence intervals for the intercept and slope of the regression line. 
+
+**Answer.**
+
+
+d. Make a plot of the fitted values vs. the residuals. Do the assumptions of equal variances and linearity appear to be reasonable?
+
+**Answer.**
+
+
+e. Make a normal quantile plot of the residuals. Does the assumption of normality appear to be reasonable?
+
+**Answer.**
+

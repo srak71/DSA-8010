@@ -1,0 +1,107 @@
+---
+title: "Week 11 and 12 Lab"
+author: "your name"
+date: "Submission date"
+output:
+  html_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(You might want to knit the first time you read it to view the notation.)
+
+
+# Ex 1 (NFL weights) 
+
+The file `NLF_weights.csv`, posted on Canvas, contains weights of NFL players from several teams.  
+
+a. Is there evidence that the average weight differs across teams? State your hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+
+
+b. Create a Normal quantile plot of the residuals.  Does it seem reasonable to assume that the residuals are Normal?
+
+**Answer.**
+
+
+c. Create a plot of residuals by group. Does it seem reasonable to assume that the groups have equal variances? 
+
+**Answer.**
+
+
+# Ex 2 (Red40)
+
+An experiment was conducted in which three groups of laboratory mice were given dosages of the dye Red40 (low, medium, or high) and one control group received no treatment.  The file `Red40_dosage.csv` contains the age at death (in weeks) of all mice in the study.  
+
+a. Does the data provide evidence that the mean age at death differs significantly across dosages?  State the hypotheses, test statistic, the p-value, decision, and your conclusion in the context of the problem. Use $\alpha=0.05$.  
+
+**Answer.**
+
+b. Make a normal quantile plot and plot of residuals by group.  Do the assumptions of normality and equal variances seem reasonable?
+
+**Answer.**
+
+
+c. Which treatment groups have statistically significant differences?   Use Tukey's method with $\alpha_E = 0.05$.  
+
+**Answer.**
+
+
+
+# Ex 3 (mushroooms)
+
+Revisit the mushroom data in `mushrooms.csv`.  For this question, consider the variables `edible` (e=edible, p=poisonous) and `population`, which describes how abundant the species is (abundant=a,clustered=c,numerous=n, scattered=s,several=v,solitary=y).
+
+a. Make a contingency table  with `population` as the row variable and `edible` as the column variable. Do certain population types appear to be more likely to be poisonous?
+
+**Answer.**
+
+
+b.  Perform a chi-square test using $\alpha=0.01$ to assess whether the data provide strong evidence of an association.  Report the hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+
+
+c. What is the expected number of mushrooms that are edible and scattered?  What is the expected number of mushrooms that are poisonous and abundant?
+
+**Answer.**
+
+
+# Ex 4 (wines)
+The data in the file `wines_big.csv` give ratings scraped from the web of a large number of wines. (The `wines_c.csv` data seen earlier in the semester was a random sample from this set.) The variables for each wine include an expert's subjective rating on a scale of 0 to 100, the price of the wine, the variety, and its country of origin.  Use these data to answer the following questions.
+
+a. Make a contingency table in which the country of origin is the row variable and the variety is the column variable.
+
+**Answer.**
+
+b.  Make a proportion table that displays, for each country, the proportion of wines of each variety (row proportions).
+
+**Answer.**
+
+c. Perform a hypothesis test using $\alpha=0.01$ to see if the data provide evidence that the type of wine produced will vary significantly by country.  Report the test statistic, p-value, and conclusion.
+
+**Answer.**
+
+
+
+# Ex 5 (Insurance)
+
+The insurance data in the file  `insurance.csv` contain several variables measured on insured individuals who are clients of a particular provider.   Use these data to answer the following questions about associations between variables.  You might want to think back to previous sections for some of them!
+
+
+a. Is there a statistically significant association between whether a client is a smoker and which geographic region they come from?  Use the variables `smoker` and `region`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion.
+
+**Answer.**
+
+
+b. Is there a statistically significant difference in the mean claim amount across the four geographic regions?  Use the variables `expenses` and `region`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion. 
+
+**Answer.**
+
+c. Is there evidence that the mean age differs between smokers and non-smokers?  Use the variables `age` and `smoker`.  Use $\alpha=0.05$.  Report the hypotheses, test statistic, p-value, and conclusion. 
+
+***Answer.**
+
